@@ -20,7 +20,7 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
         <BsBuildingFillGear fontSize={24} />
         <span className='text-2xl font-black'>Infra-Audits</span>
       </div>
-      <div className='text-md font-semibold text-primary'>Dashboard</div>
+      <div className='text-md font-extrabold text-primary'>Dashboard</div>
       <button
         className='sidebar-button'
         onClick={() => handleClick('/')}
@@ -32,7 +32,7 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
           <p>Dashboard</p>
         </div>
       </button>
-      <div className='text-md font-semibold text-primary'>Actions</div>
+      <div className='text-md font-extrabold text-primary'>Actions</div>
       <button
         className='sidebar-button'
         onClick={() => handleClick('Assign_Audit')}
@@ -55,7 +55,7 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
           <p>Edit Personnel</p>
         </div>
       </button>
-      <div className='text-md font-semibold text-primary'>Reports</div>
+      <div className='text-md font-extrabold text-primary'>Reports</div>
       <button
         className='sidebar-button'
         onClick={() => handleClick('Auditor_Report')}

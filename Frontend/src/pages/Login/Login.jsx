@@ -51,7 +51,7 @@ const Login = () => {
             
             {
               <p className= 'p-1 text-error bg-white w-40 md:w-56 rounded-sm md:rounded-md flex flex-row justify-center items-center font-bold text-xs md:text-sm brder'>
-              Email Not Found
+              Invalid Email
             </p>
             }
           </div>

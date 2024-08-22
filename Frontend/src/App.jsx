@@ -1,7 +1,7 @@
 import Login from './pages/Login/Login'
 import { Routes,Route } from 'react-router-dom'
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import Layout from './components/shared/Layout';
+import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard/Dashboasd';
 import AssignAudit from './pages/AssignAudit/AssignAudit';
 import AuditorReport from './pages/AuditorReport/AuditorReport';

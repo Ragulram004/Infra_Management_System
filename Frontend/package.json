@@ -1,5 +1,4 @@
 {
-  "proxy": "http://localhost:4500",
   "name": "infra-audits",
   "private": true,
   "version": "0.0.0",

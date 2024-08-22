@@ -11,7 +11,7 @@ import personnelRoutes from './routes/Personnel.js'
 const app = express()
 
 app.use(cors({
-  origin:"http://localhost:3001",
+  origin:"http://localhost:5173",
   methods:"GET,POST,PUT,DELETE",
   credentials:true
 }));
