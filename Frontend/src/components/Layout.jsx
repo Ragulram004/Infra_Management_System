@@ -11,7 +11,7 @@ const Layout = () => {
       <div className={`lg:block ${sidebarVisible ? 'block' : 'hidden'} absolute lg:relative z-10`}>
         <Sidebar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} />
       </div>
-      <div className='p-2 lg:p-3 w-screen'>  
+      <div className='p-2 lg:p-5 w-screen'>  
         <div>
           <Navbar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} />
         </div>

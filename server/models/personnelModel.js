@@ -29,7 +29,7 @@ const personnelSchema = new Schema(
     },
     gender: {
         type: String,
-        enum: ['male', 'female', 'other'],
+        enum: ['male', 'female', 'others'],
         required: true,
     }
   },{timestamps:true}
