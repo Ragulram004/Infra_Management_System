@@ -14,8 +14,10 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
     setSidebarVisible(!sidebarVisible);
   };
 
+  
+
   return (
-    <div className='bg-white w-60 p-4 flex flex-col h-screen'>
+    <div id='sidebar' className='bg-white w-60 p-4 flex flex-col h-[100vh]'>
       <div className='flex justify-center items-center gap-1 px-1 py-3 text-primary mb-4'>
         <BsBuildingFillGear fontSize={24} />
         <span className='text-2xl font-black'>Infra-Audits</span>

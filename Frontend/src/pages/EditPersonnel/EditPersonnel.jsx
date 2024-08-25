@@ -26,21 +26,24 @@ const EditPersonnel = () => {
   }, [dispatch]); 
 
   return (
-    <Fragment>
-      <div>
+    <div className='relative'>
+      <div className='p-3' >
+        <h1 className='text-[20px] md:text-3xl text-primary font-[900] '>View or Edit Personnel</h1>
+      </div>
+      <div className='absolute py-3 right-3'>
         <button 
-          className='bg-primary w-12 h-12 rounded-full text-white font-extrabold' 
+          className='bg-primary text-white text-sm md:text-md  font-bold py-2 px-4  rounded-lg' 
           title='Add Personnel text-2xl' 
           onClick={() => setShowPop(true)}
         >
-          +
+          Add Personnel
         </button>
       </div> 
       <PersonnelDetails personnels={personnels || []} /> {/* Pass an empty array if `personnels` is null */}
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
         <PersonnelForm setShowPop={setShowPop} />
       </Pop>
-    </Fragment>
+    </div>
   );
 };
 

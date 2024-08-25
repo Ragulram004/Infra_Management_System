@@ -43,7 +43,7 @@ const PersonnelForm = ({ setShowPop }) => {
 
   return (
     <div className="flex justify-center items-center">
-      <form className="w-[100%] md:w-auto bg-white p-6 rounded-lg" onSubmit={handleSubmit}>
+      <form className="w-[100%] md:w-auto bg-white p-6 pt-2 rounded-lg" onSubmit={handleSubmit}>
         <h2 className="text-3xl font-extrabold text-center mb-6 text-primary">Add Personnel</h2>
 
         <div className="md:flex flex-row gap-10">

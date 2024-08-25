@@ -12,6 +12,12 @@ export const personnelsReducer = (state, action) => {
       return {
         personnels: [action.payload, ...state.personnels],
       };
+    case 'DELETE_PERSONNEL':
+      return {
+        personnels: state.personnels.filter(
+          (personnel) => personnel._id !== action.payload._id
+        ),
+      };
     default:
       return state;
   }
