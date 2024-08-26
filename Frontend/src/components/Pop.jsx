@@ -16,7 +16,7 @@ const Pop = ({ isVisible, onClose, children }) => {
       <div className="w-[350px] md:w-auto flex flex-col bg-white rounded-lg p-2">
         <button
           onClick={() => onClose()}
-          className="text-sm text-white self-end bg-black opacity-50 w-7 h-7 rounded-full mb-2"
+          className="text-sm lg:hidden text-white self-end bg-black opacity-50 w-7 h-7 rounded-full mb-2"
         >
           x
         </button>

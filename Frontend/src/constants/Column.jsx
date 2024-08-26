@@ -1,8 +1,4 @@
 export const personnelColumns =[
-  // {
-  //   Header: 'ID',
-  //   accessor: '_id',
-  // },
   {
     Header: 'Name',
     accessor: 'name',
@@ -29,5 +25,31 @@ export const personnelColumns =[
   },
   {
     Header: 'Delete',    
+  }
+]
+
+export const auditorsColumns =[
+  {
+    Header: 'Name',
+    accessor: 'name',
+  },
+  {
+    Header:'Phone',
+    accessor: 'phone',
+  },
+  {
+    Header:'Gender',
+    accessor: 'gender',
+  },
+  {
+    Header:'Department',
+    accessor: 'dept',
+  },
+  {
+    Header:'Role',
+    accessor: 'role',
+  },
+  {
+    Header: 'Assign',    
   }
 ]

@@ -1,23 +1,23 @@
 import { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
-import { personnelColumns } from '../../constants/Column';
+import { auditorsColumns } from '../../constants/Column';
 import Pop from '../../components/Pop';
-import DeleteAlter from '../../components/DeleteAlter';
-import GlobalFilter from '../../components/GlobalFilter'; // Import your GlobalFilter component
+import AuditorForm from './AuditorForm';
+import GlobalFilter from '../../components/GlobalFilter';
 
-const PersonnelDetails = ({ personnels }) => {
-  const columns = useMemo(() => personnelColumns, []);
-  const data = personnels || []; // Ensure `data` is never undefined or null
+const AuditorDetails = ({ auditors }) => {
+  const columns = useMemo(() => auditorsColumns, []);
+  const data = auditors || [];
 
   const [showPop, setShowPop] = useState(false);
-  const [rowId, setRowId] = useState(null);
+  const [selectedAuditor, setSelectedAuditor] = useState(null);
 
   const tableInstance = useTable(
     {
       columns,
       data,
     },
-    useGlobalFilter, // Add useGlobalFilter here
+    useGlobalFilter,
     usePagination
   );
 
@@ -25,17 +25,22 @@ const PersonnelDetails = ({ personnels }) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page, 
+    page,
     previousPage,
     nextPage,
     canNextPage,
     canPreviousPage,
     pageOptions,
     state,
-    setGlobalFilter, // Destructure setGlobalFilter from state
+    setGlobalFilter,
     prepareRow,
   } = tableInstance;
   const { globalFilter, pageIndex } = state;
+
+  const handleAssignClick = (row) => {
+    setSelectedAuditor(row.original);
+    setShowPop(true);
+  };
 
   return (
     <div className="bg-white pt-14 rounded-xl">
@@ -69,15 +74,13 @@ const PersonnelDetails = ({ personnels }) => {
                       {...cell.getCellProps()}
                       className="px-6 py-2 text-sm text-gray-900"
                     >
-                      {cell.column.id === 'Delete' ? (
-                        <>
-                          <button 
-                            className='bg-error text-xs md:text-sm text-white p-2 rounded-lg'
-                            onClick={() => {setShowPop(true); setRowId(row)}}
-                          >
-                            Delete
-                          </button>
-                        </>
+                      {cell.column.id === 'Assign' ? (
+                        <button 
+                          className='bg-primary text-xs md:text-sm text-white p-2 rounded-lg'
+                          onClick={() => handleAssignClick(row)}
+                        >
+                          Assign
+                        </button>
                       ) : (
                         cell.render('Cell')
                       )}
@@ -114,10 +117,10 @@ const PersonnelDetails = ({ personnels }) => {
         </button>
       </div>
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <DeleteAlter rowId={rowId} setShowPop={setShowPop} />
+        <AuditorForm setShowPop={setShowPop} selectedAuditor={selectedAuditor} />
       </Pop>
     </div>
   );
 };
 
-export default PersonnelDetails;
+export default AuditorDetails;

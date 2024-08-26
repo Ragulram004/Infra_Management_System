@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import Pop from '../../components/Pop';
 import PersonnelForm from './PersonnelForm';
 import PersonnelDetails from './PersonnelDetails';

@@ -23,7 +23,7 @@ const DeleteAlter = ({rowId , setShowPop }) => {
     //   delete
     // </div>
     <div className='flex flex-col justify-center items-center p-2'>
-      <div className='p-2 pt-0'>
+      <div className='p-2 pt-0 lg:pt-2'>
         <FaRegCircleXmark className='w-16 h-16 text-error    ' />      
       </div>
       <div className='text-center'>
