@@ -7,6 +7,8 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import {} from 'dotenv/config';
 import personnelRoutes from './routes/Personnel.js'
+import auditTaskRoutes from './routes/AuditTask.js'
+import userRoutes from './routes/User.js'
 
 const app = express()
 
@@ -20,6 +22,8 @@ app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
 app.use('/api/personnel',personnelRoutes)
+app.use('/api/auditTask',auditTaskRoutes)
+app.use('/api/user',userRoutes)
 
 //Connection to DB
 mongoose.connect(process.env.URI)

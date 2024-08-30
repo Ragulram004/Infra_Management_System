@@ -27,6 +27,18 @@ const getPersonnel = async (req,res)=>{
 //create New personnel
 const createPersonnel = async (req,res)=>{
   const { name, phone, email, role, dept, gender } = req.body
+
+  let emptyFields = []
+  if(!name) emptyFields.push('Name');
+  if(!phone) emptyFields.push('Phone');
+  if(!email) emptyFields.push('Email');
+  if(!role) emptyFields.push('Role');
+  if(!dept) emptyFields.push('Department');
+  if(!gender) emptyFields.push('Gender');
+  if(emptyFields.length > 0) {
+    return res.status(400).json({error: 'Please fill in all the fields', emptyFields})
+  }
+
   //add doc to db
   try {
     const personnel = await Personnel.create({ name, phone, email, role, dept, gender })
