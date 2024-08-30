@@ -17,7 +17,9 @@ body{
   }
 
   .input-field{
-    @apply appearance-none border-b-2 rounded-sm w-full py-2 px-3 text-gray-700 font-extrabold leading-tight focus:outline-none focus:border-b-primary;
+    @apply appearance-none border-b-2  rounded-sm w-full py-2 px-3 text-gray-700 font-extrabold leading-tight focus:outline-none focus:border-b-primary;
   }
-
+  .input-field-error{
+    @apply appearance-none border-b-2 border-b-error rounded-sm w-full py-2 px-3 text-gray-700 font-extrabold leading-tight focus:outline-none focus:border-b-primary;
+  }
 }

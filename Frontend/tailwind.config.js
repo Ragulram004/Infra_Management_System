@@ -9,7 +9,7 @@ export default {
         background : '#EEF2F6', 
         primary :'#313E50',
         border:'#9F9F9F',
-        error : '#F08080', 
+        error : '#FB7777', 
         success : '#62C370',
       },
       fontFamily:{

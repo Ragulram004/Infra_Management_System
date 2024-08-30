@@ -48,6 +48,17 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
       </button>
       <button
         className='sidebar-button'
+        onClick={() => handleClick('Assigned_Audits')}
+      >
+        <div>
+          <AiOutlineFileSearch fontSize={20} />
+        </div>
+        <div>
+          <p>Assigned Audits</p>
+        </div>
+      </button>
+      <button
+        className='sidebar-button'
         onClick={() => handleClick('Edit_Personnels')}
       >
         <div>

@@ -1,12 +1,14 @@
 import React from 'react'
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { usePersonnelsContext } from '../hooks/usePersonnelContext';
+import { toast } from 'react-toastify';
 
-const DeleteAlter = ({rowId , setShowPop }) => {
+
+const DeleteAlter = ({rowId , setShowPop,API }) => {
   const {dispatch} = usePersonnelsContext()
 
   const handleDelete = async (rowId) => {
-    const response = await fetch('http://localhost:4500/api/personnel/'+rowId.original._id,{
+    const response = await fetch(API+rowId.original._id,{
       method: 'DELETE'
     })
 
@@ -14,8 +16,12 @@ const DeleteAlter = ({rowId , setShowPop }) => {
 
     if(response.ok){
       dispatch({type:'DELETE_PERSONNEL' , payload:json})
+      setShowPop(false)
+      toast.success('Removed Successfully',{
+        autoClose:4000,
+      })
     }
-    setShowPop(false)
+    
   };
 
   return (

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import AuditorDetails from './AuditorDetails';
 
 const AssignAudit = () => {
+  const API = import.meta.env.VITE_INTRA_API_PERSONNEL
   const [auditors, setAuditors] = useState(null);
 
   useEffect(() => {
     const fetchAuditors = async () => {
       try {
-        const response = await fetch('http://localhost:4500/api/personnel');
+        const response = await fetch(API);
         const json = await response.json();
 
         if (response.ok) {

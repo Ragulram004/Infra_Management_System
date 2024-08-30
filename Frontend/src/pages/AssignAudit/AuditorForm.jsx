@@ -1,65 +1,77 @@
 import { useState, useEffect , useRef } from 'react';
 import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
-import DatePicker from '../../components/DatePicker';
-const AuditorForm = ({ setShowPop, selectedAuditor }) => {
+import { useNavigate } from 'react-router-dom';
 
-  const calRef = useRef();
+import DatePicker from '../../components/DatePicker';
+import { toast } from 'react-toastify';
+
+const AuditorForm = ({ setShowPop, selectedAuditor }) => {
+  const API = import.meta.env.VITE_INTRA_API_AUDITTASK
+
+  const navigate = useNavigate();
   const { dispatch } = usePersonnelsContext();
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [dept, setDept] = useState('');
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState('');
+  const [role, setRole] = useState('');
+  const [gender, setGender] = useState('');
   
-  const [deadLine, setDeadLine] = useState('');
+  const [deadline, setDeadline] = useState('');
   const [openCalender , setOpenCalender] = useState(false)
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null)
+  const [emptyFields,setEmptyFields]= useState([])
 
   useEffect(() => {
     if (selectedAuditor) {
       setName(selectedAuditor.name);
       setDept(selectedAuditor.dept);
+      setEmail(selectedAuditor.email);
       setPhone(selectedAuditor.phone);
+      setRole(selectedAuditor.role);
+      setGender(selectedAuditor.gender);
     }
   }, [selectedAuditor]);
 
-  const hideOnClickOutside = (e) => {
-    if (calRef.current && !calRef.current.contains(e.target)) {
-      setOpenCalender(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const audit = { name, dept, phone, email, deadline, area , role, gender };
+
+    const response = await fetch(API, {
+      method: 'POST',
+      body: JSON.stringify(audit),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      setError(json.error)
+      setEmptyFields(json.emptyFields || [])
+      toast.error(json.error)
     }
-  }
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const personnel = { name, dept, phone, deadline, area };
-
-  //   const response = await fetch('http://localhost:4500/api/personnel', {
-  //     method: 'POST',
-  //     body: JSON.stringify(personnel),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  //   const json = await response.json();
-
-  //   if (!response.ok) {
-  //     setError(json.error);
-  //   }
-  //   if (response.ok) {
-  //     setName('');
-  //     setDept('');
-  //     setPhone('');
-  //     setDeadline('');
-  //     setArea('');
-  //     setError(null);
-  //     dispatch({ type: 'CREATE_PERSONNEL', payload: json });
-  //     setShowPop(false); 
-  //   }
-  // };
+    if (response.ok) {
+      setName('');
+      setDept('');
+      setEmail('');
+      setPhone('');
+      setDeadline('');
+      setArea('');
+      setError(null);
+      dispatch({ type: 'CREATE_PERSONNEL', payload: json });
+      setShowPop(false);
+      navigate('/Assigned_Audits');
+      toast.success("Audit Assigned Successfully")
+    }
+  };
 
   return (
     <div className="flex justify-center items-center">
-      <form className="w-[100%] md:w-auto bg-white p-6 pt-2 lg:pt-6 rounded-lg" >
-        <h2 className="text-3xl font-extrabold text-center mb-6 text-primary">Assign Auditor</h2>
+      <form className="w-[100%] md:w-auto bg-white p-6 pt-2 lg:pt-6 rounded-lg" onSubmit={handleSubmit} >
+        <h2 className="text-3xl font-extrabold text-center mb-6 text-primary underline">Assign Auditor</h2>
 
         <div className="md:flex flex-row justify-between">
           <div className="mb-4">
@@ -105,14 +117,14 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
 
           <div className="mb-4">
             <label className="block text-primary text-sm font-bold mb-2">
-              Deadline:
+              DeadLine:
             </label>
             <div className="relative" onClick={() => setOpenCalender(!openCalender)}>
               <input
                 type="text"
-                className="input-field w-full pl-3 pr-10 py-2 border-b border-gray-300 focus:outline-none"
+                className={emptyFields.includes('Deadline')? 'input-field-error' : 'input-field w-full pl-3 pr-10 py-2 border-b border-gray-300 focus:outline-none'}
                 placeholder="DD/MM/YYYY"
-                value={deadLine}
+                value={deadline}
                 readOnly
               />
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
@@ -132,7 +144,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
                 </svg>
               </span>
             </div>
-            {openCalender && <DatePicker className="absolute" setDeadLine={setDeadLine} setOpenCalender={setOpenCalender} />}          
+            {openCalender && <DatePicker className="absolute" setDeadline={setDeadline} setOpenCalender={setOpenCalender} />}          
           </div>         
         </div>
 
@@ -141,33 +153,28 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
             Area to Audit:
           </label>
           <select
-            className="input-field"
+            className={emptyFields.includes('Area')? 'input-field-error' : 'input-field'}
             id="area"
             value={area}
             onChange={(e) => setArea(e.target.value)}
           >
             <option value="select">Select</option>
-            <option value="main-auditorium-stage">Main Auditorium Stage</option>
-            <option value="learning-centre-backside-restroom">Learning Centre Backside Restroom</option>
-            <option value="football-playground-restroom">Football Playground Restroom</option>
-            <option value="sf-block-vip-lounge">SF Block VIP Lounge</option>
-            <option value="vedanayagam-auditorium-vip-lounge">Vedanayagam Auditorium VIP Lounge</option>
-            <option value="indoor-stadium">Indoor Stadium</option>
-            <option value="main-parking-restrooms">Main Parking Restrooms</option>
-            <option value="hostel-canteen-premises">Hostel Canteen Premises</option>
-            <option value="near-old-mechanical-seminar-hall">Chairman's Room and Chief Executive Room - Old Mech Seminar Hall</option>
-            <option value="new-store-room">New Store Room</option>
-            <option value="tennis-ground">Tennis Ground</option>
-            <option value="quarters">Quarters</option>
-            <option value="board-room-sf-block-first-floor">Board Room - SF Block (First Floor)</option>
+            <option value="Main Auditorium Stage">Main Auditorium Stage</option>
+            <option value="Learning Centre Backside Restroom">Learning Centre Backside Restroom</option>
+            <option value="Football Playground Restroom">Football Playground Restroom</option>
+            <option value="SF Block VIP Lounge">SF Block VIP Lounge</option>
+            <option value="Vedanayagam Auditorium VIP Lounge">Vedanayagam Auditorium VIP Lounge</option>
+            <option value="Indoor Stadium">Indoor Stadium</option>
+            <option value="Main Parking Restrooms">Main Parking Restrooms</option>
+            <option value="Hostel Canteen Premises">Hostel Canteen Premises</option>
+            <option value="Chairman's Room and Chief Executive Room - Old Mech Seminar Hall">Chairman's Room and Chief Executive Room - Old Mech Seminar Hall</option>
+            <option value="New Store Room">New Store Room</option>
+            <option value="Tennis Ground">Tennis Ground</option>
+            <option value="Quarters">Quarters</option>
+            <option value="Board Room - SF Block (First Floor)">Board Room - SF Block (First Floor)</option>
           </select>
-        </div>
 
-        {error && 
-          <div className='text-error '>
-            {error}
-          </div>
-        }
+        </div>
 
         <div className="flex items-center justify-center">
           <button

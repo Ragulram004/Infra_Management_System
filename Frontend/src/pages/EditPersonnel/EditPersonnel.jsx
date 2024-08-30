@@ -5,13 +5,14 @@ import PersonnelDetails from './PersonnelDetails';
 import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
 
 const EditPersonnel = () => {
+  const API = import.meta.env.VITE_INTRA_API_PERSONNEL
   const { personnels, dispatch } = usePersonnelsContext();
   const [showPop, setShowPop] = useState(false);
 
   useEffect(() => {
     const fetchPersonnels = async () => {
       try {
-        const response = await fetch('http://localhost:4500/api/personnel');
+        const response = await fetch(API);
         const json = await response.json();
 
         if (response.ok) {
@@ -39,7 +40,7 @@ const EditPersonnel = () => {
           Add Personnel
         </button>
       </div> 
-      <PersonnelDetails personnels={personnels || []} /> {/* Pass an empty array if `personnels` is null */}
+      <PersonnelDetails personnels={personnels || []} API={API} /> {/* Pass an empty array if `personnels` is null */}
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
         <PersonnelForm setShowPop={setShowPop} />
       </Pop>

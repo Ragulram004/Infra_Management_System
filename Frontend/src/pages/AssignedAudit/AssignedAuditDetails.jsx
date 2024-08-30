@@ -1,23 +1,23 @@
 import { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
-import { auditorsColumns } from '../../constants/Column';
+import { assignedauditsColumns } from '../../constants/Column';
 import Pop from '../../components/Pop';
-import AuditorForm from './AuditorForm';
-import GlobalFilter from '../../components/GlobalFilter';
+import DeleteAlter from '../../components/DeleteAlter';
+import GlobalFilter from '../../components/GlobalFilter'; 
 
-const AuditorDetails = ({ auditors }) => {
-  const columns = useMemo(() => auditorsColumns, []);
-  const data = auditors || [];
+const AssignedAuditDetails = ({ personnels, API }) => {
+  const columns = useMemo(() => assignedauditsColumns, []);
+  const data = personnels || []; // Ensure `data` is never undefined or null
 
   const [showPop, setShowPop] = useState(false);
-  const [selectedAuditor, setSelectedAuditor] = useState(null);
+  const [rowId, setRowId] = useState(null);
 
   const tableInstance = useTable(
     {
       columns,
       data,
     },
-    useGlobalFilter,
+    useGlobalFilter, // Add useGlobalFilter here
     usePagination
   );
 
@@ -25,22 +25,17 @@ const AuditorDetails = ({ auditors }) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page,
+    page, 
     previousPage,
     nextPage,
     canNextPage,
     canPreviousPage,
     pageOptions,
     state,
-    setGlobalFilter,
+    setGlobalFilter, // Destructure setGlobalFilter from state
     prepareRow,
   } = tableInstance;
   const { globalFilter, pageIndex } = state;
-
-  const handleAssignClick = (row) => {
-    setSelectedAuditor(row.original);
-    setShowPop(true);
-  };
 
   return (
     <div className="bg-white pt-14 rounded-xl">
@@ -53,7 +48,7 @@ const AuditorDetails = ({ auditors }) => {
                 {headerGroup.headers.map(column => (
                   <th
                     {...column.getHeaderProps()}
-                    className="px-6 py-3 text-sm   font-extrabold text-primary text-center"
+                    className="px-6 py-3 text-sm font-extrabold text-primary text-center"
                   >
                     {column.render('Header')}
                   </th>
@@ -74,15 +69,17 @@ const AuditorDetails = ({ auditors }) => {
                   {row.cells.map(cell => (
                     <td
                       {...cell.getCellProps()}
-                      className="px-6 py-2 text-sm text-primary"
+                      className="px-6 py-2 text-sm text-gray-900"
                     >
-                      {cell.column.id === 'Assign' ? (
-                        <button 
-                          className='bg-primary text-xs md:text-sm text-white p-2 rounded-lg font-extrabold'
-                          onClick={() => handleAssignClick(row)}
-                        >
-                          Assign
-                        </button>
+                      {cell.column.id === 'Delete' ? (
+                        <>
+                          <button 
+                            className='bg-error text-xs md:text-sm text-white p-2 rounded-lg font-extrabold'
+                            onClick={() => {setShowPop(true); setRowId(row)}}
+                          >
+                            Delete
+                          </button>
+                        </>
                       ) : (
                         cell.render('Cell')
                       )}
@@ -119,10 +116,10 @@ const AuditorDetails = ({ auditors }) => {
         </button>
       </div>
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <AuditorForm setShowPop={setShowPop} selectedAuditor={selectedAuditor} />
+        <DeleteAlter rowId={rowId} setShowPop={setShowPop} API={API} />
       </Pop>
     </div>
   );
 };
 
-export default AuditorDetails;
+export default AssignedAuditDetails;

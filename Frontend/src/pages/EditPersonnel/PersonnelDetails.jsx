@@ -5,7 +5,7 @@ import Pop from '../../components/Pop';
 import DeleteAlter from '../../components/DeleteAlter';
 import GlobalFilter from '../../components/GlobalFilter'; // Import your GlobalFilter component
 
-const PersonnelDetails = ({ personnels }) => {
+const PersonnelDetails = ({ personnels ,API }) => {
   const columns = useMemo(() => personnelColumns, []);
   const data = personnels || []; // Ensure `data` is never undefined or null
 
@@ -48,7 +48,7 @@ const PersonnelDetails = ({ personnels }) => {
                 {headerGroup.headers.map(column => (
                   <th
                     {...column.getHeaderProps()}
-                    className="px-6 py-3 text-sm font-extrabold text-primary text-center"
+                    className="px-6 py-3 text-sm font-extrabold text-primary text-center "
                   >
                     {column.render('Header')}
                   </th>
@@ -57,22 +57,24 @@ const PersonnelDetails = ({ personnels }) => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {page.map(row => { 
+            {page.map((row, index) => { 
               prepareRow(row);
               return (
                 <tr
                   {...row.getRowProps()}
-                  className="bg-white border-b border-b-border hover:bg-gray-50"
+                  className={`${
+                    index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                  } border-b border-b-border hover:bg-gray-50 font-[600]`}
                 >
                   {row.cells.map(cell => (
                     <td
                       {...cell.getCellProps()}
-                      className="px-6 py-2 text-sm text-gray-900"
+                      className="px-6 py-2 text-sm text-primary"
                     >
                       {cell.column.id === 'Delete' ? (
                         <>
                           <button 
-                            className='bg-error text-xs md:text-sm text-white p-2 rounded-lg'
+                            className='bg-error text-xs md:text-sm text-white p-2 rounded-lg font-extrabold'
                             onClick={() => {setShowPop(true); setRowId(row)}}
                           >
                             Delete
@@ -114,7 +116,7 @@ const PersonnelDetails = ({ personnels }) => {
         </button>
       </div>
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <DeleteAlter rowId={rowId} setShowPop={setShowPop} />
+        <DeleteAlter rowId={rowId} setShowPop={setShowPop}  API={API} />
       </Pop>
     </div>
   );
