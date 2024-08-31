@@ -35,4 +35,17 @@ const personnelSchema = new Schema(
   },{timestamps:true}
 )
 
+//static login method
+personnelSchema.statics.login = async function(email){
+
+  const user = await this.findOne({email})
+  
+  if(!user){
+    throw Error('Incorrect email')
+  }
+
+  return user
+
+}
+
 export default mongoose.model('Personnel',personnelSchema)
