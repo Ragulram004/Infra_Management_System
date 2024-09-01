@@ -2,8 +2,16 @@ import React, { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { IoReorderThree } from 'react-icons/io5';
 import classNames from 'classnames';
+import {Link} from 'react-router-dom' 
+import { useLogout } from '../hooks/useLogout';
 
 export default function Navbar({ sidebarVisible, setSidebarVisible }) {
+  const {logout} = useLogout();
+
+  const handleClick = ()=>{
+    logout()
+  }
+
   return (
     <div className='bg-white h-14 px-4 flex items-center border-b border-gray-200 justify-between rounded-lg'>
       <div className='relative text-xs lg:text-sm font-bold'>
@@ -38,6 +46,7 @@ export default function Navbar({ sidebarVisible, setSidebarVisible }) {
                       active && 'bg-error text-white',
                       'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-primary text-sm font-semibold'
                     )}
+                    onClick={handleClick}
                   >
                     Sign out
                   </div>
