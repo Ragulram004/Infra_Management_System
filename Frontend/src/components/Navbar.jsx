@@ -2,14 +2,16 @@ import React, { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { IoReorderThree } from 'react-icons/io5';
 import classNames from 'classnames';
-import {Link} from 'react-router-dom' 
+import { useNavigate} from 'react-router-dom' 
 import { useLogout } from '../hooks/useLogout';
 
 export default function Navbar({ sidebarVisible, setSidebarVisible }) {
   const {logout} = useLogout();
+  const navigate = useNavigate();
 
   const handleClick = ()=>{
     logout()
+    navigate('/login')
   }
 
   return (

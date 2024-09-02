@@ -5,9 +5,11 @@ import {
   createAssignedAuditor,
   deleteAssignedAuditor
 } from '../controllers/AuditTaskController.js'
+import {requireAuth} from '../middleware/requireAuth.js'
 
 
 const router = express.Router()
+router.use(requireAuth)
 
 // Get all personnel
 router.get('/', getAssignedAuditors)

@@ -3,16 +3,22 @@ import Pop from '../../components/Pop';
 import PersonnelForm from './PersonnelForm';
 import PersonnelDetails from './PersonnelDetails';
 import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
+import {useAuthContext} from '../../hooks/useAuthContext'
 
 const EditPersonnel = () => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL
+  const {user} = useAuthContext()
   const { personnels, dispatch } = usePersonnelsContext();
   const [showPop, setShowPop] = useState(false);
 
   useEffect(() => {
     const fetchPersonnels = async () => {
       try {
-        const response = await fetch(API);
+        const response = await fetch(API,{
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        });
         const json = await response.json();
 
         if (response.ok) {
@@ -22,9 +28,8 @@ const EditPersonnel = () => {
         console.log("Fetch Error:", error);
       }
     };
-
-    fetchPersonnels();
-  }, [dispatch]); 
+    if(user) fetchPersonnels();
+  }, [dispatch,user]); 
 
   return (
     <div className='relative'>

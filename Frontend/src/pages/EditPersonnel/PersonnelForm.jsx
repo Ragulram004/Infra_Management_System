@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import {toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
 
 import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const PersonnelForm = ({ setShowPop }) => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL
@@ -15,9 +17,18 @@ const PersonnelForm = ({ setShowPop }) => {
   const [role, setRole] = useState('');
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+  const {user} = useAuthContext();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!user){
+      navigate('/login')
+      toast.error('You must be logged in')
+      return
+    }
+
     const personnel = { name, phone, email, role, dept, gender };
 
     const response = await fetch(API, {
@@ -25,6 +36,7 @@ const PersonnelForm = ({ setShowPop }) => {
       body: JSON.stringify(personnel),
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
       },
     });
     const json = await response.json();

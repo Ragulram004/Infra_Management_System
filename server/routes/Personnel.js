@@ -5,8 +5,12 @@ import {createPersonnel,
   deletePersonnel,
   updatePersonnel
 } from '../controllers/PersonnelController.js'
+import {requireAuth} from '../middleware/requireAuth.js'
 
 const router = express.Router()
+
+//auth
+router.use(requireAuth)
 
 // Get all personnel
 router.get('/', getPersonnels)

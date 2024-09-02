@@ -2,16 +2,22 @@ import React, { useEffect, useState } from 'react';
 
 import AssignedAuditDetails from './AssignedAuditDetails';
 import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const AssignedAudits = () => {
   const API = import.meta.env.VITE_INTRA_API_AUDITTASK
 
   const { personnels, dispatch } = usePersonnelsContext();
+  const {user} = useAuthContext()
 
   useEffect(() => {
     const fetchAssignedAudits = async () => {
       try {
-        const response = await fetch(API);
+        const response = await fetch(API,{
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        });
         const json = await response.json();
 
         if (response.ok) {
@@ -22,8 +28,8 @@ const AssignedAudits = () => {
       }
     };
 
-    fetchAssignedAudits();
-  }, [dispatch]); 
+    if(user)fetchAssignedAudits();
+  }, [dispatch, user]); 
 
   return (
     <div className='relative'>

@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import AuditorDetails from './AuditorDetails';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const AssignAudit = () => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL
   const [auditors, setAuditors] = useState(null);
+  const {user} = useAuthContext()
 
   useEffect(() => {
     const fetchAuditors = async () => {
       try {
-        const response = await fetch(API);
+        const response = await fetch(API,{
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        });
         const json = await response.json();
 
         if (response.ok) {
@@ -21,8 +27,8 @@ const AssignAudit = () => {
       }
     };
 
-    fetchAuditors();
-  }, []);   
+    if(user) fetchAuditors();
+  }, [user]);   
 
   return (
     <div className='relative'>

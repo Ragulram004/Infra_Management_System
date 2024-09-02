@@ -2,14 +2,26 @@ import React from 'react'
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { usePersonnelsContext } from '../hooks/usePersonnelContext';
 import { toast } from 'react-toastify';
+import { useAuthContext } from '../hooks/useAuthContext'
+import { useNavigate } from 'react-router-dom';
 
 
 const DeleteAlter = ({rowId , setShowPop,API }) => {
   const {dispatch} = usePersonnelsContext()
+  const {user} = useAuthContext()
+  const navigate = useNavigate()
 
   const handleDelete = async (rowId) => {
+    if(!user){
+      navigate('/login')
+      toast.error('You must be logged in')
+      return
+    }
     const response = await fetch(API+rowId.original._id,{
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
     })
 
     const json = await response.json()

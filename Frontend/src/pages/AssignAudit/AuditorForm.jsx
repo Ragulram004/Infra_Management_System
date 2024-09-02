@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import DatePicker from '../../components/DatePicker';
 import { toast } from 'react-toastify';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const AuditorForm = ({ setShowPop, selectedAuditor }) => {
   const API = import.meta.env.VITE_INTRA_API_AUDITTASK
@@ -22,6 +23,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
   const [openCalender , setOpenCalender] = useState(false)
   const [error, setError] = useState(null)
   const [emptyFields,setEmptyFields]= useState([])
+  const {user} = useAuthContext()
 
   useEffect(() => {
     if (selectedAuditor) {
@@ -37,6 +39,13 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!user){
+      navigate('/login')
+      toast.error('You must be logged in')
+      return
+    }
+
     const audit = { name, dept, phone, email, deadline, area , role, gender };
 
     const response = await fetch(API, {
@@ -44,6 +53,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
       body: JSON.stringify(audit),
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
       },
     });
     const json = await response.json();
