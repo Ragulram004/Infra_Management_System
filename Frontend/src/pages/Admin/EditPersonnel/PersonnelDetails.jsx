@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
-import { assignedauditsColumns } from '../../constants/Column';
-import Pop from '../../components/Pop';
-import DeleteAlter from '../../components/DeleteAlter';
-import GlobalFilter from '../../components/GlobalFilter'; 
+import { personnelColumns } from '../../../constants/Column';
+import Pop from '../../../components/Pop';
+import DeleteAlter from '../../../components/DeleteAlter';
+import GlobalFilter from '../../../components/GlobalFilter'; // Import your GlobalFilter component
 
-const AssignedAuditDetails = ({ personnels, API }) => {
-  const columns = useMemo(() => assignedauditsColumns, []);
+const PersonnelDetails = ({ personnels ,API }) => {
+  const columns = useMemo(() => personnelColumns, []);
   const data = personnels || []; // Ensure `data` is never undefined or null
 
   const [showPop, setShowPop] = useState(false);
@@ -48,7 +48,7 @@ const AssignedAuditDetails = ({ personnels, API }) => {
                 {headerGroup.headers.map(column => (
                   <th
                     {...column.getHeaderProps()}
-                    className="px-6 py-3 text-sm font-extrabold text-primary text-center"
+                    className="px-6 py-3 text-sm font-extrabold text-primary text-center "
                   >
                     {column.render('Header')}
                   </th>
@@ -57,7 +57,7 @@ const AssignedAuditDetails = ({ personnels, API }) => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {page.map((row,index) => { 
+            {page.map((row, index) => { 
               prepareRow(row);
               return (
                 <tr
@@ -69,7 +69,7 @@ const AssignedAuditDetails = ({ personnels, API }) => {
                   {row.cells.map(cell => (
                     <td
                       {...cell.getCellProps()}
-                      className="px-6 py-2 text-sm text-gray-900"
+                      className="px-6 py-2 text-sm text-primary"
                     >
                       {cell.column.id === 'Delete' ? (
                         <>
@@ -116,10 +116,10 @@ const AssignedAuditDetails = ({ personnels, API }) => {
         </button>
       </div>
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <DeleteAlter rowId={rowId} setShowPop={setShowPop} API={API} />
+        <DeleteAlter rowId={rowId} setShowPop={setShowPop}  API={API} />
       </Pop>
     </div>
   );
 };
 
-export default AssignedAuditDetails;
+export default PersonnelDetails;

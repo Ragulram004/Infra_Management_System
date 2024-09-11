@@ -4,9 +4,13 @@ import { BsBuildingFillGear } from 'react-icons/bs';
 import { MdOutlineDashboard, MdOutlineEngineering } from 'react-icons/md';
 import { AiOutlineFileSearch, AiOutlineAudit } from 'react-icons/ai';
 import { LiaUserEditSolid } from "react-icons/lia";
+import { VscTools } from "react-icons/vsc";
+
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
 export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
+  const { user } = useAuthContext();
   const navigate = useNavigate();
 
   const handleClick = (path) => {
@@ -14,7 +18,7 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
     setSidebarVisible(!sidebarVisible);
   };
 
-  
+
 
   return (
     <div id='sidebar' className='bg-white w-60 p-4 flex flex-col h-[100vh]'>
@@ -35,62 +39,98 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
         </div>
       </button>
       <div className='text-md font-extrabold text-primary'>Actions</div>
-      <button
-        className='sidebar-button'
-        onClick={() => handleClick('Assign_Audit')}
-      >
-        <div>
-          <AiOutlineFileSearch fontSize={20} />
-        </div>
-        <div>
-          <p>Assign Audit</p>
-        </div>
-      </button>
-      <button
-        className='sidebar-button'
-        onClick={() => handleClick('Assigned_Audits')}
-      >
-        <div>
-          <AiOutlineFileSearch fontSize={20} />
-        </div>
-        <div>
-          <p>Assigned Audits</p>
-        </div>
-      </button>
-      <button
-        className='sidebar-button'
-        onClick={() => handleClick('Edit_Personnels')}
-      >
-        <div>
-          <LiaUserEditSolid  fontSize={20} />
-        </div>
-        <div>
-          <p>Edit Personnel</p>
-        </div>
-      </button>
-      <div className='text-md font-extrabold text-primary'>Reports</div>
-      <button
-        className='sidebar-button'
-        onClick={() => handleClick('Auditor_Report')}
-      >
-        <div>
-          <AiOutlineAudit fontSize={20} />
-        </div>
-        <div>
-          <p>Auditor</p>
-        </div>
-      </button>
-      <button
-        className='sidebar-button'
-        onClick={() => handleClick('Handyman_Report')}
-      >
-        <div>
-          <MdOutlineEngineering fontSize={20} />
-        </div>
-        <div>
-          <p>Handyman</p>
-        </div>
-      </button>
+      {user?.role === 'admin' && (
+        <>
+          <button
+          className='sidebar-button'
+          onClick={() => handleClick('Assign_Audit')}
+          >
+            <div>
+              <AiOutlineFileSearch fontSize={20} />
+            </div>
+            <div>
+              <p>Assign Audit</p>
+            </div>
+          </button>
+          <button
+            className='sidebar-button'
+            onClick={() => handleClick('Assigned_Audits')}
+          >
+            <div>
+              <AiOutlineFileSearch fontSize={20} />
+            </div>
+            <div>
+              <p>Assigned Audits</p>
+            </div>
+          </button>
+          <button
+            className='sidebar-button'
+            onClick={() => handleClick('Edit_Personnels')}
+          >
+            <div>
+              <LiaUserEditSolid  fontSize={20} />
+            </div>
+            <div>
+              <p>Edit Personnel</p>
+            </div>
+          </button>
+          <div className='text-md font-extrabold text-primary'>Reports</div>
+          <button
+            className='sidebar-button'
+            onClick={() => handleClick('Auditor_Report')}
+          >
+            <div>
+              <AiOutlineAudit fontSize={20} />
+            </div>
+            <div>
+              <p>Auditor</p>
+            </div>
+          </button>
+          <button
+            className='sidebar-button'
+            onClick={() => handleClick('Handyman_Report')}
+          >
+            <div>
+              <MdOutlineEngineering fontSize={20} />
+            </div>
+            <div>
+              <p>Handyman</p>
+            </div>
+          </button>
+        </>
+      )}
+
+      {user?.role === 'auditor'  &&(
+        <>
+          <button
+            className='sidebar-button'
+            onClick={() => handleClick('Audit_Area')}
+          >
+            <div>
+              <AiOutlineFileSearch fontSize={20} />
+            </div>
+            <div>
+              <p>Assigned Audits</p>
+            </div>
+          </button>
+        </>
+      )}
+
+      {user?.role === 'handyman' &&(
+        <>
+          <button
+            className='sidebar-button'
+            onClick={() => handleClick('Fix_Area')}
+          >
+            <div>
+              <VscTools  fontSize={20} />
+            </div>
+            <div>
+              <p>Fix Area</p>
+            </div>
+          </button>
+        </>
+      )}
     </div>
   );
 }

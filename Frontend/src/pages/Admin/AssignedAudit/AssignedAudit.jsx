@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import AssignedAuditDetails from './AssignedAuditDetails';
-import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
-import { useAuthContext } from '../../hooks/useAuthContext';
+import { usePersonnelsContext } from '../../../hooks/usePersonnelContext';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const AssignedAudits = () => {
   const API = import.meta.env.VITE_INTRA_API_AUDITTASK

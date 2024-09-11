@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
-import { auditorsColumns } from '../../constants/Column';
-import Pop from '../../components/Pop';
+import { auditorsColumns } from '../../../constants/Column';
+import Pop from '../../../components/Pop';
 import AuditorForm from './AuditorForm';
-import GlobalFilter from '../../components/GlobalFilter';
+import GlobalFilter from '../../../components/GlobalFilter';
 
 const AuditorDetails = ({ auditors }) => {
   const columns = useMemo(() => auditorsColumns, []);

@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Illustration from '../../assets/Illustration.svg';
 import bitLogo from '../../assets/bitlogo.svg';
 import google from '../../assets/google.svg';
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useLogin } from '../../hooks/useLogin';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Login = () => {
   const { login, error, isLoading } = useLogin();
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const googleResponse = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -20,6 +22,9 @@ const Login = () => {
 
         const email = res.data.email;
         await login(email);
+
+        // Redirect to home page after successful login
+        navigate('/'); // Use navigate to redirect to the home page
         
       } catch (err) {
         console.error('Error during Google login:', err.message);

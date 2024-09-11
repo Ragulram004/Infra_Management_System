@@ -1,9 +1,9 @@
 import React, {  useEffect, useState } from 'react';
-import Pop from '../../components/Pop';
+import Pop from '../../../components/Pop';
 import PersonnelForm from './PersonnelForm';
 import PersonnelDetails from './PersonnelDetails';
-import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
-import {useAuthContext} from '../../hooks/useAuthContext'
+import { usePersonnelsContext } from '../../../hooks/usePersonnelContext';
+import {useAuthContext} from '../../../hooks/useAuthContext'
 
 const EditPersonnel = () => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL

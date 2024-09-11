@@ -2,8 +2,8 @@ import { useState } from 'react';
 import {toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
 
-import { usePersonnelsContext } from '../../hooks/usePersonnelContext';
-import { useAuthContext } from '../../hooks/useAuthContext';
+import { usePersonnelsContext } from '../../../hooks/usePersonnelContext';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const PersonnelForm = ({ setShowPop }) => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL
