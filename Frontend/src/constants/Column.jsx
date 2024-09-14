@@ -103,6 +103,10 @@ export const auditortasks = [
     accessor: 'area',
   },
   {
+    Header: 'Deadline',
+    accessor: 'deadline'
+  },
+  {
     Header: 'Status',
     accessor: 'status',
     Cell: ({ value }) => (
