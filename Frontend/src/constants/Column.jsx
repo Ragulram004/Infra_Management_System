@@ -92,3 +92,30 @@ export const assignedauditsColumns = [
     Header: 'Delete',
   }
 ];
+
+export const auditortasks = [
+  {
+    Header: 'Name',
+    accessor: 'name',
+  },
+  {
+    Header: 'Area Assigned',
+    accessor: 'area',
+  },
+  {
+    Header: 'Status',
+    accessor: 'status',
+    Cell: ({ value }) => (
+      <span
+        className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold ${
+          value ? 'border-2 border-success' : 'border-2 border-error'
+        }`}
+      >
+        {value ? '🟢Completed' : '🔴Pending'}
+      </span>
+    ),
+  },
+  {
+    Header:'Report'
+  }
+]

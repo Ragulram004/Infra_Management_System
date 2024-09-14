@@ -27,56 +27,55 @@ function App() {
   }
 
   return (
-    <>
-      <GoogleOAuthProvider clientId={clientId}>
-      {user ? (
+    <GoogleOAuthProvider clientId={clientId}>
       <Routes>
-        {user?.role === 'admin' && (
-          // Admin routes
+        {!user ? (
+          // If no user is logged in, show the login route
           <>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="/assign_audit" element={<AssignAudit />} />
-              <Route path="/assigned_audits" element={<AssignedAudit />} />
-              <Route path="/auditor_report" element={<AuditorReport />} />
-              <Route path="/handyman_report" element={<HandymanReport />} />
-              <Route path="/edit_personnels" element={<EditPersonnel />} />
-            </Route>
+            <Route path="/login" element={<Login />} />
+            {/* Redirect all other routes to the login page */}
+            <Route path="*" element={<Navigate to="/login" />} />
+          </>
+        ) : (
+          // If the user is logged in, handle routing based on their role
+          <>
+            {user.role === 'admin' && (
+              // Admin routes
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="/assign_audit" element={<AssignAudit />} />
+                <Route path="/assigned_audits" element={<AssignedAudit />} />
+                <Route path="/auditor_report" element={<AuditorReport />} />
+                <Route path="/handyman_report" element={<HandymanReport />} />
+                <Route path="/edit_personnels" element={<EditPersonnel />} />
+              </Route>
+            )}
+
+            {user.role === 'auditor' && (
+              // Auditor routes
+              <Route path="/" element={<Layout />}>
+                <Route index element={<AuditorDashboard />} />
+                <Route path="/audit_area" element={<AuditorTask />} />
+              </Route>
+            )}
+
+            {user.role === 'handyman' && (
+              // Handyman routes
+              <Route path="/" element={<Layout />}>
+                <Route index element={<HandymanDashboard />} />
+                <Route path="/fix_area" element={<HandymanTask />} />
+              </Route>
+            )}
+
+            {/* If user tries to access /login while logged in, redirect to the home page */}
+            <Route path="/login" element={<Navigate to="/" />} />
+
+            {/* Redirect any undefined routes for logged-in users to the home page */}
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
-
-        {user?.role === 'auditor' && (
-          // Auditor routes
-          <>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<AuditorDashboard />} />
-              <Route path="/audit_area" element={<AuditorTask />} />
-            </Route>
-          </>
-        )}
-
-        {user?.role === 'handyman' && (
-          // Handyman routes
-          <>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<HandymanDashboard />} />
-              <Route path="/fix_area" element={<HandymanTask />} />
-            </Route>
-          </>
-        )}
-
-        {/* Redirect to login if no specific role route is matched */}
-        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
-      ) : (
-        // If no user is logged in, redirect to login page
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      )}
-      </GoogleOAuthProvider>
-    </>
+    </GoogleOAuthProvider>
   );
 }
 
