@@ -7,10 +7,10 @@ import GlobalFilter from '../../../components/GlobalFilter';
 
 const AuditTaskDetails = ({ tasks, API }) => {
   const columns = useMemo(() => auditortasks, []);
-  const data = tasks || []; // Ensure `data` is never undefined or null
+  const data = useMemo(() => (tasks ? tasks.slice().reverse() : []), [tasks]);
 
-  const [showPop, setShowPop] = useState(false);
-  const [taskId, setTaskId] = useState(null);
+  // const [showPop, setShowPop] = useState(false);
+  // const [taskId, setTaskId] = useState(null);
 
   const tableInstance = useTable(
     {

@@ -19,7 +19,8 @@ const AuditTask = () => {
         const json = await response.json();
 
         if (response.ok) {
-          setTasks(json);
+          const filteredTasks = json.filter(task => task.email === user.email);
+          setTasks(filteredTasks);
         }
       } catch (error) {
         console.log("Fetch Error:", error);
