@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import { assignedauditsColumns } from '../../../constants/Column';
 import Pop from '../../../components/Pop';
-import DeleteAlter from '../../../components/DeleteAlter';
+import DeleteAlert from '../../../components/DeleteAlert';
 import GlobalFilter from '../../../components/GlobalFilter'; 
 
 const AssignedAuditDetails = ({ personnels, API }) => {
@@ -116,7 +116,7 @@ const AssignedAuditDetails = ({ personnels, API }) => {
         </button>
       </div>
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <DeleteAlter rowId={rowId} setShowPop={setShowPop} API={API} />
+        <DeleteAlert rowId={rowId} setShowPop={setShowPop} API={API} />
       </Pop>
     </div>
   );

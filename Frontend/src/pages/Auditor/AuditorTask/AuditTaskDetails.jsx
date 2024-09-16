@@ -1,16 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import { auditortasks } from '../../../constants/Column'; // Ensure this is the correct import path
-// import Pop from '../../../components/Pop';
-// import ReportAlter from '../../../components/ReportAlter';
+import Pop from '../../../components/Pop';
+import ReportAlert from '../../../components/ReportAlert';
 import GlobalFilter from '../../../components/GlobalFilter';
 
 const AuditTaskDetails = ({ tasks, API }) => {
   const columns = useMemo(() => auditortasks, []);
   const data = useMemo(() => (tasks ? tasks.slice().reverse() : []), [tasks]);
 
-  // const [showPop, setShowPop] = useState(false);
-  // const [taskId, setTaskId] = useState(null);
+  const [showPop, setShowPop] = useState(false);
+  const [rowId, setRowId] = useState(null);
 
   const tableInstance = useTable(
     {
@@ -72,7 +72,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
                       {cell.column.id === 'Report' ? (
                         <button
                           className='bg-warning text-xs md:text-sm text-white p-2 rounded-lg font-extrabold bg-primary'
-                          // onClick={() => { setShowPop(true); setTaskId(row.original.id); }} // Adjust if needed
+                          onClick={() => { setShowPop(true); setRowId(row); }} 
                         >
                           Report
                         </button>
@@ -107,9 +107,9 @@ const AuditTaskDetails = ({ tasks, API }) => {
           Next
         </button>
       </div>
-      {/* <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <ReportAlter taskId={taskId} setShowPop={setShowPop} API={API} />
-      </Pop> */}
+      <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
+        <ReportAlert rowId={rowId} setShowPop={setShowPop} API={API} />
+      </Pop>
     </div>
   );
 };

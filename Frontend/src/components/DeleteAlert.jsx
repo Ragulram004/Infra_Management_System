@@ -6,7 +6,7 @@ import { useAuthContext } from '../hooks/useAuthContext'
 import { useNavigate } from 'react-router-dom';
 
 
-const DeleteAlter = ({rowId , setShowPop,API }) => {
+const DeleteAlert = ({rowId , setShowPop,API }) => {
   const {dispatch} = usePersonnelsContext()
   const {user} = useAuthContext()
   const navigate = useNavigate()
@@ -56,4 +56,4 @@ const DeleteAlter = ({rowId , setShowPop,API }) => {
   )
 }
 
-export default DeleteAlter
+export default DeleteAlert

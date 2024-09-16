@@ -3,7 +3,8 @@ import {
   getAssignedAuditors,
   getAssignedAuditor,
   createAssignedAuditor,
-  deleteAssignedAuditor
+  deleteAssignedAuditor,
+  updateAssignedAuditor
 } from '../controllers/AuditTaskController.js'
 import {requireAuth} from '../middleware/requireAuth.js'
 
@@ -22,5 +23,8 @@ router.post('/', createAssignedAuditor)
 
 // Delete a member
 router.delete('/:id', deleteAssignedAuditor)
+
+//update a audit
+router.put('/:id',updateAssignedAuditor)
 
 export default router

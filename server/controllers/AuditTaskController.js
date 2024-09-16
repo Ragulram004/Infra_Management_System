@@ -57,9 +57,26 @@ const deleteAssignedAuditor = async (req, res) => {
   res.status(200).json(audit)
 }
 
+//update a audit
+const updateAssignedAuditor = async(req,res) =>{
+  const {id} = req.params
+
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    return res.status(404).json({error:"No Such Audit"})
+  }
+  const audit = await AuditTask.findOneAndUpdate({_id:id},{
+    ...req.body
+  })
+  if(!audit) {
+    return res.status(400).json({error:"No Such Audit"})
+  }
+  res.status(200).json(audit)
+}
+
 export{
   getAssignedAuditors,
   getAssignedAuditor,
   createAssignedAuditor,
-  deleteAssignedAuditor
+  deleteAssignedAuditor,
+  updateAssignedAuditor
 }

@@ -25,6 +25,6 @@ router.post('/', createPersonnel)
 router.delete('/:id', deletePersonnel)
 
 // Update a member
-router.patch('/:id', updatePersonnel)
+router.put('/:id', updatePersonnel)
 
 export default router
