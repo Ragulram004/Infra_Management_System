@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import AuditTaskDetails from './AuditTaskDetails';
 import { useAuthContext } from '../../../hooks/useAuthContext';
+import { usePersonnelsContext } from '../../../hooks/usePersonnelContext';
 
 const AuditTask = () => {
-  const API = import.meta.env.VITE_INTRA_API_AUDITTASK; // Adjust this to your actual API endpoint
+  const API = import.meta.env.VITE_INTRA_API_AUDITTASK;
 
   const { user } = useAuthContext();
-  const [tasks, setTasks] = useState([]);
+  const { personnels, dispatch } = usePersonnelsContext();
 
   useEffect(() => {
     const fetchAuditTasks = async () => {
@@ -20,7 +21,7 @@ const AuditTask = () => {
 
         if (response.ok) {
           const filteredTasks = json.filter(task => task.email === user.email);
-          setTasks(filteredTasks);
+          dispatch({ type: 'SET_PERSONNELS', payload: filteredTasks });
         }
       } catch (error) {
         console.log("Fetch Error:", error);
@@ -28,14 +29,14 @@ const AuditTask = () => {
     };
 
     if (user) fetchAuditTasks();
-  }, [user]);
+  }, [dispatch, user, personnels]);
 
   return (
     <div className='relative'>
       <div className='p-3'>
         <h1 className='text-[20px] md:text-3xl text-primary font-[900] '>View or Report Audit Tasks</h1>
       </div>
-      <AuditTaskDetails tasks={tasks} API={API} />
+      <AuditTaskDetails personnels={personnels} API={API} />
     </div>
   );
 };

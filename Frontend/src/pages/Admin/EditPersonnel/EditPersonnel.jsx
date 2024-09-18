@@ -39,7 +39,6 @@ const EditPersonnel = () => {
       <div className='absolute py-3 right-3'>
         <button 
           className='bg-primary text-white text-sm md:text-md  font-bold py-2 px-4  rounded-lg' 
-          title='Add Personnel text-2xl' 
           onClick={() => setShowPop(true)}
         >
           Add Personnel

@@ -18,10 +18,17 @@ export const personnelsReducer = (state, action) => {
           (personnel) => personnel._id !== action.payload._id
         ),
       };
+    case 'UPDATE_PERSONNEL':
+      return {
+        personnels: state.personnels.map(personnel =>
+          personnel._id === action.payload._id ? action.payload : personnel
+        ),
+      };
     default:
       return state;
   }
 };
+
 
 export const PersonnelsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(personnelsReducer, {

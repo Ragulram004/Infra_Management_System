@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePersonnelsContext } from "../hooks/usePersonnelContext";
 
 const ReportAlert = ({ setShowPop, API, rowId }) => {
-  const {dispatch} = usePersonnelsContext()
+  const { dispatch } = usePersonnelsContext();
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -16,21 +16,29 @@ const ReportAlert = ({ setShowPop, API, rowId }) => {
       return;
     }
 
-    const response = await fetch(API+rowId.original._id, {
-      method: 'PUT',  
+    // Send a PATCH request to update the status of the selected row
+    const response = await fetch(API + rowId.original._id, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`,
       },
-      body: JSON.stringify({ status: true }),  // Update status to true
+      body: JSON.stringify({ status: true })
     });
 
     const json = await response.json();
 
     if (response.ok) {
-      dispatch({type:'SET_PERSONNELS',payload:json})
+      // Dispatch the updated personnel/audit task to the context
+      dispatch({ type: 'UPDATE_PERSONNEL', payload: json });
+
+      // Close the modal
       setShowPop(false);
-      toast.success('Status updated to No Issue', { autoClose: 4000 });
+
+      // Show success toast
+      toast.success('Status updated to No Issue successfully', {
+        autoClose: 4000,
+      });
     } else {
       toast.error('Failed to update status');
     }

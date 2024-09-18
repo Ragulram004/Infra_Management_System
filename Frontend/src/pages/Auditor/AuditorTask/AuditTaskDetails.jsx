@@ -5,21 +5,17 @@ import Pop from '../../../components/Pop';
 import ReportAlert from '../../../components/ReportAlert';
 import GlobalFilter from '../../../components/GlobalFilter';
 
-const AuditTaskDetails = ({ tasks, API }) => {
+const AuditTaskDetails = ({ personnels, API }) => {
+  // Reverse the data
+  const reversedData = useMemo(() => 
+    [...(personnels || [])].reverse(), 
+    [personnels]
+  );
+
   const columns = useMemo(() => auditortasks, []);
-  const data = useMemo(() => (tasks ? tasks.slice().reverse() : []), [tasks]);
 
   const [showPop, setShowPop] = useState(false);
   const [rowId, setRowId] = useState(null);
-
-  const tableInstance = useTable(
-    {
-      columns,
-      data,
-    },
-    useGlobalFilter,
-    usePagination
-  );
 
   const {
     getTableProps,
@@ -34,7 +30,15 @@ const AuditTaskDetails = ({ tasks, API }) => {
     state,
     setGlobalFilter,
     prepareRow,
-  } = tableInstance;
+  } = useTable(
+    {
+      columns,
+      data: reversedData, // Use the reversed data here
+    },
+    useGlobalFilter,
+    usePagination
+  );
+
   const { globalFilter, pageIndex } = state;
 
   return (
@@ -62,7 +66,9 @@ const AuditTaskDetails = ({ tasks, API }) => {
               return (
                 <tr
                   {...row.getRowProps()}
-                  className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b border-b-border hover:bg-gray-50 font-[600]`}
+                  className={`${
+                    index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                  } border-b border-b-border hover:bg-gray-50 font-[600]`}
                 >
                   {row.cells.map(cell => (
                     <td
@@ -71,8 +77,8 @@ const AuditTaskDetails = ({ tasks, API }) => {
                     >
                       {cell.column.id === 'Report' ? (
                         <button
-                          className='bg-warning text-xs md:text-sm text-white p-2 rounded-lg font-extrabold bg-primary'
-                          onClick={() => { setShowPop(true); setRowId(row); }} 
+                          className="bg-primary text-xs md:text-sm text-white p-2 rounded-lg font-extrabold"
+                          onClick={() => { setShowPop(true); setRowId(row); }}
                         >
                           Report
                         </button>
@@ -96,7 +102,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
         >
           Previous
         </button>
-        <span className='text-primary'>
+        <span className="text-primary">
           Page <b>{pageIndex + 1}</b> of <b>{pageOptions.length}</b>
         </span>
         <button
@@ -107,6 +113,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
           Next
         </button>
       </div>
+
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
         <ReportAlert rowId={rowId} setShowPop={setShowPop} API={API} />
       </Pop>

@@ -76,7 +76,7 @@ export const assignedauditsColumns = [
     accessor: 'status',
     Cell: ({ value }) => (
       <span
-        className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold ${
+        className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ${
           value ? 'border-2 border-success' : 'border-2 border-error'
         }`}
       >
@@ -111,7 +111,7 @@ export const auditortasks = [
     accessor: 'status',
     Cell: ({ value }) => (
       <span
-        className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold ${
+        className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ${
           value ? 'border-2 border-success' : 'border-2 border-error'
         }`}
       >

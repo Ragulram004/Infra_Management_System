@@ -25,6 +25,6 @@ router.post('/', createAssignedAuditor)
 router.delete('/:id', deleteAssignedAuditor)
 
 //update a audit
-router.put('/:id',updateAssignedAuditor)
+router.patch('/:id',updateAssignedAuditor)
 
 export default router
