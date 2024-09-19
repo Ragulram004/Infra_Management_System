@@ -5,11 +5,11 @@ import Pop from '../../../components/Pop';
 import ReportAlert from '../../../components/ReportAlert';
 import GlobalFilter from '../../../components/GlobalFilter';
 
-const AuditTaskDetails = ({ personnels, API }) => {
+const AuditTaskDetails = ({ tasks, API }) => {
   // Reverse the data
   const reversedData = useMemo(() => 
-    [...(personnels || [])].reverse(), 
-    [personnels]
+    [...(tasks || [])].reverse(), 
+    [tasks]
   );
 
   const columns = useMemo(() => auditortasks, []);

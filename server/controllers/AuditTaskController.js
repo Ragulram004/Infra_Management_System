@@ -1,5 +1,6 @@
 import AuditTask from "../models/auditTaskModel.js";
 import mongoose from "mongoose";
+import {io} from '../server.js'
 
 //get all audits
 const getAssignedAuditors = async (req, res) => {
@@ -37,6 +38,7 @@ const createAssignedAuditor = async (req, res) => {
   //add doc to db 
   try{
     const audit = await AuditTask.create({ name, phone, email, status, role, area, gender,deadline})
+    io.emit('createdAudit', audit)
     res.status(200).json(audit)
   }catch(error){
     res.status(400).json({ error: error.message })
@@ -54,6 +56,7 @@ const deleteAssignedAuditor = async (req, res) => {
   if(!audit) {
     return res.status(400).json({error:"No Such Audit"})
   }
+  io.emit('deletedAudit', id)
   res.status(200).json(audit)
 }
 
@@ -64,12 +67,15 @@ const updateAssignedAuditor = async(req,res) =>{
   if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({error:"No Such Audit"})
   }
-  const audit = await AuditTask.findOneAndUpdate({_id:id},{
-    ...req.body
-  })
+  const audit = await AuditTask.findOneAndUpdate(
+    {_id:id},
+    {...req.body},
+    { new: true }
+  )
   if(!audit) {
     return res.status(400).json({error:"No Such Audit"})
   }
+  io.emit('updatedAudit', audit)
   res.status(200).json(audit)
 }
 

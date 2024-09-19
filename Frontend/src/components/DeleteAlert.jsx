@@ -1,13 +1,11 @@
 import React from 'react'
 import { FaRegCircleXmark } from "react-icons/fa6";
-import { usePersonnelsContext } from '../hooks/usePersonnelContext';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useNavigate } from 'react-router-dom';
 
 
 const DeleteAlert = ({rowId , setShowPop,API }) => {
-  const {dispatch} = usePersonnelsContext()
   const {user} = useAuthContext()
   const navigate = useNavigate()
 
@@ -27,7 +25,6 @@ const DeleteAlert = ({rowId , setShowPop,API }) => {
     const json = await response.json()
 
     if(response.ok){
-      dispatch({type:'DELETE_PERSONNEL' , payload:json})
       setShowPop(false)
       toast.success('Removed Successfully',{
         autoClose:4000,
@@ -36,10 +33,7 @@ const DeleteAlert = ({rowId , setShowPop,API }) => {
     
   };
 
-  return (
-    // <div onClick={() => handleDelete(rowId)}>
-    //   delete
-    // </div>
+  return (    
     <div className='flex flex-col justify-center items-center p-2'>
       <div className='p-2 pt-0 lg:pt-2'>
         <FaRegCircleXmark className='w-16 h-16 text-error    ' />      

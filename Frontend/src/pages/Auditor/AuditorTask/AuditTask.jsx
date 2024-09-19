@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuditTaskDetails from './AuditTaskDetails';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import { usePersonnelsContext } from '../../../hooks/usePersonnelContext';
+import io from 'socket.io-client'
 
 const AuditTask = () => {
   const API = import.meta.env.VITE_INTRA_API_AUDITTASK;
 
   const { user } = useAuthContext();
-  const { personnels, dispatch } = usePersonnelsContext();
+  const [socket,setSocket] = useState(null);
+  const [tasks,setTasks] = useState([])
 
   useEffect(() => {
     const fetchAuditTasks = async () => {
@@ -21,7 +22,7 @@ const AuditTask = () => {
 
         if (response.ok) {
           const filteredTasks = json.filter(task => task.email === user.email);
-          dispatch({ type: 'SET_PERSONNELS', payload: filteredTasks });
+          setTasks(filteredTasks)
         }
       } catch (error) {
         console.log("Fetch Error:", error);
@@ -29,14 +30,29 @@ const AuditTask = () => {
     };
 
     if (user) fetchAuditTasks();
-  }, [dispatch, user, personnels]);
+
+    const newSocket = io('http://localhost:4500')
+    setSocket(newSocket)
+
+    newSocket.on('updatedAudit', (updatedAudit) => {
+      setTasks((prevAudit) =>
+        prevAudit.map((audit) =>
+          audit._id === updatedAudit._id ? updatedAudit : audit
+        )
+      );
+    });
+    
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [user]);
 
   return (
     <div className='relative'>
       <div className='p-3'>
         <h1 className='text-[20px] md:text-3xl text-primary font-[900] '>View or Report Audit Tasks</h1>
       </div>
-      <AuditTaskDetails personnels={personnels} API={API} />
+      <AuditTaskDetails tasks={tasks} API={API} />
     </div>
   );
 };

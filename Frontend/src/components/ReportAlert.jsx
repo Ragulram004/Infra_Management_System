@@ -2,10 +2,8 @@ import { CiCamera } from "react-icons/ci";
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
-import { usePersonnelsContext } from "../hooks/usePersonnelContext";
 
 const ReportAlert = ({ setShowPop, API, rowId }) => {
-  const { dispatch } = usePersonnelsContext();
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -28,11 +26,7 @@ const ReportAlert = ({ setShowPop, API, rowId }) => {
 
     const json = await response.json();
 
-    if (response.ok) {
-      // Dispatch the updated personnel/audit task to the context
-      dispatch({ type: 'UPDATE_PERSONNEL', payload: json });
-
-      // Close the modal
+    if (response.ok) {      
       setShowPop(false);
 
       // Show success toast
@@ -45,9 +39,9 @@ const ReportAlert = ({ setShowPop, API, rowId }) => {
   };
 
   return (
-    <div className='flex flex-col justify-center items-center p-2'>
+    <div className='flex flex-col justify-center items-center '>
       <div className='text-center '>
-        <h2 className='font-extrabold text-2xl text-primary underline'>Report To Auditor</h2> 
+        <h2 className='font-extrabold text-2xl text-primary underline'>Report Issue</h2> 
         <p className='text-primary text-xl font-bold'>Is There any Issue? </p>
         <p className='text-primary text-sm '>If yes, Capture the issue </p>
       </div>

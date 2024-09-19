@@ -5,9 +5,9 @@ import Pop from '../../../components/Pop';
 import DeleteAlert from '../../../components/DeleteAlert';
 import GlobalFilter from '../../../components/GlobalFilter'; 
 
-const AssignedAuditDetails = ({ personnels, API }) => {
+const AssignedAuditDetails = ({ auditTasks, API }) => {
   const columns = useMemo(() => assignedauditsColumns, []);
-  const data = personnels || []; // Ensure `data` is never undefined or null
+  const data = auditTasks || []; // Ensure `data` is never undefined or null
 
   const [showPop, setShowPop] = useState(false);
   const [rowId, setRowId] = useState(null);

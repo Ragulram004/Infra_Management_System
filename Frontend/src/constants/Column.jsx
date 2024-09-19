@@ -103,10 +103,6 @@ export const auditortasks = [
     accessor: 'area',
   },
   {
-    Header: 'Deadline',
-    accessor: 'deadline'
-  },
-  {
     Header: 'Status',
     accessor: 'status',
     Cell: ({ value }) => (
@@ -118,6 +114,10 @@ export const auditortasks = [
         {value ? '🟢Completed' : '🔴Pending'}
       </span>
     ),
+  },
+  {
+    Header: 'Deadline',
+    accessor: 'deadline'
   },
   {
     Header:'Report'

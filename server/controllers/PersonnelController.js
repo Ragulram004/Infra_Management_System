@@ -1,5 +1,6 @@
 import Personnel from '../models/personnelModel.js'
 import mongoose from 'mongoose'
+import {io} from '../server.js'
 
 //get all members
 const getPersonnels = async(req,res)=>{
@@ -25,44 +26,45 @@ const getPersonnel = async (req,res)=>{
 }
 
 //create New personnel
-const createPersonnel = async (req,res)=>{
-  const { name, phone, email, role, dept, gender } = req.body
+const createPersonnel = async (req, res) => {
+  const { name, phone, email, role, dept, gender } = req.body;
 
-  let emptyFields = []
-  if(!name) emptyFields.push('Name');
-  if(!phone) emptyFields.push('Phone');
-  if(!email) emptyFields.push('Email');
-  if(!role) emptyFields.push('Role');
-  if(!dept) emptyFields.push('Department');
-  if(!gender) emptyFields.push('Gender');
-  if(emptyFields.length > 0) {
-    return res.status(400).json({error: 'Please fill in all the fields', emptyFields})
+  let emptyFields = [];
+  if (!name) emptyFields.push('Name');
+  if (!phone) emptyFields.push('Phone');
+  if (!email) emptyFields.push('Email');
+  if (!role) emptyFields.push('Role');
+  if (!dept) emptyFields.push('Department');
+  if (!gender) emptyFields.push('Gender');
+  if (emptyFields.length > 0) {
+    return res.status(400).json({ error: 'Please fill in all the fields', emptyFields });
   }
 
-  //add doc to db
   try {
-    const personnel = await Personnel.create({ name, phone, email, role, dept, gender })
-    res.status(200).json(personnel)
+    const personnel = await Personnel.create({ name, phone, email, role, dept, gender });
+    io.emit('createPersonnel', personnel); // Emit event when personnel is created
+    res.status(200).json(personnel);
   } catch (error) {
-    res.status(400).json({ error: error.message})
+    res.status(400).json({ error: error.message });
   }
- 
-}
+};
 
 //delete a personnel
-const deletePersonnel = async(req,res)=>{
-  const {id} = req.params
-  
-  if(!mongoose.Types.ObjectId.isValid(id)){
-    return res.status(404).json({Error: ' No Such Personnel'})
+const deletePersonnel = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'No Such Personnel' });
   }
 
-  const personnel = await Personnel.findOneAndDelete({_id:id})
-  if(!personnel) {
-    return res.status(400).json({error:"No Such Personnel"})
+  const personnel = await Personnel.findOneAndDelete({ _id: id });
+  if (!personnel) {
+    return res.status(400).json({ error: 'No Such Personnel' });
   }
-  res.status(200).json(personnel)
-}
+
+  io.emit('deletePersonnel', id); // Emit event when personnel is deleted
+  res.status(200).json(personnel);
+};
 
 //update a personnel
 const updatePersonnel = async(req,res)=>{
@@ -71,9 +73,11 @@ const updatePersonnel = async(req,res)=>{
   if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({Error: ' No Such Personnel'})
   }
-  const personnel = await Personnel.findOneAndUpdate({_id:id},{
-    ...req.body
-  })
+  const personnel = await Personnel.findOneAndUpdate(
+    {_id:id},
+    {...req.body},
+    { new: true }  
+  )
 
   if(!personnel) {
     return res.status(400).json({error:"No Such Personnel"})

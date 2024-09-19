@@ -1,5 +1,4 @@
 import { useState, useEffect , useRef } from 'react';
-import { usePersonnelsContext } from '../../../hooks/usePersonnelContext';
 import { useNavigate } from 'react-router-dom';
 
 import DatePicker from '../../../components/DatePicker';
@@ -10,7 +9,6 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
   const API = import.meta.env.VITE_INTRA_API_AUDITTASK
 
   const navigate = useNavigate();
-  const { dispatch } = usePersonnelsContext();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dept, setDept] = useState('');
@@ -71,7 +69,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
       setDeadline('');
       setArea('');
       setError(null);
-      dispatch({ type: 'CREATE_PERSONNEL', payload: json });
+      // dispatch({ type: 'CREATE_PERSONNEL', payload: json });
       setShowPop(false);
       navigate('/Assigned_Audits');
       toast.success("Audit Assigned Successfully")

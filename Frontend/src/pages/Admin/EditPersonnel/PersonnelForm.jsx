@@ -1,14 +1,10 @@
 import { useState } from 'react';
 import {toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
-
-import { usePersonnelsContext } from '../../../hooks/usePersonnelContext';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const PersonnelForm = ({ setShowPop }) => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL
-
-  const { dispatch } = usePersonnelsContext();
   const [name, setName] = useState('');
   const [dept, setDept] = useState('');
   const [gender, setGender] = useState('');
@@ -58,8 +54,6 @@ const PersonnelForm = ({ setShowPop }) => {
       setRole('');
       setError(null);
       setEmptyFields([])
-      dispatch({ type: 'CREATE_PERSONNEL', payload: json });
-      console.log(json);
       setShowPop(false); 
       toast.success('Personnel Added Successfully',{
         autoClose:4000,
