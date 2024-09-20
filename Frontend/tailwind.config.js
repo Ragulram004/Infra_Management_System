@@ -14,7 +14,17 @@ export default {
       },
       fontFamily:{
         regular : ['Nunito Sans']
-      }
+      },
+      keyframes: {
+        blink: {
+          '0%': { opacity: '0' },
+          '50%': { opacity: '0.8' },
+          '100%': { opacity: '0' },
+        },
+      },
+      animation: {
+        blink: 'blink 0.2s ease-out',
+      },
     },
   },
   plugins: [],

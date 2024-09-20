@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { CiCamera } from "react-icons/ci";
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
+import CameraPop from "./CameraPop";
+
 
 const ReportAlert = ({ setShowPop, API, rowId }) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const [isCameraVisible, setIsCameraVisible] = useState(false);
 
   const handleNoIssue = async (rowId) => {
     if (!user) {
@@ -48,8 +52,12 @@ const ReportAlert = ({ setShowPop, API, rowId }) => {
       <div className='flex gap-2 p-2' >
         <button className='bg-primary text-white font-bold px-2 py-1 rounded-md' onClick={() => setShowPop(false)}>Cancel</button>
         <button className='bg-success text-white font-bold px-2 py-1 rounded-md' onClick={() => handleNoIssue(rowId)}>No Issue</button>
-        <button className='bg-error text-white font-bold px-2 py-1 rounded-md flex items-center'>Capture <span className="ml-1"><CiCamera /></span></button>
+        <button 
+          className='bg-error text-white font-bold px-2 py-1 rounded-md flex items-center'  
+          onClick={() => setIsCameraVisible(true)}         
+        >Capture <span className="ml-1"><CiCamera /></span></button>
       </div>
+      <CameraPop isVisible={isCameraVisible} onClose={() => setIsCameraVisible(false)}/>
     </div>
   );
 }
