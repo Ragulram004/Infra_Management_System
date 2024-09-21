@@ -8,6 +8,7 @@ import cors from 'cors'
 import {} from 'dotenv/config';
 import personnelRoutes from './routes/Personnel.js'
 import auditTaskRoutes from './routes/AuditTask.js'
+import auditReportRoutes from './routes/AuditReport.js'
 import userRoutes from './routes/User.js'
 import http from 'http'
 import {Server} from 'socket.io'
@@ -23,6 +24,10 @@ const io = new Server (server,{
   }
 })
 
+
+// Serve static files from the 'uploads' folder
+app.use('/uploads', express.static('uploads'));
+
 app.use(cors({
   origin:"http://localhost:5173",
   methods:"GET,POST,PATCH,DELETE",
@@ -34,6 +39,7 @@ app.use(express.json());
 
 app.use('/api/personnel',personnelRoutes)
 app.use('/api/auditTask',auditTaskRoutes)
+app.use('/api/auditReport',auditReportRoutes)
 app.use('/api/user',userRoutes)
 
 
@@ -42,7 +48,7 @@ io.on('connection', (socket) => {
 
   socket.on('message', (msg) => {
     console.log('Message received:', msg);
-    io.emit('message', msg); // Broadcast the message to all clients
+    io.emit('message', msg); 
   });
 
   socket.on('disconnect', () => {
@@ -55,10 +61,6 @@ export {io,server};
 //Connection to DB
 mongoose.connect(process.env.URI)
 .then(()=>{
-  //listen for requests
-  // app.listen(process.env.PORT, () => {
-  //   console.log(`Connected to DB and Server is running on PORT http://localhost:${process.env.PORT}`);
-  // })
   server.listen(process.env.PORT, () => {
     console.log(`Connected to DB and Server is running on PORT http://localhost:${process.env.PORT}`);
   })

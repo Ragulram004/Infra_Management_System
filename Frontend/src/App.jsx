@@ -23,7 +23,7 @@ function App() {
 
   // Show a loading indicator while the user data is being fetched
   if (loading) {
-    return <div>Loading...</div>; // You can replace this with a custom loader
+    return <div className='flex justify-center items-center h-screen'>Loading...</div>; // You can replace this with a custom loader
   }
 
   return (

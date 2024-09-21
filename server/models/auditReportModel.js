@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import mongoose from 'mongoose'
+const {Schema} = mongoose;
 
-const auditTaskSchema = new Schema(
+const auditreportSchema = new Schema(
   {
     name: {
       type: String,
@@ -14,19 +14,6 @@ const auditTaskSchema = new Schema(
     email: {
       type: String,
       required: true,
-    },
-    deadline: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: Boolean,
-      default: false,
-    },
-    role: {
-      type: String,
-      enum: ['auditor'],
-      required: true
     },
     area: {
       type: String,
@@ -47,13 +34,12 @@ const auditTaskSchema = new Schema(
       ],
       required: true,
     },
-    gender: {
-      type: String,
-      enum: ['male', 'female', 'others'],
+    imagepath: {
+      type: String,  // Store the path to the uploaded image
       required: true,
-    }
+    },
   },
-  { timestamps: true }
-);
+  {timestamps : true}
+)
 
-export default mongoose.model('AuditTask', auditTaskSchema);
+export default mongoose.model('AuditReport',auditreportSchema)

@@ -34,6 +34,10 @@ const AuditTask = () => {
     const newSocket = io('http://localhost:4500')
     setSocket(newSocket)
 
+    newSocket.on('createdAudit', (createdAudit) => {
+      setTasks((prevAudit) => [createdAudit, ...prevAudit]);
+    });
+
     newSocket.on('updatedAudit', (updatedAudit) => {
       setTasks((prevAudit) =>
         prevAudit.map((audit) =>
