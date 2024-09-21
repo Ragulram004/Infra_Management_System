@@ -16,6 +16,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
 
   const [showPop, setShowPop] = useState(false);
   const [rowId, setRowId] = useState(null);
+  const [selectedReport,setSelectedReport] = useState(null)
 
   const {
     getTableProps,
@@ -40,6 +41,12 @@ const AuditTaskDetails = ({ tasks, API }) => {
   );
 
   const { globalFilter, pageIndex } = state;
+
+  const handleReportClick =(row)=>{
+    setSelectedReport(row.original)
+    setShowPop(true)
+    setRowId(row)
+  }
 
   return (
     <div className="bg-white pt-14 rounded-xl">
@@ -78,7 +85,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
                       {cell.column.id === 'Report' ? (
                         <button
                           className="bg-primary text-xs md:text-sm text-white p-2 rounded-lg font-extrabold"
-                          onClick={() => { setShowPop(true); setRowId(row); }}
+                          onClick={() => handleReportClick(row)}
                         >
                           Report
                         </button>
@@ -115,7 +122,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
       </div>
 
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <ReportAlert rowId={rowId} setShowPop={setShowPop} API={API} />
+        <ReportAlert rowId={rowId} setShowPop={setShowPop} API={API} selectedReport={selectedReport} />
       </Pop>
     </div>
   );

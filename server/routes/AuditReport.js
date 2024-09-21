@@ -10,6 +10,6 @@ router.use(requireAuth);
 router.get('/', getAuditReports);
 
 // Post a new audit report with image upload
-router.post('/', upload.single('imagepath'), createAuditReport);  // Using multer for single image upload
+router.post('/', upload.single('image'), createAuditReport);  // Using multer for single image upload
 
 export default router;

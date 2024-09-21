@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import CameraPop from "./CameraPop";
 
 
-const ReportAlert = ({ setShowPop, API, rowId }) => {
+const ReportAlert = ({ setShowPop, API, rowId,selectedReport }) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [isCameraVisible, setIsCameraVisible] = useState(false);
@@ -57,7 +57,7 @@ const ReportAlert = ({ setShowPop, API, rowId }) => {
           onClick={() => setIsCameraVisible(true)}         
         >Capture <span className="ml-1"><CiCamera /></span></button>
       </div>
-      <CameraPop isVisible={isCameraVisible} onClose={() => setIsCameraVisible(false)}/>
+      <CameraPop isVisible={isCameraVisible} selectedReport={selectedReport} onClose={() => setIsCameraVisible(false)}/>
     </div>
   );
 }
