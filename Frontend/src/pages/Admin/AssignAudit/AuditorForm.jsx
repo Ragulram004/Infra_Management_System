@@ -69,7 +69,6 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
       setDeadline('');
       setArea('');
       setError(null);
-      // dispatch({ type: 'CREATE_PERSONNEL', payload: json });
       setShowPop(false);
       navigate('/Assigned_Audits');
       toast.success("Audit Assigned Successfully")

@@ -75,7 +75,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
                   {...row.getRowProps()}
                   className={`${
                     index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                  } border-b border-b-border hover:bg-gray-50 font-[600]`}
+                  } border-b border-b-border hover:bg-gray-50 font-[600] `}
                 >
                   {row.cells.map(cell => (
                     <td
@@ -83,14 +83,25 @@ const AuditTaskDetails = ({ tasks, API }) => {
                       className="px-6 py-2 text-sm text-gray-900"
                     >
                       {cell.column.id === 'Report' ? (
-                        <button
-                          className="bg-primary text-xs md:text-sm text-white p-2 rounded-lg font-extrabold"
-                          onClick={() => handleReportClick(row)}
-                        >
-                          Report
-                        </button>
+                        row.original.status === 'pending' ? (
+                          <button
+                            className="bg-primary text-xs md:text-sm text-white p-2 rounded-lg font-extrabold"
+                            onClick={() => handleReportClick(row)}
+                          >
+                            Report
+                          </button>
+                        ) : row.original.status === 'completed' ? (
+                          <button
+                            className="bg-success bg-opacity-65 text-xs md:text-sm text-white p-2 rounded-lg font-extrabold cursor-not-allowed"
+                            disabled
+                          >
+                            Reported
+                          </button>
+                        ) : null // Handle other statuses if necessary
                       ) : (
-                        cell.render('Cell')
+                        <div className="py-2">
+                          {cell.render('Cell')}
+                        </div>
                       )}
                     </td>
                   ))}

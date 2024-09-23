@@ -77,10 +77,10 @@ export const assignedauditsColumns = [
     Cell: ({ value }) => (
       <span
         className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ${
-          value ? 'border-2 border-success' : 'border-2 border-error'
+          value === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
         }`}
       >
-        {value ? '🟢Completed' : '🔴Pending'}
+        {value === 'completed' ? '🟢Completed' : '🔴Pending'}
       </span>
     ),
   },
@@ -108,10 +108,10 @@ export const auditortasks = [
     Cell: ({ value }) => (
       <span
         className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ${
-          value ? 'border-2 border-success' : 'border-2 border-error'
+          value === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
         }`}
       >
-        {value ? '🟢Completed' : '🔴Pending'}
+        {value === 'completed' ? '🟢Completed' : '🔴Pending'}
       </span>
     ),
   },

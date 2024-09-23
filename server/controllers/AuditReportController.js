@@ -1,4 +1,5 @@
 import AuditReport from '../models/auditReportModel.js';
+import mongoose from 'mongoose';
 
 // Get all audit reports
 const getAuditReports = async (req, res) => {
@@ -29,4 +30,19 @@ const createAuditReport = async (req, res) => {
   }
 };
 
-export { getAuditReports, createAuditReport };
+//delete a report
+const deleteReport = async(req,res) =>{
+  const {id} = req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    return res.status(404).json({error:"No such Report"});
+  }
+
+  const report = await AuditReport.findOneAndDelete({_id:id});
+
+  if(!report){
+    return res.status(404).json({error:"No such Report"})
+  }
+  res.status(200).json(report)
+}
+
+export { getAuditReports, createAuditReport , deleteReport };

@@ -81,7 +81,9 @@ const PersonnelDetails = ({ personnels ,API }) => {
                           </button>
                         </>
                       ) : (
-                        cell.render('Cell')
+                        <div className='py-2'>
+                          {cell.render('Cell')}
+                        </div>
                       )}
                     </td>
                   ))}

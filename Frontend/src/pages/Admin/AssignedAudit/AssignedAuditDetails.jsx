@@ -71,17 +71,26 @@ const AssignedAuditDetails = ({ auditTasks, API }) => {
                       {...cell.getCellProps()}
                       className="px-6 py-2 text-sm text-gray-900"
                     >
-                      {cell.column.id === 'Delete' ? (
-                        <>
+                      {cell.column.id === 'Delete'? (
+                        row.original.status === 'completed' ? (
+                          <button
+                            className="bg-success bg-opacity-65 text-xs md:text-sm text-white p-2 rounded-lg font-extrabold cursor-not-allowed"
+                            disabled
+                          >
+                            Reported
+                          </button>
+                        ) : row.original.status === 'pending' ? (
                           <button 
                             className='bg-error text-xs md:text-sm text-white p-2 rounded-lg font-extrabold'
                             onClick={() => {setShowPop(true); setRowId(row)}}
                           >
                             Delete
                           </button>
-                        </>
+                        ) : null
                       ) : (
-                        cell.render('Cell')
+                        <div className='py-2'>
+                          {cell.render('Cell')}
+                        </div>
                       )}
                     </td>
                   ))}

@@ -12,7 +12,9 @@ const videoConstraints = {
   facingMode: 'user'      // Front-facing camera for mobile
 };
 
-const CameraPop = ({ isVisible, onClose ,selectedReport }) => {
+const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
+  const StatApi = import.meta.env.VITE_INTRA_API_AUDITTASK;
+
   const {user} = useAuthContext();
   const navigate = useNavigate();
   const [image, setImage] = useState('');
@@ -77,10 +79,23 @@ const CameraPop = ({ isVisible, onClose ,selectedReport }) => {
       })
       const json = await response.json();
       if(response.ok){
-        toast.success('Report submitted successfully');
-        onClose();
+        const updatestatus = await fetch(StatApi+`${selectedReport._id}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ status: 'completed' }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
+          }
+        })
+        if(updatestatus.ok){
+          toast.success('Report submitted successfully');
+          onClose();
+          setShowPop(false)
+        }else{
+          toast.error('Failed to update status');
+        }
       }else{
-        console.log('Failed to submit report',json.error);
+        console.log('Failed to submit report');
       }
     }catch(error){
       console.log(error);

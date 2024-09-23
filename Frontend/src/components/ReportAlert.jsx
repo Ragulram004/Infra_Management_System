@@ -25,10 +25,10 @@ const ReportAlert = ({ setShowPop, API, rowId,selectedReport }) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`,
       },
-      body: JSON.stringify({ status: true })
+      body: JSON.stringify({ status: 'completed' })
     });
 
-    const json = await response.json();
+    // const json = await response.json();
 
     if (response.ok) {      
       setShowPop(false);
@@ -57,7 +57,7 @@ const ReportAlert = ({ setShowPop, API, rowId,selectedReport }) => {
           onClick={() => setIsCameraVisible(true)}         
         >Capture <span className="ml-1"><CiCamera /></span></button>
       </div>
-      <CameraPop isVisible={isCameraVisible} selectedReport={selectedReport} onClose={() => setIsCameraVisible(false)}/>
+      <CameraPop setShowPop={setShowPop} isVisible={isCameraVisible} selectedReport={selectedReport} onClose={() => setIsCameraVisible(false)}  />
     </div>
   );
 }

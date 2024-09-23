@@ -84,7 +84,9 @@ const AuditorDetails = ({ auditors }) => {
                           Assign
                         </button>
                       ) : (
-                        cell.render('Cell')
+                        <div className='py-2'>
+                          {cell.render('Cell')}
+                        </div>
                       )}
                     </td>
                   ))}

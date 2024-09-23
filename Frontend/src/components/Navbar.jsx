@@ -4,6 +4,7 @@ import { IoReorderThree } from 'react-icons/io5';
 import classNames from 'classnames';
 import { useNavigate} from 'react-router-dom' 
 import { useLogout } from '../hooks/useLogout';
+import { IoMdLogOut } from "react-icons/io";
 
 export default function Navbar({ sidebarVisible, setSidebarVisible }) {
   const {logout} = useLogout();
@@ -22,13 +23,10 @@ export default function Navbar({ sidebarVisible, setSidebarVisible }) {
       </div>
       <div className='flex items-center gap-2 mr-2'>
         <Menu as='div' className='relative'>
-          <Menu.Button className='ml-2 bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-400'>
+          <Menu.Button className='ml-2 bg-primary flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-400'>
             <span className='sr-only'>Open user menu</span>
-            <div
-              className='h-7 w-7 lg:h-10 lg:w-10 rounded-full bg-primary bg-cover bg-no-repeat bg-center'
-              style={{ backgroundImage: 'url("https://source.unsplash.com/80x80?face")' }}
-            >
-              <span className='sr-only'>User</span>
+            <div className='text-white'>
+              <IoMdLogOut fontSize={24} />
             </div>
           </Menu.Button>
           <Transition
