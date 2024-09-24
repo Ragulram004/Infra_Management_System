@@ -26,7 +26,7 @@ export default function Navbar({ sidebarVisible, setSidebarVisible }) {
           <Menu.Button className='ml-2 bg-primary flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-400'>
             <span className='sr-only'>Open user menu</span>
             <div className='text-white'>
-              <IoMdLogOut fontSize={24} />
+              <IoMdLogOut fontSize={30} />
             </div>
           </Menu.Button>
           <Transition
