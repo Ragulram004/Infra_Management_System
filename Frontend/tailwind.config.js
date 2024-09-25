@@ -25,6 +25,9 @@ export default {
       animation: {
         blink: 'blink 0.2s ease-out',
       },
+      boxShadow:{
+        'custom-inset': 'rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;',
+      }
     },
   },
   plugins: [],

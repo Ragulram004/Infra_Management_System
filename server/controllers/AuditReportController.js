@@ -1,5 +1,6 @@
 import AuditReport from '../models/auditReportModel.js';
 import mongoose from 'mongoose';
+import {io} from '../server.js'
 
 // Get all audit reports
 const getAuditReports = async (req, res) => {
@@ -23,7 +24,7 @@ const createAuditReport = async (req, res) => {
       area, 
       imagepath: imagePath  // Save the image path in the database
     });
-
+    io.emit('createdAuditReport', report);
     res.status(200).json(report);
   } catch (error) {
     res.status(400).json({ error: error.message });
