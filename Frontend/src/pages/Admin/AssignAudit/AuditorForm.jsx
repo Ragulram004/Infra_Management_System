@@ -165,7 +165,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
             value={area}
             onChange={(e) => setArea(e.target.value)}
           >
-            <option value="select">Select</option>
+            <option value="select">Select Area</option>
             <option value="Main Auditorium Stage">Main Auditorium Stage</option>
             <option value="Learning Centre Backside Restroom">Learning Centre Backside Restroom</option>
             <option value="Football Playground Restroom">Football Playground Restroom</option>

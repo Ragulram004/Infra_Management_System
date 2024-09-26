@@ -3,15 +3,25 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import { formatDistance } from 'date-fns';
 import { AiOutlineAudit } from 'react-icons/ai';
 import { TbMessageReport } from "react-icons/tb";
+import Pop from '../../../components/Pop';
 import io from 'socket.io-client';
+import HandymanForm from './HandymanForm';
 
 const AuditorReport = () => {
   const API = import.meta.env.VITE_INFRA_API_AUDITREPORT;
+
+  const [showPop, setShowPop] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
   const [reports, setReports] = useState([]);
   const { user } = useAuthContext();
   const [selectedImage, setSelectedImage] = useState(null); // For image full-screen pop-up
   const [loading, setLoading] = useState(true); // Loading state
   const [socket, setSocket] = useState(null);
+
+  const handleAssignClick = (report) => {
+    setSelectedReport(report);
+    setShowPop(true);
+  }
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -114,7 +124,10 @@ const AuditorReport = () => {
                         <p> Reported  <span className='font-bold'>· {formatDistance(new Date(report.createdAt), new Date(),{addSuffix: true})}</span></p> 
                       </div>
                       <div className=' pb-2 px-2 '>
-                        <button className=' bg-primary text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'>
+                        <button 
+                          className=' bg-primary text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'
+                          onClick={() => handleAssignClick(report)}
+                        >
                           Assign Handyman
                         </button>
                       </div>
@@ -134,6 +147,9 @@ const AuditorReport = () => {
           <button className='absolute top-4 right-4 text-white text-2xl' onClick={handleCloseImage}>×</button>
         </div>
       )}
+      <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
+        <HandymanForm setShowPop={setShowPop} selectedReport={selectedReport} />
+      </Pop>
     </div>
   );
 };

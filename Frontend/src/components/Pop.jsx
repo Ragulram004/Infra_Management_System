@@ -10,13 +10,13 @@ const Pop = ({ isVisible, onClose, children }) => {
   return (
     <div
       id="wrapper"
-      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-65 backdrop-blur-[2px] flex justify-center items-center z-50"
       onClick={handleClose}
     >
       <div className="w-[350px] md:w-auto flex flex-col bg-white rounded-lg p-2">
         <button
           onClick={() => onClose()}
-          className="text-sm lg:hidden text-white self-end bg-black opacity-50 w-7 h-7 rounded-full mb-2"
+          className="text-sm lg:hidden text-white self-end bg-black opacity-50 w-6 h-6 rounded-full mb-2"
         >
           x
         </button>
