@@ -1,5 +1,6 @@
 import { useState, useEffect , useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 import DatePicker from '../../../components/DatePicker';
 import { toast } from 'react-toastify';
@@ -86,7 +87,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
               Name:
             </label>
             <input
-              className="input-field"
+              className="input-field cursor-not-allowed"
               id="name"
               value={name}
               type="text"
@@ -99,7 +100,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
               Department:
             </label>
             <input
-              className="input-field"
+              className="input-field cursor-not-allowed"
               id="dept"
               value={dept}
               type="text"
@@ -114,7 +115,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
               Phone:
             </label>
             <input
-              className="input-field"
+              className="input-field cursor-not-allowed"
               id="phone"
               value={phone}
               type="text"
@@ -135,23 +136,12 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
                 readOnly
               />
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-5 h-5 text-gray-400"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8 7V3m8 4V3m-9 8h10M5 11h14m2 9a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z"
-                  />
-                </svg>
+                <FaRegCalendarAlt />
               </span>
             </div>
-            {openCalender && <DatePicker className="absolute" setDeadline={setDeadline} setOpenCalender={setOpenCalender} />}          
+            <div className='absolute'>
+              {openCalender && <DatePicker className="absolute" setDeadline={setDeadline} setOpenCalender={setOpenCalender} />}   
+            </div>         
           </div>         
         </div>
 

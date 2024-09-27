@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react'
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import DatePicker from '../../../components/DatePicker';
 import { toast } from 'react-toastify';
+import { FaRegCalendarAlt } from "react-icons/fa";
+
 
 const HandymanForm = ({setShowPop, selectedReport}) => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL
@@ -12,14 +14,15 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   const [area,setArea] = useState('')
   const [name,setName] = useState('');
   const [dept,setDept] = useState('');
-  const  [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState('');
   const [deadline, setDeadline] = useState('');
   const [emptyFields,setEmptyFields]= useState([])
   const [openCalender , setOpenCalender] = useState(false)
-  const [authorized, setAuthorized] = useState(true);
+  const [handyman, sethanyman] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(handyman)
     // setShowPop(false);
   }
 
@@ -70,7 +73,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   const handleAutoFill = (id) => {
     const person = personnel.find((person) => person._id === id);
     if (person) {
-      // setName(person.name);
+      sethanyman(person);
       setDept(person.dept);
       setPhone(person.phone);
     }
@@ -125,30 +128,19 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
                 readOnly
               />
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-5 h-5 text-gray-400"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8 7V3m8 4V3m-9 8h10M5 11h14m2 9a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z"
-                  />
-                </svg>
+                <FaRegCalendarAlt />
               </span>
             </div>
-            {openCalender && <DatePicker className="absolute" setDeadline={setDeadline} setOpenCalender={setOpenCalender} />}          
+            <div className='absolute'>
+              {openCalender && <DatePicker className="absolute" setDeadline={setDeadline} setOpenCalender={setOpenCalender} />}          
+            </div>
           </div> 
           <div className="mb-4">
             <label className="block text-primary text-sm font-bold mb-2" htmlFor="area">
               Area to Handyman:
             </label>
             <input
-              className="input-field"
+              className="input-field cursor-not-allowed"
               id="area"
               value={area}
               type="text"
@@ -163,7 +155,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
               Department:
             </label>
             <input
-              className="input-field"
+              className="input-field cursor-not-allowed"
               id="dept"
               value={dept}
               type="text"
@@ -175,7 +167,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
               Phone:
             </label>
             <input
-              className="input-field"
+              className="input-field cursor-not-allowed"
               id="phone"
               value={phone}
               type="text"

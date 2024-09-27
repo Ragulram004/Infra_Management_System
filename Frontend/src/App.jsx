@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Admin/Dashboard/Dashboard';
 import AssignAudit from './pages/Admin/AssignAudit/AssignAudit';
 import AssignedAudit from './pages/Admin/AssignedAudit/AssignedAudit';
+import AssignedFixers from './pages/Admin/AssignedFixers/AssignedFixers';
 import AuditorReport from './pages/Admin/AuditorReport/AuditorReport';
 import HandymanReport from './pages/Admin/HandymanReport/HandymanReport';
 import EditPersonnel from './pages/Admin/EditPersonnel/EditPersonnel';
@@ -45,6 +46,7 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path="/assign_audit" element={<AssignAudit />} />
                 <Route path="/assigned_audits" element={<AssignedAudit />} />
+                <Route path="/assigned_fixers" element={<AssignedFixers />}/>
                 <Route path="/auditor_report" element={<AuditorReport />} />
                 <Route path="/handyman_report" element={<HandymanReport />} />
                 <Route path="/edit_personnels" element={<EditPersonnel />} />

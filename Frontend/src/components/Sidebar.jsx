@@ -5,6 +5,7 @@ import { MdOutlineDashboard, MdOutlineEngineering } from 'react-icons/md';
 import { AiOutlineFileSearch, AiOutlineAudit } from 'react-icons/ai';
 import { LiaUserEditSolid } from "react-icons/lia";
 import { VscTools } from "react-icons/vsc";
+import { LiaToolsSolid } from "react-icons/lia";
 
 import { useAuthContext } from '../hooks/useAuthContext';
 
@@ -61,6 +62,17 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
             </div>
             <div>
               <p>Assigned Audits</p>
+            </div>
+          </button>
+          <button
+            className='sidebar-button'
+            onClick={() => handleClick('Assigned_Fixers')}
+          >
+            <div>
+              <LiaToolsSolid fontSize={20} />
+            </div>
+            <div>
+              <p>Assigned Fixers</p>
             </div>
           </button>
           <button

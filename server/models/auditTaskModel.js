@@ -10,10 +10,12 @@ const auditTaskSchema = new Schema(
     phone: {
       type: String,
       required: true,
+      unique:true
     },
     email: {
       type: String,
       required: true,
+      unique:true
     },
     deadline: {
       type: String,
