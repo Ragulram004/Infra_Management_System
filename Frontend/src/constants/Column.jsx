@@ -92,6 +92,44 @@ export const assignedauditsColumns = [
     Header: 'Delete',
   }
 ];
+export const assignedfixesColumns = [
+  {
+    Header: 'Name',
+    accessor: 'name',
+  },
+  {
+    Header: 'Phone',
+    accessor: 'phone',
+  },
+  {
+    Header: 'Gender',
+    accessor: 'gender',
+  },
+  {
+    Header: 'Area Assigned',
+    accessor: 'area',
+  },
+  {
+    Header: 'Status',
+    accessor: 'status',
+    Cell: ({ value }) => (
+      <span
+        className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ${
+          value === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
+        }`}
+      >
+        {value === 'completed' ? '🟢Completed' : '🔴Pending'}
+      </span>
+    ),
+  },
+  {
+    Header: 'DeadLine',
+    accessor: 'deadline',
+  },
+  {
+    Header: 'Delete',
+  }
+];
 
 export const auditortasks = [
   {

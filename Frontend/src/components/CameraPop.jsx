@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback,useEffect } from 'react';
 import Webcam from 'react-webcam';
 import Pop from './Pop';  // Assuming the `Pop` component is already created
 import { FaBandcamp } from "react-icons/fa";
@@ -20,6 +20,20 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
   const [image, setImage] = useState('');
   const [isBlinking, setIsBlinking] = useState(false);
   const webcamRef = useRef(null);
+
+  useEffect(() => {
+    const checkCameraAccess = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream.getTracks().forEach(track => track.stop());
+      } catch (error) {
+        console.error('Camera access denied or unavailable:', error);
+        toast.error('Camera access is required to proceed.');
+      }
+    };
+
+    checkCameraAccess();
+  }, []);
 
   const capture = useCallback(() => {
     // Trigger blink effect

@@ -19,6 +19,18 @@ const loginUser = async(req,res) =>{
     res.status(400).json({error: error.message})
   }
 }
+export const LoginViaEmail = async(req,res) =>{
+  const {email} = req.body
+  try{
+    const user = await Personnel.login(email)
+    //create token
+    const token = createToken(user._id)
+    const role = user.role
+    res.status(200).json({email, role, token})
+  }catch(error){
+    res.status(400).json({error: error.message})
+  }
+}
 
 export{
   loginUser

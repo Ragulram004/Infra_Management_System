@@ -95,7 +95,7 @@ const AuditorReport = () => {
           {reports.length === 0 ? (
             <p>No Reports found</p>
           ) : (
-            <div className='flex flex-wrap gap-5 items-center justify-center'>
+            <div className='flex flex-wrap gap-5  justify-center'>
               {reports.map((report) => (
                 <div key={report._id} className=' shadow-md  rounded-lg overflow-hidden relative hover:bg-white '>
                   {report.imagepath && (

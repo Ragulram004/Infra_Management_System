@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Illustration from '../../assets/Illustration.svg';
 import bitLogo from '../../assets/bitlogo.svg';
 import google from '../../assets/google.svg';
@@ -6,10 +6,13 @@ import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useLogin } from '../../hooks/useLogin';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Login = () => {
   const { login, error, isLoading } = useLogin();
   const navigate = useNavigate(); // Initialize useNavigate
+  const [email, setEmail] = React.useState('');
+  const {dispatch} = useAuthContext();
 
   const googleResponse = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -31,6 +34,26 @@ const Login = () => {
       }
     }
   });
+  
+  // const handleSubmit = async()=>{
+  //   const res = await fetch(`https://g032l6k1-4500.inc1.devtunnels.ms/api/user/loginviaemail`,{
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ email }),
+  //   })
+  //   const json = await res.json()
+  //   if(!res.ok){
+  //     console.log(json.error)
+  //   }
+  //   if(res.ok){
+  //     localStorage.setItem('user', JSON.stringify(json));
+
+  //     // Update the auth context
+  //     dispatch({ type: 'LOGIN', payload: json });
+  //     navigate('/');
+  //   }
+  // }
+  
 
   return (
     <>
@@ -49,7 +72,6 @@ const Login = () => {
             <p className='font-light text-xs pb-4 border-b-2 text-primary w-40 md:w-56 text-center'>Get access to your account</p>
             <h1 className='font-black lg:text-lg text-sm text-primary mt-2'>Hi Welcome,</h1>
             <p className='font-light md:text-sm text-xs pb-4 text-primary'>Start with sign-in process</p>
-            
             <button 
               disabled={isLoading} 
               className='p-1 text-white bg-primary w-40 md:w-56 rounded-lg flex flex-row justify-center items-center font-bold text-xs md:text-sm' 
@@ -59,6 +81,18 @@ const Login = () => {
               <img className='w-6' src={google} alt="Google Logo" />
             </button>                    
             
+            {/* <input 
+              type="text" 
+              name="" 
+              id="" 
+              placeholder='Email' 
+              className='p-1 w-40 md:w-56 rounded-lg' 
+              onChange={(e) => setEmail(e.target.value)}
+              />
+            <button 
+              className='p-1 text-white bg-primary w-40 md:w-56 rounded-lg flex flex-row justify-center items-center font-bold text-xs md:text-sm'
+              onClick={handleSubmit}
+            >Submit</button> */}
             {error && (
               <p className='p-1 text-error bg-white w-40 md:w-56 rounded-md flex flex-row justify-center items-center font-bold text-xs md:text-sm border border-error'>
                 {error}

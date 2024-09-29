@@ -3,34 +3,76 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import DatePicker from '../../../components/DatePicker';
 import { toast } from 'react-toastify';
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 
 const HandymanForm = ({setShowPop, selectedReport}) => {
   const API = import.meta.env.VITE_INTRA_API_PERSONNEL
+  const POST_API = import.meta.env.VITE_INFRA_API_FIXERTASK
 
   const {user} = useAuthContext()
+  const navigate = useNavigate()
 
   const [personnel, setPersonnel] = useState([]);
-  const [area,setArea] = useState('')
+  const [area,setArea] = useState('');
   const [name,setName] = useState('');
   const [dept,setDept] = useState('');
   const [phone, setPhone] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [emptyFields,setEmptyFields]= useState([])
-  const [openCalender , setOpenCalender] = useState(false)
-  const [handyman, sethanyman] = useState(true);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(handyman)
-    // setShowPop(false);
-  }
+  const [email,setEmail] = useState('');
+  const [role,setRole] = useState('');
+  const [gender,setGender] = useState('');
+  const [error,setError] = useState('');
+  const [emptyFields,setEmptyFields]= useState([]);
+  const [openCalender , setOpenCalender] = useState(false);
+  const [fixer, setFixer] = useState(true);
 
   useEffect(()=>{
     if(selectedReport){
-      setArea(selectedReport.area)
+      setArea(selectedReport.area);
     }
-  },[])
+  },[selectedReport])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!user){
+      navigate('/login')
+      toast.error('You must be logged in')
+      return
+    }
+
+    const report = {name,dept,phone,email,deadline,area,role,gender}
+    const response = await fetch(POST_API,{
+      method:'POST',
+      body: JSON.stringify(report),
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
+      },
+    })
+    const json = await response.json();
+    if(!response.ok){
+      setError(json.error)
+      setEmptyFields(json.emptyFields || [])
+      console.log(json.error)
+      console.log(role)
+      console.log(gender)
+      toast.error(json.error)
+    }
+    if(response.ok){
+      setName('');
+      setDept('');
+      setEmail('');
+      setPhone('');
+      setDeadline('');
+      setArea('');
+      setError('');
+      setShowPop(false);
+      navigate('/Assigned_Fixers');
+      toast.success("Assigned Fixer Successfully");
+    }
+  }
+ 
 
   useEffect(() => {
     const fetchPersonnel = async () => {
@@ -42,14 +84,14 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
         });
 
         if(!response.ok) {
-          setError(json.error)
+          setError(json.error);
           setPersonnel([]);
           setEmptyFields(json.emptyFields || []);
-          toast.error(json.error)
-        }      
+          toast.error(json.error);
+        }
         
   
-        const json = await response.json();        
+        const json = await response.json();
   
         if (Array.isArray(json)) {
           const filteredPersonnel = json.filter(person => person.role === 'handyman');
@@ -73,9 +115,13 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   const handleAutoFill = (id) => {
     const person = personnel.find((person) => person._id === id);
     if (person) {
-      sethanyman(person);
+      setFixer(person);
       setDept(person.dept);
       setPhone(person.phone);
+      setGender(person.gender);
+      setRole(person.role);
+      setEmail(person.email);
+      setName(person.name);
     }
   }
   return (
@@ -93,15 +139,14 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
               value={name}
               onChange={(e) => {
                 const id = e.target.value
-                setName(id)
                 handleAutoFill(id)
               }}
             >
               <option value="select">Select HandyMan</option>
               {Array.isArray(personnel) && personnel.length > 0 ? (
                 personnel.map((person) => (
-                  <option 
-                    key={person._id} 
+                  <option
+                    key={person._id}
                     value={person._id}
                   >{person.name} ({person.email})</option>
                 ))
@@ -134,7 +179,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
             <div className='absolute'>
               {openCalender && <DatePicker className="absolute" setDeadline={setDeadline} setOpenCalender={setOpenCalender} />}          
             </div>
-          </div> 
+          </div>
           <div className="mb-4">
             <label className="block text-primary text-sm font-bold mb-2" htmlFor="area">
               Area to Handyman:
@@ -146,10 +191,10 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
               type="text"
               disabled
             />         
-          </div>        
+          </div>
         </div>
 
-        <div className="md:flex flex-row justify-between gap-8">      
+        <div className="md:flex flex-row justify-between gap-8">
           <div className="mb-6">
             <label className="block text-primary text-sm font-bold mb-2" htmlFor="dept">
               Department:
@@ -174,9 +219,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
               disabled
             />
           </div>
-        </div>
-
-        
+        </div>        
 
         <div className="flex items-center justify-center">
           <button
