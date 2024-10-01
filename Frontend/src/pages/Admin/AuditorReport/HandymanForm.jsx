@@ -15,6 +15,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
 
   const [personnel, setPersonnel] = useState([]);
   const [area,setArea] = useState('');
+  const [selectname,setSelectName] = useState('');
   const [name,setName] = useState('');
   const [dept,setDept] = useState('');
   const [phone, setPhone] = useState('');
@@ -25,11 +26,13 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   const [error,setError] = useState('');
   const [emptyFields,setEmptyFields]= useState([]);
   const [openCalender , setOpenCalender] = useState(false);
+  const [imagepath,setImagePath] = useState('')
   const [fixer, setFixer] = useState(true);
 
   useEffect(()=>{
     if(selectedReport){
       setArea(selectedReport.area);
+      setImagePath(selectedReport.imagepath);
     }
   },[selectedReport])
 
@@ -41,7 +44,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
       return
     }
 
-    const report = {name,dept,phone,email,deadline,area,role,gender}
+    const report = {name,dept,phone,email,deadline,area,role,gender,imagepath}
     const response = await fetch(POST_API,{
       method:'POST',
       body: JSON.stringify(report),
@@ -54,10 +57,8 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
     if(!response.ok){
       setError(json.error)
       setEmptyFields(json.emptyFields || [])
-      console.log(json.error)
-      console.log(role)
-      console.log(gender)
       toast.error(json.error)
+      return;
     }
     if(response.ok){
       setName('');
@@ -134,11 +135,12 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
           </label>
           {user.role === 'admin' ? (
             <select
-              className={emptyFields.includes('name') ? 'input-field-error' : 'input-field'}
+              className={emptyFields.includes('Name') ? 'input-field-error' : 'input-field'}
               id="area"
-              value={name}
+              value={selectname}
               onChange={(e) => {
                 const id = e.target.value
+                setSelectName(id)
                 handleAutoFill(id)
               }}
             >

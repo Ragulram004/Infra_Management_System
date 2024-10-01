@@ -25,17 +25,17 @@ const getAssignedFixer = async (req,res)=>{
 
 //create new fix
 const createAssignedFixer = async(req,res) =>{
-  const {name,phone,email,status,role,area,gender,deadline} =req.body;
+  const {name,phone,email,status,role,area,gender,deadline,imagepath} =req.body;
 
   let emptyFields =[]
   if(!name) emptyFields.push('Name');
   if(!deadline) emptyFields.push("Deadline");
-  if(emptyFields>0){
-    res.status(400).json({error:'Please fill in all the fields' , emptyFields})
+  if(emptyFields.length>0){
+    return res.status(400).json({error:'Please fill in all the fields' , emptyFields})
   }
 
   try{
-    const fix = await FixerTask.create({name, phone, email, status, role, area, gender, deadline})
+    const fix = await FixerTask.create({name, phone, email, status, role, area, gender, deadline, imagepath})
     io.emit('createdFix',fix)
     res.status(200).json(fix)
   }catch(error){

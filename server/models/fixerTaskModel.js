@@ -9,12 +9,10 @@ const fixerTaskSchema = new Schema(
     phone:{
       type:String,
       required:true,
-      unique:true
     },
     email:{
       type:String,
       required:true,
-      unique:true
     },
     deadline:{
       type:String,
@@ -47,6 +45,10 @@ const fixerTaskSchema = new Schema(
         'Board Room - SF Block (First Floor)'
       ],
       required:true,
+    },
+    imagepath: {
+      type: String,
+      required: true,
     },
     gender:{
       type:String,
