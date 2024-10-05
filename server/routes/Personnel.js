@@ -3,7 +3,8 @@ import {createPersonnel,
   getPersonnel,
   getPersonnels,
   deletePersonnel,
-  updatePersonnel
+  updatePersonnel,
+  getAuditorsByRole
 } from '../controllers/PersonnelController.js'
 import {requireAuth} from '../middleware/requireAuth.js'
 
@@ -14,6 +15,9 @@ router.use(requireAuth)
 
 // Get all personnel
 router.get('/', getPersonnels)
+
+//get all auditors
+router.get('/auditors',getAuditorsByRole)
 
 // Get a specific personnel member
 router.get('/:id', getPersonnel)
@@ -26,5 +30,6 @@ router.delete('/:id', deletePersonnel)
 
 // Update a member
 router.put('/:id', updatePersonnel)
+
 
 export default router

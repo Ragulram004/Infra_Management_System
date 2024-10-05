@@ -4,7 +4,8 @@ import {
   getAssignedAuditor,
   createAssignedAuditor,
   deleteAssignedAuditor,
-  updateAssignedAuditor
+  updateAssignedAuditor,
+  getAuditorsByEmail
 } from '../controllers/AuditTaskController.js'
 import {requireAuth} from '../middleware/requireAuth.js'
 
@@ -14,6 +15,9 @@ router.use(requireAuth)
 
 // Get all personnel
 router.get('/', getAssignedAuditors)
+
+//get by email
+router.post('/role',getAuditorsByEmail)
 
 // Get a specific personnel member
 router.get('/:id', getAssignedAuditor)

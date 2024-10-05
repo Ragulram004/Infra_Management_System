@@ -15,6 +15,10 @@ const auditreportSchema = new Schema(
       type: String,
       required: true,
     },
+    status:{
+      type:String,
+      default:'pending'
+    },
     area: {
       type: String,
       enum: [
@@ -38,6 +42,9 @@ const auditreportSchema = new Schema(
       type: String,  // Store the path to the uploaded image
       required: true,
     },
+    CompleteImagePath:{
+      type: String,
+    }
   },
   {timestamps : true}
 )

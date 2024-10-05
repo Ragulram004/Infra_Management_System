@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import CameraPop from "./CameraPop";
 
 
-const ReportAlert = ({ setShowPop, API, rowId,selectedReport }) => {
+const ReportAlert = ({ setShowPop,  rowId,selectedReport }) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [isCameraVisible, setIsCameraVisible] = useState(false);
+  const API = import.meta.env.VITE_INTRA_API_AUDITTASK;
 
   const handleNoIssue = async (rowId) => {
     if (!user) {

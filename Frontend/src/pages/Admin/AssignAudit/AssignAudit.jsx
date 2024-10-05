@@ -3,7 +3,7 @@ import AuditorDetails from './AuditorDetails';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const AssignAudit = () => {
-  const API = import.meta.env.VITE_INTRA_API_PERSONNEL
+  const API = import.meta.env.VITE_INFRA_API_AUDITORS
   const [auditors, setAuditors] = useState(null);
   const {user} = useAuthContext()
 
@@ -19,8 +19,7 @@ const AssignAudit = () => {
 
         if (response.ok) {
           // Filter the personnel data to only include auditors
-          const auditorsData = json.filter(personnel => personnel.role === 'auditor');
-          setAuditors(auditorsData);
+          setAuditors(json);
         }
       } catch (error) {
         console.log("Fetch Error:", error);

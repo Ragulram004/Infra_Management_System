@@ -21,22 +21,17 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
   const [isBlinking, setIsBlinking] = useState(false);
   const webcamRef = useRef(null);
 
-  useEffect(() => {
-    const checkCameraAccess = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop());
-      } catch (error) {
-        console.error('Camera access denied or unavailable:', error);
-        toast.error('Camera access is required to proceed.');
-      }
-    };
 
-    checkCameraAccess();
-  }, []);
 
-  const capture = useCallback(() => {
+  const capture = useCallback( async () => {
     // Trigger blink effect
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach(track => track.stop());
+    } catch (error) {
+      console.error('Camera access denied or unavailable:', error);
+      toast.error('Camera access is required to proceed.');
+    }
     setIsBlinking(true);
 
     // Capture the image after a brief delay for the blink effect

@@ -72,14 +72,14 @@ const AssignedFixersDetails = ({ fixerTasks, API }) => {
                       className="px-6 py-2 text-sm text-gray-900"
                     >
                       {cell.column.id === 'Delete' ? (
-                        row.original.status === 'completed' ? (
+                        row.original.reportId?.status === 'completed' ? (
                           <button
                             className="bg-success bg-opacity-65 text-xs md:text-sm text-white p-2 rounded-lg font-extrabold cursor-not-allowed"
                             disabled
                           >
                             Resolved
                           </button>
-                        ) : row.original.status === 'pending' ? (
+                        ) : row.original.reportId?.status === 'pending' ? (
                           <button 
                             className='bg-error text-xs md:text-sm text-white p-2 rounded-lg font-extrabold'
                             onClick={() => { setShowPop(true); setRowId(row); }}

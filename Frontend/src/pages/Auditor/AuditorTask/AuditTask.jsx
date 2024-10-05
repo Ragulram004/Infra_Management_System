@@ -4,7 +4,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import io from 'socket.io-client'
 
 const AuditTask = () => {
-  const API = import.meta.env.VITE_INTRA_API_AUDITTASK;
+  const API = import.meta.env.VITE_INFRA_API_SORTAUDIT;
 
   const { user } = useAuthContext();
   const [socket,setSocket] = useState(null);
@@ -14,29 +14,31 @@ const AuditTask = () => {
     const fetchAuditTasks = async () => {
       try {
         const response = await fetch(API, {
+          method: 'POST',
+          body: JSON.stringify({ email: user.email,role: user.role }),
           headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${user.token}`
           }
         });
         const json = await response.json();
 
         if (response.ok) {
-          const filteredTasks = json.filter(task => task.email === user.email);
-          setTasks(filteredTasks)
+          setTasks(json)
         }
       } catch (error) {
         console.log("Fetch Error:", error);
       }
     };
 
-    if (user) { 
+    if (user) {
       fetchAuditTasks();
       
       const newSocket = io('http://localhost:4500')
       setSocket(newSocket)
 
       newSocket.on('createdAudit', (createdAudit) => {
-        if(user.email === createdAudit.email){
+        if(user.email === createdAudit.userId.email){
           setTasks((prevAudit) => [...prevAudit, createdAudit]);
         }
       });
@@ -60,7 +62,7 @@ const AuditTask = () => {
       <div className='p-3'>
         <h1 className='text-[20px] md:text-3xl text-primary font-[900] '>View or Report Audit Tasks</h1>
       </div>
-      <AuditTaskDetails tasks={tasks} API={API} />
+      <AuditTaskDetails tasks={tasks}  />
     </div>
   );
 };

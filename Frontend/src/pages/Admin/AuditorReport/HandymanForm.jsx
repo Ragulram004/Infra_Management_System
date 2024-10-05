@@ -28,11 +28,15 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   const [openCalender , setOpenCalender] = useState(false);
   const [imagepath,setImagePath] = useState('')
   const [fixer, setFixer] = useState(true);
+  const [Id,setId] = useState('')
 
   useEffect(()=>{
+    
     if(selectedReport){
       setArea(selectedReport.area);
       setImagePath(selectedReport.imagepath);
+      setId(selectedReport._id);
+      console.log(selectedReport)
     }
   },[selectedReport])
 
@@ -44,7 +48,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
       return
     }
 
-    const report = {name,dept,phone,email,deadline,area,role,gender,imagepath}
+    const report = {name,phone,email,deadline,gender,Id}
     const response = await fetch(POST_API,{
       method:'POST',
       body: JSON.stringify(report),

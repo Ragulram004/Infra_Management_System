@@ -5,7 +5,7 @@ import Pop from '../../../components/Pop';
 import ReportAlert from '../../../components/ReportAlert';
 import GlobalFilter from '../../../components/GlobalFilter';
 
-const AuditTaskDetails = ({ tasks, API }) => {
+const AuditTaskDetails = ({ tasks }) => {
   // Reverse the data
   const reversedData = useMemo(() => 
     [...(tasks || [])].reverse(), 
@@ -133,7 +133,7 @@ const AuditTaskDetails = ({ tasks, API }) => {
       </div>
 
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <ReportAlert rowId={rowId} setShowPop={setShowPop} API={API} selectedReport={selectedReport} />
+        <ReportAlert rowId={rowId} setShowPop={setShowPop} selectedReport={selectedReport} />
       </Pop>
     </div>
   );

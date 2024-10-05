@@ -10,12 +10,12 @@ const Layout = () => {
     <div className="flex h-screen w-full overflow-hidden">
       {/* Sidebar */}
       <div 
-        className={`fixed inset-y-0 left-0 z-20 h-full w-64 bg-white transform ${sidebarVisible ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out`}>
+        className={`fixed inset-y-0 left-0 z-20 h-full  bg-white transform ${sidebarVisible ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out`}>
         <Sidebar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 lg:ml-64 p-2 lg:p-4 bg-background overflow-y-auto">
+      <div className="flex-1 lg:ml-60 p-2 lg:p-4 bg-background overflow-y-auto">
         <Navbar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} />
         <div className='mt-4'>
           <Outlet />

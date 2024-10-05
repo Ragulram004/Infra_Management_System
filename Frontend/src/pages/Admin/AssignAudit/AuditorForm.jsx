@@ -15,8 +15,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
   const [dept, setDept] = useState('');
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState('');
-  const [role, setRole] = useState('');
-  const [gender, setGender] = useState('');
+  const [id,setId] = useState('')
   
   const [deadline, setDeadline] = useState('');
   const [openCalender , setOpenCalender] = useState(false)
@@ -28,10 +27,8 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
     if (selectedAuditor) {
       setName(selectedAuditor.name);
       setDept(selectedAuditor.dept);
-      setEmail(selectedAuditor.email);
       setPhone(selectedAuditor.phone);
-      setRole(selectedAuditor.role);
-      setGender(selectedAuditor.gender);
+      setId(selectedAuditor._id);
     }
   }, [selectedAuditor]);
 
@@ -45,7 +42,7 @@ const AuditorForm = ({ setShowPop, selectedAuditor }) => {
       return
     }
 
-    const audit = { name, dept, phone, email, deadline, area , role, gender };
+    const audit = {id, deadline, area};
 
     const response = await fetch(API, {
       method: 'POST',

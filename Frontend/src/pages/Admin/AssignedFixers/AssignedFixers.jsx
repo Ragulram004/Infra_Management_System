@@ -19,6 +19,7 @@ const AssignedFixers = () => {
         })
         const json = await response.json()
         if(response.ok){
+          console.log(json)
           setFixerTasks(json);
         }
       }catch(error){

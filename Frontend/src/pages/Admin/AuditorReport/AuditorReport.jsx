@@ -33,8 +33,10 @@ const AuditorReport = () => {
           }
         });
         const json = await response.json();
+        console.log(json);
         if (response.ok) {
-          setReports(json);
+          const filteredReports = json.filter(report => report.status === "pending");
+          setReports(filteredReports);
         }
       } catch (error) {
         console.log('Fetch Error:', error);
@@ -142,7 +144,7 @@ const AuditorReport = () => {
 
       {/* Full-screen image pop-up */}
       {selectedImage && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] flex items-center justify-center z-50' onClick={handleCloseImage}>
+        <div className='fixed inset-0 bg-black bg-opacity-65 backdrop-blur-[2px] flex items-center justify-center z-50' onClick={handleCloseImage}>
           <img src={selectedImage} alt='Full Screen' className='max-w-full max-h-full' />
           <button className='absolute top-4 right-4 text-white text-2xl' onClick={handleCloseImage}>×</button>
         </div>

@@ -3,19 +3,11 @@ const { Schema } = mongoose;
 
 const auditTaskSchema = new Schema(
   {
-    name: {
-      type: String,
+    // name, gender, phone, email, role
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Personnel',
       required: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-      unique:true
-    },
-    email: {
-      type: String,
-      required: true,
-      unique:true
     },
     deadline: {
       type: String,
@@ -24,11 +16,6 @@ const auditTaskSchema = new Schema(
     status: {
       type: String,
       default: 'pending',
-    },
-    role: {
-      type: String,
-      enum: ['auditor'],
-      required: true
     },
     area: {
       type: String,
@@ -48,12 +35,7 @@ const auditTaskSchema = new Schema(
         'Board Room - SF Block (First Floor)'
       ],
       required: true,
-    },
-    gender: {
-      type: String,
-      enum: ['male', 'female', 'others'],
-      required: true,
-    }
+    }    
   },
   { timestamps: true }
 );

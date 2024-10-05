@@ -1,11 +1,41 @@
 import AuditTask from "../models/auditTaskModel.js";
 import mongoose from "mongoose";
+import Personnel from "../models/personnelModel.js";
 import {io} from '../server.js'
 
 //get all audits
 const getAssignedAuditors = async (req, res) => {
-  const audits = await AuditTask.find({}).sort({ createdAt: -1 });
+  const {email,role} = req.body
+  try{
+    const audits = await AuditTask.find({}).populate('userId','name phone email role gender').sort({ createdAt: -1 });
   res.status(200).json(audits);
+  }catch(error){ 
+    res.status(400).json({error: error.message})
+  }  
+};
+
+//get audits by email
+const getAuditorsByEmail = async (req, res) => {
+  const { email } = req.body;
+  
+  try {
+    // First, find the user by email in the Personnel collection
+    const user = await Personnel.findOne({ email });
+
+    // Check if the user was found
+    if (!user) {
+      return res.status(404).json({ error: 'User not found with the provided email' });
+    }
+
+    // Now, use the user's _id (which is an ObjectId) to find related AuditTasks
+    const audits = await AuditTask.find({ userId: user._id })
+      .populate('userId', 'name phone email role gender')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(audits);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 // get a single audit
@@ -26,7 +56,7 @@ const getAssignedAuditor = async (req, res) => {
 
 //create new audit
 const createAssignedAuditor = async (req, res) => {
-  const { name, phone, email, status, role, area, gender,deadline } = req.body;
+  const { id ,area ,deadline } = req.body;
 
   let emptyFields = []
   if(!area) emptyFields.push('Area');
@@ -37,9 +67,10 @@ const createAssignedAuditor = async (req, res) => {
 
   //add doc to db 
   try{
-    const audit = await AuditTask.create({ name, phone, email, status, role, area, gender,deadline})
-    io.emit('createdAudit', audit)
-    res.status(200).json(audit)
+    const audit = await AuditTask.create({ userId: id, area, deadline})
+    const data =await AuditTask.findOne({_id:audit._id}).populate('userId','name phone email role gender')
+    io.emit('createdAudit', data)
+    res.status(200).json(data)
   }catch(error){
     res.status(400).json({ error: error.message })
   }
@@ -75,8 +106,10 @@ const updateAssignedAuditor = async(req,res) =>{
   if(!audit) {
     return res.status(400).json({error:"No Such Audit"})
   }
-  io.emit('updatedAudit', audit)
-  res.status(200).json(audit)
+  const data = await AuditTask.findOne({_id:id}).populate('userId','name phone email role gender')
+  console.log(data)
+  io.emit('updatedAudit', data)
+  res.status(200).json(data)
 }
 
 export{
@@ -84,5 +117,6 @@ export{
   getAssignedAuditor,
   createAssignedAuditor,
   deleteAssignedAuditor,
-  updateAssignedAuditor
+  updateAssignedAuditor,
+  getAuditorsByEmail
 }

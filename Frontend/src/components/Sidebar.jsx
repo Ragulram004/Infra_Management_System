@@ -95,7 +95,7 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
               <AiOutlineAudit fontSize={20} />
             </div>
             <div>
-              <p>Auditor</p>
+              <p>Auditor Report</p>
             </div>
           </button>
           <button
@@ -106,7 +106,7 @@ export default function Sidebar({ sidebarVisible, setSidebarVisible }) {
               <MdOutlineEngineering fontSize={20} />
             </div>
             <div>
-              <p>Handyman</p>
+              <p>Fixer Report</p>
             </div>
           </button>
         </>
