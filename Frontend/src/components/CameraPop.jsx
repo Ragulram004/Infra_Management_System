@@ -14,6 +14,7 @@ const videoConstraints = {
 
 const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
   const StatApi = import.meta.env.VITE_INTRA_API_AUDITTASK;
+  const reportAPI = import.meta.env.VITE_INFRA_API_REPORT;
 
   const {user} = useAuthContext();
   const navigate = useNavigate();
@@ -65,6 +66,8 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
 
 
   const handleSubmit = async () => {
+    // console.log(selectedReport)
+    // console.log(image)
     if(!user){
       navigate('/login');
       toast.error('You must be logged in');
@@ -73,13 +76,11 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
     const imageBlob = base64ToBlob(image);
     const formData = new FormData();
 
-    formData.append('name',selectedReport.name);
-    formData.append('phone',selectedReport.phone);
-    formData.append('email',selectedReport.email);
-    formData.append('area',selectedReport.area);
+    formData.append('userId',selectedReport.userId._id);
+    formData.append('reportedAreaId',selectedReport._id);
     formData.append('image', imageBlob, 'image.jpg');
     try{
-      const response = await fetch('http://localhost:4500/api/auditReport', {
+      const response = await fetch(reportAPI, {
         method: 'POST',
         body: formData,
         headers: {
@@ -88,6 +89,7 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
       })
       const json = await response.json();
       if(response.ok){
+        console.log(json);
         const updatestatus = await fetch(StatApi+`${selectedReport._id}`, {
           method: 'PATCH',
           body: JSON.stringify({ status: 'completed' }),

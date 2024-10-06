@@ -1,7 +1,7 @@
 import FixerTask from '../models/fixerTaskModel.js';
 import mongoose from "mongoose";
 import {io} from '../server.js'
-import AuditReport from '../models/auditReportModel.js';
+import AuditReport from '../models/ReportModel.js';
 
 //get all fixes
 const getAssignedFixers = async(req,res) =>{

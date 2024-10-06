@@ -33,10 +33,9 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   useEffect(()=>{
     
     if(selectedReport){
-      setArea(selectedReport.area);
+      setArea(selectedReport.reportedAreaId.area);
       setImagePath(selectedReport.imagepath);
       setId(selectedReport._id);
-      console.log(selectedReport)
     }
   },[selectedReport])
 

@@ -4,7 +4,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import io from 'socket.io-client'
 
 const AuditTask = () => {
-  const API = import.meta.env.VITE_INFRA_API_SORTAUDIT;
+  const API = import.meta.env.VITE_INFRA_API_FILTERAUDIT;
 
   const { user } = useAuthContext();
   const [socket,setSocket] = useState(null);

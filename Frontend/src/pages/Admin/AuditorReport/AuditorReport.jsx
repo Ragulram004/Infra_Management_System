@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 import HandymanForm from './HandymanForm';
 
 const AuditorReport = () => {
-  const API = import.meta.env.VITE_INFRA_API_AUDITREPORT;
+  const API = import.meta.env.VITE_INFRA_API_REPORT;
 
   const [showPop, setShowPop] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
@@ -33,10 +33,8 @@ const AuditorReport = () => {
           }
         });
         const json = await response.json();
-        console.log(json);
         if (response.ok) {
-          const filteredReports = json.filter(report => report.status === "pending");
-          setReports(filteredReports);
+          setReports(json);
         }
       } catch (error) {
         console.log('Fetch Error:', error);
@@ -64,11 +62,11 @@ const AuditorReport = () => {
       };
 
       // Listen for the 'createdAuditReport' event
-      socket.on('createdAuditReport', handleNewReport);
+      socket.on('createdReport', handleNewReport);
 
       // Clean up the event listener when the component unmounts or socket changes
       return () => {
-        socket.off('createdAuditReport', handleNewReport);
+        socket.off('createdReport', handleNewReport);
       };
     }
   }, [socket]);
@@ -107,8 +105,8 @@ const AuditorReport = () => {
                           <AiOutlineAudit fontSize={20} />
                         </div>
                         <div className='w-56 '>
-                          <p className='text-primary text-sm font-bold truncate ' title={report.area}>{report.area}</p>
-                          <p className='text-primary text-xs truncate ' title={`${report.name} · ${report.phone}`}> <span className='font-bold'>Audited By:</span> {report.name} · {report.phone}</p>
+                          <p className='text-primary text-sm font-bold truncate ' title={report.reportedAreaId.area}>{report.reportedAreaId.area}</p>
+                          <p className='text-primary text-xs truncate ' title={`${report.userId.name} · ${report.userId.phone}`}> <span className='font-bold'>Audited By:</span> {report.userId.name} · {report.userId.phone}</p>
                         </div>                      
                       </div>
                       <div className=' px-2 '>
