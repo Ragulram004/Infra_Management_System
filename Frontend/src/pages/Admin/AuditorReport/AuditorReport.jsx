@@ -61,7 +61,7 @@ const AuditorReport = () => {
         setReports((prevReports) => [newReport, ...prevReports]);
       };
 
-      // Listen for the 'createdAuditReport' event
+      // Listen for the 'createdReport' event
       socket.on('createdReport', handleNewReport);
 
       // Clean up the event listener when the component unmounts or socket changes

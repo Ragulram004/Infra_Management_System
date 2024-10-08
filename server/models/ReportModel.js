@@ -30,7 +30,10 @@ const reportSchema = new Schema(
     fixerId:{
       type:Schema.Types.ObjectId,
       ref:'Personnel',
-    }
+    },
+    fixerDeadline:{
+      type:String,
+    },
   },
   {timestamps : true}
 )

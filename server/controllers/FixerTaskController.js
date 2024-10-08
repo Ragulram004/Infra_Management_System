@@ -1,7 +1,7 @@
 import FixerTask from '../models/fixerTaskModel.js';
 import mongoose from "mongoose";
 import {io} from '../server.js'
-import AuditReport from '../models/ReportModel.js';
+import Report from '../models/ReportModel.js';
 
 //get all fixes
 const getAssignedFixers = async(req,res) =>{
@@ -81,7 +81,7 @@ const updateAssignedFixer = async(req,res)=>{
 
 const completedFix = async(req,res)=>{
   const {_id} = req.params.id
-  const report = await AuditReport.findById(_id)
+  const report = await Report.findById(_id)
   if(!report){
     return res.status(400).json({error:"No such Report"})
   }

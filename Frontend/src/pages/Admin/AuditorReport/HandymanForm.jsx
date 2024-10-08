@@ -7,19 +7,19 @@ import { useNavigate } from 'react-router-dom';
 
 
 const HandymanForm = ({setShowPop, selectedReport}) => {
-  const API = import.meta.env.VITE_INTRA_API_PERSONNEL
-  const POST_API = import.meta.env.VITE_INFRA_API_FIXERTASK
+  const API = import.meta.env.VITE_INFRA_API_HANDYMANS
+  const POST_API = import.meta.env.VITE_INFRA_API_REPORT
 
   const {user} = useAuthContext()
   const navigate = useNavigate()
 
   const [personnel, setPersonnel] = useState([]);
   const [area,setArea] = useState('');
-  const [selectname,setSelectName] = useState('');
+  const [fixerId,setFixerId] = useState('');
   const [name,setName] = useState('');
   const [dept,setDept] = useState('');
   const [phone, setPhone] = useState('');
-  const [deadline, setDeadline] = useState('');
+  const [fixerDeadline, setFixerDeadline] = useState('');
   const [email,setEmail] = useState('');
   const [role,setRole] = useState('');
   const [gender,setGender] = useState('');
@@ -28,14 +28,15 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   const [openCalender , setOpenCalender] = useState(false);
   const [imagepath,setImagePath] = useState('')
   const [fixer, setFixer] = useState(true);
-  const [Id,setId] = useState('')
+  const [reportId,setReportId] = useState('')
 
   useEffect(()=>{
     
     if(selectedReport){
+      console.log(selectedReport)
       setArea(selectedReport.reportedAreaId.area);
       setImagePath(selectedReport.imagepath);
-      setId(selectedReport._id);
+      setReportId(selectedReport._id);
     }
   },[selectedReport])
 
@@ -46,10 +47,11 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
       toast.error('You must be logged in')
       return
     }
+    // console.log(reportId,fixerId,fixerDeadline)
 
-    const report = {name,phone,email,deadline,gender,Id}
-    const response = await fetch(POST_API,{
-      method:'POST',
+    const report = {fixerId,fixerDeadline}
+    const response = await fetch(`${POST_API}${reportId}`,{
+      method:'PATCH',
       body: JSON.stringify(report),
       headers:{
         'Content-Type': 'application/json',
@@ -64,11 +66,10 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
       return;
     }
     if(response.ok){
-      setName('');
       setDept('');
       setEmail('');
       setPhone('');
-      setDeadline('');
+      setFixerDeadline('');
       setArea('');
       setError('');
       setShowPop(false);
@@ -97,9 +98,8 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
   
         const json = await response.json();
   
-        if (Array.isArray(json)) {
-          const filteredPersonnel = json.filter(person => person.role === 'handyman');
-          setPersonnel(filteredPersonnel);
+        if (Array.isArray(json)) {          
+          setPersonnel(json);
         } else {
           console.error('Unexpected response format:', json);
           setPersonnel([]); // Set an empty array if the format is unexpected
@@ -138,16 +138,16 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
           </label>
           {user.role === 'admin' ? (
             <select
-              className={emptyFields.includes('Name') ? 'input-field-error' : 'input-field'}
+              className={emptyFields.includes('fixerId') ? 'input-field-error' : 'input-field'}
               id="area"
-              value={selectname}
+              value={fixerId}
               onChange={(e) => {
                 const id = e.target.value
-                setSelectName(id)
+                setFixerId(id)
                 handleAutoFill(id)
               }}
             >
-              <option value="select">Select HandyMan</option>
+              <option value="select">Select Fixer</option>
               {Array.isArray(personnel) && personnel.length > 0 ? (
                 personnel.map((person) => (
                   <option
@@ -172,9 +172,9 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
             <div className="relative" onClick={() => setOpenCalender(!openCalender)}>
               <input
                 type="text"
-                className={emptyFields.includes('Deadline')? 'input-field-error' : 'input-field w-full pl-3 pr-10 py-2 border-b border-gray-300 focus:outline-none'}
+                className={emptyFields.includes('fixerDeadline')? 'input-field-error' : 'input-field w-full pl-3 pr-10 py-2 border-b border-gray-300 focus:outline-none'}
                 placeholder="DD/MM/YYYY"
-                value={deadline}
+                value={fixerDeadline}
                 readOnly
               />
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
@@ -182,7 +182,7 @@ const HandymanForm = ({setShowPop, selectedReport}) => {
               </span>
             </div>
             <div className='absolute'>
-              {openCalender && <DatePicker className="absolute" setDeadline={setDeadline} setOpenCalender={setOpenCalender} />}          
+              {openCalender && <DatePicker className="absolute" setDeadline={setFixerDeadline} setOpenCalender={setOpenCalender} />}          
             </div>
           </div>
           <div className="mb-4">

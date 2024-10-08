@@ -4,7 +4,8 @@ import {createPersonnel,
   getPersonnels,
   deletePersonnel,
   updatePersonnel,
-  getAuditorsByRole
+  getAuditorsByRole,
+  getHandymansByRole
 } from '../controllers/PersonnelController.js'
 import {requireAuth} from '../middleware/requireAuth.js'
 
@@ -18,6 +19,9 @@ router.get('/', getPersonnels)
 
 //get all auditors
 router.get('/auditors',getAuditorsByRole)
+
+//get all handyman
+router.get('/handymans',getHandymansByRole)
 
 // Get a specific personnel member
 router.get('/:id', getPersonnel)

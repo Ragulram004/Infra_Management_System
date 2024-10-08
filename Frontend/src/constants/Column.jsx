@@ -116,56 +116,67 @@ export const assignedauditsColumns = [
 export const assignedfixesColumns = [
   {
     Header: 'Name',
-    accessor: 'name',
+    accessor: 'fixerId.name',
+    Cell:({row})=>{
+      return(
+        <div>
+          {row.original.fixerId? row.original.fixerId.name : 'No Name'}
+        </div>
+      )
+    }
   },
   {
     Header: 'Phone',
-    accessor: 'phone',
+    accessor: 'fixerId.phone',
+    Cell:({row})=>{
+      return(
+        <div>
+          {row.original.fixerId? row.original.fixerId.phone : 'No phone'}
+        </div>
+      )
+    }
   },
   {
     Header: 'Gender',
-    accessor: 'gender',
+    accessor: 'fixerId.gender',
+    Cell:({row})=>{
+      return(
+        <div>
+          {row.original.fixerId? row.original.fixerId.gender : 'No gender'}
+        </div>
+      )
+    }
   },
   {
     Header: 'Area Assigned',
     accessor: 'reportId.area', // Access area through reportId
     Cell: ({ row }) => (
       <div>
-        {row.original.reportId ? row.original.reportId.area : 'No Area'}
+        {row.original.reportedAreaId ? row.original.reportedAreaId.area : 'No Area'}
       </div>
     ),  
   },
   {
     Header: 'Status',
-    accessor: 'reportId.status', // Access status through reportId
+    accessor: 'status', // Access status through reportId
     Cell: ({ row }) => (
       <span
         className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ${
-          row.original.reportId?.status === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
+          row.original.status === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
         }`}
       >
-        {row.original.reportId?.status === 'completed' ? '🟢Completed' : '🔴Pending'}
+        {row.original.status === 'completed' ? '🟢Completed' : '🔴Pending'}
       </span>
     ),
   },
   {
-    Header: 'Image',
-    accessor: 'reportId.imagepath', // Access imagepath through reportId
-    Cell: ({ row }) => (
-      row.original.reportId?.imagepath ? (
-        <img
-          src={`http://localhost:4500${row.original.reportId.imagepath}`}
-          alt='Report Image'
-          className='w-[100px] h-[100px] object-cover rounded-md'
-        />
-      ) : (
-        'No Image'
-      )
-    ),
+    Header: 'Damage',
+    accessor: 'imagepath', 
+    
   },
   {
     Header: 'Deadline',
-    accessor: 'deadline',
+    accessor: 'fixerDeadline',
   },
   {
     Header: 'Delete',

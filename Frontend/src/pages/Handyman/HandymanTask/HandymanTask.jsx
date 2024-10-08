@@ -7,7 +7,7 @@ import { TbMessageReport } from "react-icons/tb";
 import { VscTools } from "react-icons/vsc";
 
 const HandymanTask = () => {
-  const API = import.meta.env.VITE_INFRA_API_FIXERTASK
+  const API = import.meta.env.VITE_INFRA_API_FILTERFIXER
   const {user} = useAuthContext()
   const [socket,setSocket] = useState(null)
   const [tasks,setTasks] = useState([])
@@ -20,16 +20,20 @@ const HandymanTask = () => {
       try{
         setLoading(true)
         const response = await fetch(API, {
+          method: 'POST',
+          body: JSON.stringify({email: user.email}),
           headers:{
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${user.token}`
           }
         })
         const json = await response.json()
         if(response.ok){
-          const filteredTasks = json.filter(task => task.email === user.email)
-          const reversed = filteredTasks.reverse()
-          console.log(reversed)
-          setTasks(reversed)
+          console.log(json)
+          // const filteredTasks = json.filter(task => task.email === user.email)
+          // const reversed = filteredTasks.reverse()
+          // console.log(reversed)
+          // setTasks(reversed)
         }
       }catch  (error){
         console.log("Fetch Error:", error);

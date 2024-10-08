@@ -51,7 +51,7 @@ const fixerTaskSchema = new Schema(
     // },
     reportId:{
       type: Schema.Types.ObjectId,
-      ref:"AuditReport",
+      ref:"Report",
       require:true
     },
     // imagepath: {

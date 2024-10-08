@@ -34,6 +34,15 @@ const getAuditorsByRole = async(req,res)=>{
     res.status(400).json({error: error.message})
   }
 }
+//get ony handyman
+const getHandymansByRole = async(req,res)=>{
+  try{
+    const handymans = await Personnel.find({role:'handyman'}).sort({createdAt:-1})
+    res.status(200).json(handymans)
+  }catch(error){
+    res.status(400).json({error: error.message})
+  }
+}
 
 //create New personnel
 const createPersonnel = async (req, res) => {
@@ -102,5 +111,6 @@ export{
   getPersonnels,
   deletePersonnel,
   updatePersonnel,
-  getAuditorsByRole
+  getAuditorsByRole,
+  getHandymansByRole
 }

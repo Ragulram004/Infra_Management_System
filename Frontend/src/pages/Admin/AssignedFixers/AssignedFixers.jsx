@@ -4,7 +4,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext'
 import io from 'socket.io-client'
 
 const AssignedFixers = () => {
-  const API = import.meta.env.VITE_INFRA_API_FIXERTASK
+  const API = import.meta.env.VITE_INFRA_API_FIXERTASKS
   const [socket, setSocket] = useState(null)
   const [fixerTasks, setFixerTasks] = useState([])
   const { user } = useAuthContext()
@@ -19,7 +19,6 @@ const AssignedFixers = () => {
         })
         const json = await response.json()
         if(response.ok){
-          console.log(json)
           setFixerTasks(json);
         }
       }catch(error){
@@ -36,8 +35,9 @@ const AssignedFixers = () => {
         setFixerTasks((prevFix) => [newFix , ...prevFix])
       })
 
-      newSocket.on('deletedFix',(deletedFixId) =>{
-        setFixerTasks((prevFix) => prevFix.filter((fix)=>fix._id !== deletedFixId))
+      newSocket.on('clearFixerId',(clearFixerId) =>{
+        setFixerTasks((prevFix) => prevFix.filter((fix)=>fix._id !== clearFixerId._id))
+        console.log(clearFixerId)
       })
 
       newSocket.on('updatedFix',(updatedFix)=>{

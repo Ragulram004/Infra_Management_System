@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import { assignedfixesColumns } from '../../../constants/Column';
 import Pop from '../../../components/Pop';
-import DeleteAlert from '../../../components/DeleteAlert';
+import EmptyAlert from '../../../components/EmptyAlert';
 import GlobalFilter from '../../../components/GlobalFilter';
 
 const AssignedFixersDetails = ({ fixerTasks, API }) => {
@@ -11,13 +11,14 @@ const AssignedFixersDetails = ({ fixerTasks, API }) => {
 
   const [showPop, setShowPop] = useState(false);
   const [rowId, setRowId] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null); // Image state
 
   const tableInstance = useTable(
     {
       columns,
       data,
     },
-    useGlobalFilter, // Add useGlobalFilter here
+    useGlobalFilter,
     usePagination
   );
 
@@ -32,10 +33,24 @@ const AssignedFixersDetails = ({ fixerTasks, API }) => {
     canPreviousPage,
     pageOptions,
     state,
-    setGlobalFilter, // Destructure setGlobalFilter from state
+    setGlobalFilter,
     prepareRow,
   } = tableInstance;
   const { globalFilter, pageIndex } = state;
+
+  // Image click handler
+  const handleImageClick = (imagePath) => {
+    console.log("Image clicked:", imagePath); // Debug log
+    if (imagePath) {
+      setSelectedImage(imagePath); // Set the selected image
+    } else {
+      console.error("No image path provided"); // Debug error if no path
+    }
+  };
+
+  const handleCloseImage = () => {
+    setSelectedImage(null); // Reset the selected image on close
+  };
 
   return (
     <div className="bg-white pt-14 rounded-xl">
@@ -71,15 +86,23 @@ const AssignedFixersDetails = ({ fixerTasks, API }) => {
                       {...cell.getCellProps()}
                       className="px-6 py-2 text-sm text-gray-900"
                     >
-                      {cell.column.id === 'Delete' ? (
-                        row.original.reportId?.status === 'completed' ? (
+                      {/* Check if the column is the 'Image' column */}
+                      {cell.column.id === 'imagepath' && cell.value ? (
+                          <img
+                            src={`http://localhost:4500${cell.value}`} // Ensure the full image URL
+                            alt="Task Image"
+                            className="w-14 h-14 rounded-md object-cover cursor-pointer mx-auto" // Add object-cover for consistent scaling
+                            onClick={() => handleImageClick(`http://localhost:4500${cell.value}`)} // Pass the full URL to handleImageClick
+                          />
+                        ) : cell.column.id === 'Delete' ? (
+                        row.original.status === 'completed' ? (
                           <button
                             className="bg-success bg-opacity-65 text-xs md:text-sm text-white p-2 rounded-lg font-extrabold cursor-not-allowed"
                             disabled
                           >
                             Resolved
                           </button>
-                        ) : row.original.reportId?.status === 'pending' ? (
+                        ) : row.original.status === 'pending' ? (
                           <button 
                             className='bg-error text-xs md:text-sm text-white p-2 rounded-lg font-extrabold'
                             onClick={() => { setShowPop(true); setRowId(row); }}
@@ -100,7 +123,8 @@ const AssignedFixersDetails = ({ fixerTasks, API }) => {
           </tbody>
         </table>
       </div>
-      
+
+      {/* Pagination */}
       <div className="flex place-content-end gap-5 items-center p-4">
         <button
           onClick={() => previousPage()}
@@ -124,11 +148,23 @@ const AssignedFixersDetails = ({ fixerTasks, API }) => {
           Next
         </button>
       </div>
+
+      {/* Pop-up for Delete Alert */}
       <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
-        <DeleteAlert rowId={rowId} setShowPop={setShowPop} API={API} />
+        <EmptyAlert rowId={rowId} setShowPop={setShowPop} API={API} />
       </Pop>
+
+      {/* Full-screen image pop-up */}
+      {selectedImage && (
+        <div className='fixed inset-0 bg-black bg-opacity-65 backdrop-blur-[2px] flex items-center justify-center z-50' onClick={handleCloseImage}>
+          <img src={selectedImage} alt='Full Screen' className='max-w-full max-h-full' />
+          <button className='absolute top-4 right-4 text-white text-2xl' onClick={handleCloseImage}>×</button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default AssignedFixersDetails;
+
+
