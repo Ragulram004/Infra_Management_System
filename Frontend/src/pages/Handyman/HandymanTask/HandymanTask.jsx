@@ -28,12 +28,8 @@ const HandymanTask = () => {
           }
         })
         const json = await response.json()
-        if(response.ok){
-          console.log(json)
-          // const filteredTasks = json.filter(task => task.email === user.email)
-          // const reversed = filteredTasks.reverse()
-          // console.log(reversed)
-          // setTasks(reversed)
+        if(response.ok){         
+          setTasks(json)
         }
       }catch  (error){
         console.log("Fetch Error:", error);
@@ -92,27 +88,27 @@ const HandymanTask = () => {
         <div className='flex flex-wrap gap-5 justify-center'>
           {tasks.map((task) => (
             <div key={task._id} className='shadow-md rounded-lg overflow-hidden relative hover:bg-white'>
-              {task.reportId.imagepath && (
+              {task.imagepath && (
                 <div className='flex flex-col items-center'>
                   <div className='px-5 py-2 flex items-center gap-2'>
                     <div className='text-[#4169e1]'>
                       <VscTools fontSize={20} />
                     </div>
                     <div className='w-56 '>
-                      <p className='text-primary text-sm font-bold truncate' title={task.area}>
-                        {task.reportId.area}
+                      <p className='text-primary text-sm font-bold truncate' title={task.reportedAreaId.area}>
+                        {task.reportedAreaId.area}
                       </p>
-                      <p className='text-primary text-xs truncate' title={`${task.name} · ${task.phone}`}>
-                        <span className='font-bold'>Assigned To:</span> {task.name} · {task.phone}
+                      <p className='text-primary text-xs truncate' title={`${task.fixerId.name} · ${task.fixerId.phone}`}>
+                        <span className='font-bold'>Assigned To:</span> {task.fixerId.name} · {task.fixerId.phone}
                       </p>
                     </div>
                   </div>
                   <div className='px-2 '>
                     <img
-                      src={`http://localhost:4500${task.reportId.imagepath}`}
+                      src={`http://localhost:4500${task.imagepath}`}
                       alt='Task'
                       className='w-[270px] h-[200px] object-cover cursor-pointer rounded-md'
-                      onClick={() => handleImageClick(`http://localhost:4500${task.reportId.imagepath}`)}
+                      onClick={() => handleImageClick(`http://localhost:4500${task.imagepath}`)}
                     />
                   </div>
                   <div className='px-5 py-1 text-sm flex gap-2'>
@@ -120,7 +116,7 @@ const HandymanTask = () => {
                       <TbMessageReport fontSize={18} />
                     </div>
                     <p>
-                      Deadline to Report <span className='font-bold'>· {task.deadline}</span>
+                      Deadline to Report <span className='font-bold'>· {task.fixerDeadline}</span>
                     </p>
                   </div>
                   <div className='pb-2 px-2 w-full flex justify-between items-center'>
@@ -128,10 +124,10 @@ const HandymanTask = () => {
                       <p className='text-primary text-sm font-bold'>Status: 
                         <span
                             className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ml-1 ${
-                              task.reportId.status === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
+                              task.status === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
                             }`}
                           >
-                            {task.reportId.status === 'completed' ? '🟢 Completed' : '🔴 Pending'}
+                            {task.status === 'completed' ? '🟢 Completed' : '🔴 Pending'}
                         </span>
                       </p>
                     </div>

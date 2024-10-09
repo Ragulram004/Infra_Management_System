@@ -27,6 +27,7 @@ const getReportsByFixer = async (req, res) => {
 
     const fixes = await Report.find({ fixerId: user._id })
       .populate('fixerId', 'name phone email role')
+      .populate('reportedAreaId', 'area')
       .sort({createdAt:-1});
     res.status(200).json(fixes);
   }catch(error){
@@ -44,7 +45,7 @@ const createReport = async (req, res) => {
   try { 
 
     // Create the audit report document
-    const report = await Report.create({ 
+    const report = await Report.create({
       userId, 
       reportedAreaId,
       imagepath: imagePath  // Save the image path in the database
@@ -120,7 +121,8 @@ const updateReport = async (req, res) => {
     report.fixerDeadline = fixerDeadline;    
     await report.save();    
     const updatedReport = await Report.findById(id)
-      .populate('fixerId', 'name phone email role');    
+      .populate('fixerId', 'name phone email role')
+      .populate()    
     res.status(200).json(updatedReport);
   } catch (error) {
     res.status(500).json({ error: error.message });
