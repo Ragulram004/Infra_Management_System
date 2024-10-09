@@ -121,7 +121,7 @@ const HandymanTask = () => {
                   </div>
                   <div className='pb-2 px-2 w-full flex justify-between items-center'>
                     <div className=''>
-                      <p className='text-primary text-sm font-bold'>Status: 
+                      <p className='text-primary text-sm font-bold'> 
                         <span
                             className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ml-1 ${
                               task.status === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
