@@ -110,9 +110,7 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
       }
     }catch(error){
       console.log(error);
-    }
-
-    
+    }    
   }
 
   return (

@@ -7,7 +7,7 @@ import GlobalFilter from '../../../components/GlobalFilter';
 
 const AuditTaskDetails = ({ tasks }) => {
   // Reverse the data
-  const reversedData = useMemo(() => 
+  const reversedData = useMemo(() =>  
     [...(tasks || [])].reverse(), 
     [tasks]
   );

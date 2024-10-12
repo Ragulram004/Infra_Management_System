@@ -5,6 +5,8 @@ import io from 'socket.io-client'
 import { AiOutlineAudit } from 'react-icons/ai';
 import { TbMessageReport } from "react-icons/tb";
 import { VscTools } from "react-icons/vsc";
+import FixerReportAlert from '../../../components/FixerReportAlert';
+import Pop from '../../../components/Pop';
 
 const HandymanTask = () => {
   const API = import.meta.env.VITE_INFRA_API_FILTERFIXER
@@ -13,6 +15,9 @@ const HandymanTask = () => {
   const [tasks,setTasks] = useState([])
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showPop, setShowPop] = useState(false);
+  const [rowId , setRowId] = useState(null);
+  const [selectedReport, setSelectedReport] = useState(null); 
   
 
   useEffect(() => {
@@ -75,6 +80,12 @@ const HandymanTask = () => {
     setSelectedImage(null);
   };
 
+  const handleReportClick = (row) => {
+    setSelectedReport(row._id);
+    setShowPop(true);
+    setRowId(row);
+  };
+
   return (
     <div className='relative'>
       <div className='p-3'>
@@ -99,7 +110,7 @@ const HandymanTask = () => {
                         {task.reportedAreaId.area}
                       </p>
                       <p className='text-primary text-xs truncate' title={`${task.fixerId.name} · ${task.fixerId.phone}`}>
-                        <span className='font-bold'>Assigned To:</span> {task.fixerId.name} · {task.fixerId.phone}
+                        <span className='font-bold'>Fixer:</span> {task.fixerId.name} · {task.fixerId.phone}
                       </p>
                     </div>
                   </div>
@@ -134,6 +145,7 @@ const HandymanTask = () => {
                     <div className=''>
                       <button
                         className='bg-primary text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'
+                        onClick={() => handleReportClick(task)}
                       >
                         Report
                       </button>
@@ -153,6 +165,9 @@ const HandymanTask = () => {
 
         </div>
       )}
+      <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
+        <FixerReportAlert rowId={rowId} selectedReport={selectedReport} setShowPop={setShowPop} />
+      </Pop>
     </div>
   )
 }
