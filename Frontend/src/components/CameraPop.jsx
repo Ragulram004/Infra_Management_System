@@ -89,7 +89,6 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
       })
       const json = await response.json();
       if(response.ok){
-        console.log(json);
         const updatestatus = await fetch(StatApi+`${selectedReport._id}`, {
           method: 'PATCH',
           body: JSON.stringify({ status: 'completed' }),
@@ -112,6 +111,42 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
       console.log(error);
     }    
   }
+
+  const handleFixerSubmit = async () => {
+    if (!user) {
+      navigate('/login');
+      toast.error('You must be logged in');
+      return;
+    }    
+    
+    const imageBlob = base64ToBlob(image);
+    const formData = new FormData();
+    formData.append('completedImage', imageBlob, 'image.jpg');  // Submit image
+    formData.append('status', 'completed');  // Update the status to 'completed'
+  
+    try {
+      const response = await fetch(`${reportAPI}${selectedReport}`, {
+        method: 'PATCH',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      });
+      const json = response.json();
+      if (response.ok) {
+        toast.success('Report submitted and status updated successfully');
+        onClose();
+        setShowPop(false);
+      } else {
+        toast.error('Failed to update report');
+        console.log(json.error)
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('An error occurred while submitting the report');
+    }
+  };
+  
 
   return (
     <Pop isVisible={isVisible} onClose={onClose}>
@@ -155,7 +190,7 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
               Retake
             </button>          
             <button className='bg-primary text-white font-bold text-md py-1 px-2 rounded-lg'
-            onClick={handleSubmit}
+            onClick={user.role === 'handyman' ? handleFixerSubmit : handleSubmit}
             >
               Submit
             </button>

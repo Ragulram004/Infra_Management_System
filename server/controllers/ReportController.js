@@ -93,41 +93,66 @@ const deleteReport = async(req,res) =>{
 //update a `report`
 const updateReport = async (req, res) => {
   const { id } = req.params; // Get the reportId from request parameters
-  const { fixerId, fixerDeadline } = req.body;
+  const { fixerId, fixerDeadline } = req.body; // Extract data from request body
 
-  // Check for empty fields
+  // Check if req.file is present (image is being uploaded)
+  const isImageUpdate = !!req.file;
+
+  // Only validate fixerId and fixerDeadline if no image is provided
   let emptyFields = [];
-  if (!fixerId) {
-    emptyFields.push('fixerId');
-  }
-  if (!fixerDeadline) {
-    emptyFields.push('fixerDeadline');
-  }
-  if (emptyFields.length > 0) {
-    return res.status(400).json({ error: "Please fill in all the fields", emptyFields });
+  if (!isImageUpdate) {
+    if (!fixerId) {
+      emptyFields.push('fixerId');
+    }
+    if (!fixerDeadline) {
+      emptyFields.push('fixerDeadline');
+    }
+    if (emptyFields.length > 0) {
+      return res.status(400).json({ error: "Please fill in all the fields", emptyFields });
+    }
   }
   
+  // Check if the report ID is valid
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such Report" });
   }
 
   try {
+    // Fetch the report by ID
     const report = await Report.findById(id);
-    
-    if (report.fixerId) {
+
+    // If fixerId is already assigned, return an error unless an image is being uploaded
+    if (!isImageUpdate && report.fixerId) {
       return res.status(400).json({ error: "Work already assigned. Delete that work to reassign." });
-    }   
-    report.fixerId = fixerId;
-    report.fixerDeadline = fixerDeadline;    
-    await report.save();    
+    }
+
+    // Update fixerId and fixerDeadline if this is not an image update
+    if (!isImageUpdate) {
+      report.fixerId = fixerId;
+      report.fixerDeadline = fixerDeadline;
+    }
+
+    // If image is sent, update the CompletedReportImagePath and status
+    if (isImageUpdate) {
+      const imagePath = `/uploads/reports/${req.file.filename}`; // Save the file path
+      report.CompletedReportImagePath = imagePath;
+      report.status = 'completed';  // Update status to 'completed'
+    }
+
+    // Save the updated report
+    await report.save();
+
+    // Fetch the updated report and populate the necessary fields
     const updatedReport = await Report.findById(id)
-      .populate('fixerId', 'name phone email role')
-      .populate()    
-    res.status(200).json(updatedReport);
+      .populate('fixerId', 'name phone email role');  // Populating fixer details
+
+    res.status(200).json(updatedReport);  // Return the updated report
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 const clearFixerId = async(req,res)=>{
   const {id} = req.params;

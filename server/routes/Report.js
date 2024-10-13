@@ -19,7 +19,7 @@ router.post('/fixerRole',getReportsByFixer);
 router.post('/', upload.single('image'), createReport);  // Using multer for single image upload
 
 //update a report
-router.patch('/:id', updateReport);
+router.patch('/:id', upload.single('completedImage'), updateReport);
 
 //delete a report
 router.delete(':/id', deleteReport);
