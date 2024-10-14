@@ -5,6 +5,7 @@ import { TbMessageReport } from "react-icons/tb";
 import { VscTools } from "react-icons/vsc";
 import Pop from '../../../components/Pop';
 import io from 'socket.io-client';
+import VerifyAlert from '../../../components/VerifyAlert';
 
 const HandymanReport = () => {
   const API = import.meta.env.VITE_INFRA_API_COMPLETEDREPORT;
@@ -85,6 +86,11 @@ const HandymanReport = () => {
     setSelectedImage(null);
   };
 
+  const handleMarkVerify =(reprot)=>{
+    setSelectedReport(reprot)
+    setShowPop(true)
+  }
+
   return (
     <div className='relative'>
       <div className='p-3'>
@@ -129,6 +135,23 @@ const HandymanReport = () => {
                         </div>
                         <p> Fixed  <span className='font-bold'>· {formatDistance(new Date(report.CompletedReportTime), new Date(),{addSuffix: true})}</span></p> 
                       </div>
+                      <div className=' pb-2 px-2 '>
+                        {report.status === 'completed' ? (
+                          <button 
+                            className=' bg-success text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'
+                            
+                          >
+                            Verified
+                          </button>
+                        ):(
+                          <button 
+                            className=' bg-primary text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'
+                            onClick={() => handleMarkVerify(report)}
+                          >
+                            Mark Verify
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -145,6 +168,9 @@ const HandymanReport = () => {
           <button className='absolute top-4 right-4 text-white text-2xl' onClick={handleCloseImage}>×</button>
         </div>
       )}
+      <Pop isVisible={showPop} onClose={() => setShowPop(false)}>
+        <VerifyAlert setShowPop={setShowPop} selectedReport={selectedReport}/>
+      </Pop>
     </div>
   );
 };

@@ -122,7 +122,6 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
     const imageBlob = base64ToBlob(image);
     const formData = new FormData();
     formData.append('completedImage', imageBlob, 'image.jpg');  // Submit image
-    formData.append('status', 'completed');  // Update the status to 'completed'
   
     try {
       const response = await fetch(`${reportAPI}${selectedReport}`, {

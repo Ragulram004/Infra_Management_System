@@ -16,10 +16,10 @@ const getReports = async (req, res) => {
   }
 };
 
-//get reports where status:completed
+//get reports where CompletedReportImagePath is present
 const getCompletedReports = async (req, res) => {
   try{
-    const reports = await Report.find({status:'completed'})
+    const reports = await Report.find({CompletedReportImagePath: { $exists: true, $ne: null }})
       .populate('fixerId','name phone email role')
       .populate('reportedAreaId','area')
       .sort({ createdAt: -1 });
@@ -107,8 +107,11 @@ const deleteReport = async(req,res) =>{
 
 //update a `report`
 const updateReport = async (req, res) => {
-  const { id } = req.params; // Get the reportId from request parameters
-  const { fixerId, fixerDeadline } = req.body; // Extract data from request body
+  const { id } = req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    return res.status(404).json({error:"No such Report"});
+  }
+  const { fixerId, fixerDeadline,status } = req.body; // Extract data from request body
 
   // Check if req.file is present (image is being uploaded)
   const isImageUpdate = !!req.file;
@@ -145,13 +148,13 @@ const updateReport = async (req, res) => {
     if (!isImageUpdate) {
       report.fixerId = fixerId;
       report.fixerDeadline = fixerDeadline;
+      report.status = status;
     }
 
     // If image is sent, update the CompletedReportImagePath and status
     if (isImageUpdate) {
       const imagePath = `/uploads/reports/${req.file.filename}`; // Save the file path
       report.CompletedReportImagePath = imagePath;
-      report.status = 'completed';  // Update status to 'completed'
       report.CompletedReportTime = Date.now();
     }
 
@@ -160,12 +163,37 @@ const updateReport = async (req, res) => {
 
     // Fetch the updated report and populate the necessary fields
     const updatedReport = await Report.findById(id)
-      .populate('fixerId', 'name phone email role')
+      .populate('fixerId', 'name phone email role gender')
       .populate('reportedAreaId', 'area');  // Populating fixer details
 
     io.emit('updatedReport', updatedReport);
     res.status(200).json(updatedReport);  // Return the updated report
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//update status
+const updateStatusVerification = async (req, res) => {
+  const { id } = req.params;   
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such Report" });
+  }  
+  const { status } = req.body;   
+  try {    
+    const report = await Report.findById(id);        
+    if (!report) {
+      return res.status(404).json({ error: "No such Report" });
+    }    
+    report.status = status;    
+    await report.save();
+    const updatedReport = await Report.findById(id)
+      .populate('fixerId', 'name phone email role gender')
+      .populate('reportedAreaId', 'area');
+
+    io.emit('updatedReport',updatedReport)
+    res.status(200).json(report);
+  } catch (error) {    
     res.status(500).json({ error: error.message });
   }
 };
@@ -198,5 +226,6 @@ export { getReports,
   getFixersTasks,
   clearFixerId,
   getReportsByFixer,
-  getCompletedReports 
+  getCompletedReports,
+  updateStatusVerification 
 };

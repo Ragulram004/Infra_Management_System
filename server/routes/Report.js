@@ -1,5 +1,15 @@
 import express from 'express';
-import { getReports, createReport ,clearFixerId, deleteReport,updateReport,getFixersTasks,getReportsByFixer,getCompletedReports } from '../controllers/ReportController.js';
+import { 
+  getReports, 
+  createReport ,
+  clearFixerId, 
+  deleteReport,
+  updateReport,
+  getFixersTasks,
+  getReportsByFixer,
+  getCompletedReports,
+  updateStatusVerification
+} from '../controllers/ReportController.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 import { upload } from '../middleware/uploads.js';  // Import the multer middleware
 
@@ -23,6 +33,9 @@ router.post('/', upload.single('image'), createReport);  // Using multer for sin
 
 //update a report
 router.patch('/:id', upload.single('completedImage'), updateReport);
+
+//update status
+router.patch('/verify/:id',updateStatusVerification)
 
 //delete a report
 router.delete(':/id', deleteReport);
