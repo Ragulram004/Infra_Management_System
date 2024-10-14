@@ -37,10 +37,9 @@ const AssignedFixers = () => {
 
       newSocket.on('clearFixerId',(clearFixerId) =>{
         setFixerTasks((prevFix) => prevFix.filter((fix)=>fix._id !== clearFixerId._id))
-        console.log(clearFixerId)
       })
 
-      newSocket.on('updatedFix',(updatedFix)=>{
+      newSocket.on('updatedReport',(updatedFix)=>{
         setFixerTasks((prevFix)=>
           prevFix.map((fix)=>
             fix._id === updatedFix._id ? updatedFix:fix

@@ -56,18 +56,32 @@ const HandymanTask = () => {
 
   useEffect(()=>{
     if(socket){
-      const handleNewTask = (newTask) =>{
-        setTasks((prevTasks) =>[newTask,...prevTasks])
-      }
-      const handleDeleteTask = (deletedTaskId) =>{
-        setTasks((prevFix) => prevFix.filter((fix)=>fix._id !== deletedTaskId))
-      }
+      const handleNewOrUpdatedTask = (updatedTask) => {
+        setTasks((prevTasks) => {
+          const taskExists = prevTasks.find((task) => task._id === updatedTask._id);
+  
+          if (taskExists) {
+            // Replace the existing task with the updated one
+            return prevTasks.map((task) => 
+              task._id === updatedTask._id ? updatedTask : task
+            );
+          } else {
+            // Append the new task to the list if it doesn't exist
+            if(user.email !== updatedTask.fixerId.email){return prevTasks}
+            return [updatedTask, ...prevTasks];
+            
+          }
+        });
+      };
+      const handleDeleteTask = (deletedTaskId) => {
+        setTasks((prevFix) => prevFix.filter((fix)=>fix._id !== deletedTaskId._id))
+      };
 
-      socket.on('createdFix',handleNewTask)
-      socket.on('deletedFix',handleDeleteTask)
+      socket.on('updatedReport',handleNewOrUpdatedTask)
+      socket.on('clearFixerId',handleDeleteTask)
       return()=>{
-        socket.off('createdFix',handleNewTask)
-        socket.off('deletedFix',handleDeleteTask)
+        socket.off('updatedReport',handleNewOrUpdatedTask)
+        socket.off('clearFixerId',handleDeleteTask)
       }
     }
   },[socket])
@@ -142,13 +156,21 @@ const HandymanTask = () => {
                         </span>
                       </p>
                     </div>
-                    <div className=''>
-                      <button
+                    <div >
+                      {task.status === 'pending' ? (
+                        <button
                         className='bg-primary text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'
                         onClick={() => handleReportClick(task)}
-                      >
-                        Report
-                      </button>
+                        >
+                          Report
+                        </button>
+                      ) : (
+                        <button
+                        className='bg-success text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg cursor-not-allowed'
+                        >
+                          Reported
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

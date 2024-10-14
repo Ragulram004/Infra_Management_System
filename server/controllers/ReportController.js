@@ -86,6 +86,8 @@ const deleteReport = async(req,res) =>{
   if(!report){
     return res.status(404).json({error:"No such Report"})
   }
+
+  io.emit('deletedReport',id)
   res.status(200).json(report)
 }
 
@@ -140,12 +142,14 @@ const updateReport = async (req, res) => {
     }
 
     // Save the updated report
-    await report.save();
+    await report.save();    
 
     // Fetch the updated report and populate the necessary fields
     const updatedReport = await Report.findById(id)
-      .populate('fixerId', 'name phone email role');  // Populating fixer details
+      .populate('fixerId', 'name phone email role')
+      .populate('reportedAreaId', 'area');  // Populating fixer details
 
+    io.emit('updatedReport', updatedReport);
     res.status(200).json(updatedReport);  // Return the updated report
   } catch (error) {
     res.status(500).json({ error: error.message });
