@@ -1,8 +1,6 @@
 import {useState,useEffect} from 'react'
-import HandymanTaskDetails from './HandymanTaskDetails'
 import { useAuthContext } from '../../../hooks/useAuthContext'
 import io from 'socket.io-client'
-import { AiOutlineAudit } from 'react-icons/ai';
 import { TbMessageReport } from "react-icons/tb";
 import { VscTools } from "react-icons/vsc";
 import FixerReportAlert from '../../../components/FixerReportAlert';

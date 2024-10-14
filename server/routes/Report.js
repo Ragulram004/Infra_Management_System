@@ -1,5 +1,5 @@
 import express from 'express';
-import { getReports, createReport ,clearFixerId, deleteReport,updateReport,getFixersTasks,getReportsByFixer } from '../controllers/ReportController.js';
+import { getReports, createReport ,clearFixerId, deleteReport,updateReport,getFixersTasks,getReportsByFixer,getCompletedReports } from '../controllers/ReportController.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 import { upload } from '../middleware/uploads.js';  // Import the multer middleware
 
@@ -8,6 +8,9 @@ router.use(requireAuth);
 
 // Get all reports
 router.get('/', getReports);
+
+// get completed reports
+router.get('/completedReport', getCompletedReports);
 
 //get reports assigned to fixer
 router.get('/fixers', getFixersTasks);

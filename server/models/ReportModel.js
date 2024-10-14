@@ -26,6 +26,9 @@ const reportSchema = new Schema(
     CompletedReportImagePath:{
       type: String,
     },
+    CompletedReportTime:{
+      type: Date,
+    },
     //name,phone,email,role
     fixerId:{
       type:Schema.Types.ObjectId,

@@ -16,6 +16,19 @@ const getReports = async (req, res) => {
   }
 };
 
+//get reports where status:completed
+const getCompletedReports = async (req, res) => {
+  try{
+    const reports = await Report.find({status:'completed'})
+      .populate('fixerId','name phone email role')
+      .populate('reportedAreaId','area')
+      .sort({ createdAt: -1 });
+    res.status(200).json(reports);
+  }catch(error){
+    res.status(400).json({error: error.message});
+  }
+};
+
 //Get reports with only fixerId my filter with email
 const getReportsByFixer = async (req, res) => {
   const { email } = req.body;
@@ -139,6 +152,7 @@ const updateReport = async (req, res) => {
       const imagePath = `/uploads/reports/${req.file.filename}`; // Save the file path
       report.CompletedReportImagePath = imagePath;
       report.status = 'completed';  // Update status to 'completed'
+      report.CompletedReportTime = Date.now();
     }
 
     // Save the updated report
@@ -177,4 +191,12 @@ const clearFixerId = async(req,res)=>{
 }
 
 
-export { getReports, createReport , deleteReport, updateReport,getFixersTasks,clearFixerId,getReportsByFixer };
+export { getReports, 
+  createReport , 
+  deleteReport, 
+  updateReport,
+  getFixersTasks,
+  clearFixerId,
+  getReportsByFixer,
+  getCompletedReports 
+};
