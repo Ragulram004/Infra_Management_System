@@ -3,8 +3,20 @@ import mongoose from 'mongoose';
 import {io} from '../server.js';
 import Personnel from '../models/personnelModel.js';
 
-// Get  reports where status:pending
+// Get all reports
 const getReports = async (req, res) => {
+  try{
+    const reports = await Report.find({})
+      .populate('reportedAreaId','area')
+      .sort({ createdAt: -1 });
+    res.status(200).json(reports);
+  }catch(error){
+    res.status(400).json({error: error.message});
+  }
+};
+
+// Get  reports where status:pending
+const getPendingReports = async (req, res) => {
   try{
     const reports = await Report.find({status:'pending'})
       .populate('userId','name phone email role')
@@ -268,7 +280,9 @@ const clearFixerId = async(req,res)=>{
 }
 
 
-export { getReports, 
+export { 
+  getReports,
+  getPendingReports, 
   createReport , 
   deleteReport, 
   updateReport,

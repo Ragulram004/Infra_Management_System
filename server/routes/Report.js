@@ -1,6 +1,7 @@
 import express from 'express';
 import { 
-  getReports, 
+  getReports,
+  getPendingReports, 
   createReport ,
   clearFixerId, 
   deleteReport,
@@ -18,8 +19,11 @@ import { upload } from '../middleware/uploads.js';  // Import the multer middlew
 const router = express.Router();
 router.use(requireAuth);
 
-// Get all reports
+//get all reports
 router.get('/', getReports);
+
+// Get pending reports
+router.get('/pendingReports', getPendingReports);
 
 //get reports where imagepath is present
 router.post('/dashboardAuditReport', getReportsWithImagepath)
