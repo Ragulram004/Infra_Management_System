@@ -34,6 +34,7 @@ const AuditorReport = () => {
         });
         const json = await response.json();
         if (response.ok) {
+          console.log(json)
           setReports(json);
         }
       } catch (error) {
@@ -73,6 +74,7 @@ const AuditorReport = () => {
       // Clean up the event listener when the component unmounts or socket changes
       return () => {
         socket.off('createdReport', handleNewReport);
+        socket.off('updatedReport', handleUpdate);
       };
     }
   }, [socket]);

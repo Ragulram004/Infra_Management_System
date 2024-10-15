@@ -31,7 +31,8 @@ const HandymanTask = () => {
           }
         })
         const json = await response.json()
-        if(response.ok){         
+        if(response.ok){
+                   
           setTasks(json)
         }
       }catch  (error){
@@ -144,32 +145,40 @@ const HandymanTask = () => {
                   </div>
                   <div className='pb-2 px-2 w-full flex justify-between items-center'>
                     <div className=''>
-                      <p className='text-primary text-sm font-bold'> 
+                      <p className='text-primary text-sm font-bold'>
                         <span
-                            className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ml-1 ${
-                              task.status === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
-                            }`}
-                          >
-                            {task.status === 'completed' ? '🟢 Completed' : '🔴 Pending'}
+                          className={`px-2 py-[4px] rounded-full text-primary text-xs font-extrabold whitespace-nowrap ml-1 ${
+                            task.status === 'completed' ? 'border-2 border-success' : 'border-2 border-error'
+                          }`}
+                        >
+                          {task.status === 'completed' ? '🟢 Completed' : '🔴 Pending'}
                         </span>
                       </p>
                     </div>
-                    <div >
-                      {task.status === 'pending' ? (
+                    
+                    <div>
+                      {task.CompletedReportImagePath && task.status !== 'completed' ? (
                         <button
-                        className='bg-primary text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'
-                        onClick={() => handleReportClick(task)}
+                          className='bg-error text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg mr-2 cursor-not-allowed'
                         >
-                          Report
+                          Initiated Verification
+                        </button>
+                      ) : task.status === 'completed' ? (
+                        <button
+                          className='bg-success text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg cursor-not-allowed'
+                        >
+                          Verified
                         </button>
                       ) : (
                         <button
-                        className='bg-success text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg cursor-not-allowed'
+                          className='bg-primary text-white text-sm md:text-md font-bold py-2 px-2 rounded-lg'
+                          onClick={() => handleReportClick(task)}
                         >
-                          Reported
+                          Report
                         </button>
                       )}
                     </div>
+
                   </div>
                 </div>
               )}

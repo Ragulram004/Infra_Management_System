@@ -101,6 +101,7 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
           toast.success('Report submitted successfully');
           onClose();
           setShowPop(false)
+          navigate('/');
         }else{
           toast.error('Failed to update status');
         }
@@ -136,6 +137,7 @@ const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
         toast.success('Report submitted and status updated successfully');
         onClose();
         setShowPop(false);
+        navigate('/');  
       } else {
         toast.error('Failed to update report');
         console.log(json.error)

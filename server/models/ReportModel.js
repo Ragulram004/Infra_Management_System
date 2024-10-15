@@ -11,7 +11,7 @@ const reportSchema = new Schema(
     },
     status:{
       type:String,
-      default:'pending'
+      default:'pending' 
     },
     //area
     reportedAreaId:{

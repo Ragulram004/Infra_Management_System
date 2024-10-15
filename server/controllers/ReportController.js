@@ -16,6 +16,30 @@ const getReports = async (req, res) => {
   }
 };
 
+//get reports where imagepath is present
+const getReportsWithImagepath = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await Personnel.findOne({ email });
+
+    if (!user) {      
+      return res.status(404).json({ error: 'User not found with the provided email' });
+    }
+
+    const reports = await Report.find({ userId: user._id, imagepath: { $exists: true, $ne: null } })
+      .populate('userId', 'name phone email role')
+      .populate('reportedAreaId', 'area')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(reports);
+  } catch (error) {    
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+
 //get reports where CompletedReportImagePath is present
 const getCompletedReports = async (req, res) => {
   try{
@@ -28,6 +52,32 @@ const getCompletedReports = async (req, res) => {
     res.status(400).json({error: error.message});
   }
 };
+
+//get CompletedReportImagePath by email
+const getCompletedReportsByEmail = async (req, res) => {
+  const { email } = req.body; // Extract email from the request body
+
+  try {
+    const fixer = await Personnel.findOne({ email });
+    
+    if (!fixer) {
+      return res.status(404).json({ error: 'No user with the provided email found' });
+    }
+
+    const reports = await Report.find({
+      fixerId: fixer._id,
+      CompletedReportImagePath: { $exists: true, $ne: null }
+    })
+    .populate('fixerId', 'name phone email role')
+    .populate('reportedAreaId', 'area')
+    .sort({ createdAt: -1 });
+
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 
 //Get reports with only fixerId my filter with email
 const getReportsByFixer = async (req, res) => {
@@ -111,7 +161,7 @@ const updateReport = async (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(id)){
     return res.status(404).json({error:"No such Report"});
   }
-  const { fixerId, fixerDeadline,status } = req.body; // Extract data from request body
+  const { fixerId, fixerDeadline} = req.body; // Extract data from request body
 
   // Check if req.file is present (image is being uploaded)
   const isImageUpdate = !!req.file;
@@ -148,7 +198,6 @@ const updateReport = async (req, res) => {
     if (!isImageUpdate) {
       report.fixerId = fixerId;
       report.fixerDeadline = fixerDeadline;
-      report.status = status;
     }
 
     // If image is sent, update the CompletedReportImagePath and status
@@ -227,5 +276,7 @@ export { getReports,
   clearFixerId,
   getReportsByFixer,
   getCompletedReports,
-  updateStatusVerification 
+  updateStatusVerification,
+  getCompletedReportsByEmail,
+  getReportsWithImagepath 
 };
