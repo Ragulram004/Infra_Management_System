@@ -85,6 +85,60 @@ const getAssignedAuditor = async (req, res) => {
   res.status(200).json(audit);
 }
 
+//get auditorstats count
+const getAuditorCompletionStats = async (req, res) => {
+  try {
+    // Aggregate audits by auditor (userId) and their completion status
+    const auditStats = await AuditTask.aggregate([
+      {
+        // Lookup auditor details from Personnel collection
+        $lookup: {
+          from: 'personnels', // Personnel collection (for auditor details)
+          localField: 'userId', // Field in AuditTask
+          foreignField: '_id', // Field in Personnel
+          as: 'auditorDetails',
+        },
+      },
+      {
+        // Unwind to flatten the auditorDetails array
+        $unwind: '$auditorDetails'
+      },
+      {
+        // Group by auditor (userId), and count assigned, completed, and pending audits
+        $group: {
+          _id: {
+            auditorId: '$userId',
+            name: '$auditorDetails.name',
+            phone: '$auditorDetails.phone',
+            gender: '$auditorDetails.gender',
+          },
+          assignedCount: { $sum: 1 }, // Total number of audits assigned
+          completedCount: {
+            $sum: {
+              $cond: [{ $eq: ['$status', 'completed'] }, 1, 0], // Count completed audits
+            },
+          },
+          pendingCount: {
+            $sum: {
+              $cond: [{ $eq: ['$status', 'pending'] }, 1, 0], // Count pending audits
+            },
+          },
+        },
+      },
+      {
+        // Sort by assigned audits in descending order (you can change the sorting as needed)
+        $sort: { assignedCount: -1 },
+      },
+    ]);
+
+    res.status(200).json(auditStats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+
 //create new audit
 const createAssignedAuditor = async (req, res) => {
   const { id ,area ,deadline } = req.body;
@@ -150,5 +204,6 @@ export{
   deleteAssignedAuditor,
   updateAssignedAuditor,
   getAuditorsByEmail,
-  getAssignedAuditorsByWeek
+  getAssignedAuditorsByWeek,
+  getAuditorCompletionStats
 }

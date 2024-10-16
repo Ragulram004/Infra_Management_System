@@ -33,7 +33,7 @@ const WeeklyAudit = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center border-b border-t border-border p-1">
+      <div className="flex justify-between items-center border-b border-t-2   border-border p-1">
         <div>
           <p className="text-primary text-sm font-semibold">
             Weekly Audits Assigned <br /> Count:
@@ -63,7 +63,7 @@ const WeeklyAudit = () => {
           <p className="text-primary font-extrabold text-3xl px-5 py-3">{pendingCount}</p>
         </div>
       </div>
-      <div className="flex justify-between items-center border-b border-border p-1">
+      <div className="flex justify-between items-center p-1">
         <div>
           <p className="text-primary text-sm font-semibold">
             Weekly Assigned Audit Status:

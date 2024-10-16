@@ -15,7 +15,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className='md:w-[30%] bg-white rounded-lg p-2'>
-          <div className='ml-2 mt-1'>
+          <div className='ml-2 mt-1 shadow-xl'>
             <p className='text-sm font-bold text-primary'>Weekly Audits:</p>
           </div>
           <div>

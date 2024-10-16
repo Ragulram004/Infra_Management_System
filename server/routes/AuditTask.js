@@ -6,7 +6,8 @@ import {
   deleteAssignedAuditor,
   updateAssignedAuditor,
   getAuditorsByEmail,
-  getAssignedAuditorsByWeek
+  getAssignedAuditorsByWeek,
+  getAuditorCompletionStats
 } from '../controllers/AuditTaskController.js'
 import {requireAuth} from '../middleware/requireAuth.js'
 
@@ -17,7 +18,11 @@ router.use(requireAuth)
 // Get all personnel
 router.get('/', getAssignedAuditors)
 
+//get all task within sun to sat
 router.get('/weeklytasks',getAssignedAuditorsByWeek)
+
+//get auditorstats count
+router.get('/auditorstats',getAuditorCompletionStats)
 
 //get by email
 router.post('/role',getAuditorsByEmail)
