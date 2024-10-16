@@ -14,7 +14,7 @@ const videoConstraints = {
 
 const CameraPop = ({ isVisible, onClose ,selectedReport ,setShowPop }) => {
   const StatApi = import.meta.env.VITE_INTRA_API_AUDITTASK;
-  const reportAPI = import.meta.env.VITE_INFRA_API_REPORT;
+  const reportAPI = import.meta.env.VITE_INFRA_API_ALLREPORT;
 
   const {user} = useAuthContext();
   const navigate = useNavigate();

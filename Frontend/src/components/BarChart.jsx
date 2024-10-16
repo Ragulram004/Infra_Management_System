@@ -85,7 +85,7 @@ const BarChartComponent = () => {
         data={data}
         margin={{ top: 5, right: 10, left: -30, bottom: 10 }}
       >
-        <CartesianGrid vertical={false} strokeDasharray="3 3" />
+        <CartesianGrid vertical={false} strokeDasharray="0" />
         <XAxis dataKey="area" hide={true} />
         <YAxis 
           ticks={yTicks} // Custom ticks in increments of 5

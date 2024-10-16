@@ -14,6 +14,37 @@ const getAssignedAuditors = async (req, res) => {
   }  
 };
 
+//get all audits with in a week
+const getAssignedAuditorsByWeek = async (req, res) => {
+  try {
+    // Get the current date
+    const currentDate = new Date();
+
+    // Calculate the start and end of the current week (Sunday to Saturday)
+    const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay())); // Sunday
+    startOfWeek.setHours(0, 0, 0, 0); // Set time to the beginning of the day
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(endOfWeek.getDate() + 6); // Saturday
+    endOfWeek.setHours(23, 59, 59, 999); // Set time to the end of the day
+
+    // Find audits created within this week (from Sunday to Saturday)
+    const audits = await AuditTask.find({
+      createdAt: { 
+        $gte: startOfWeek, 
+        $lte: endOfWeek 
+      }
+    })
+    .populate('userId', 'name phone email role gender') // Populate user details
+    .sort({ createdAt: -1 });
+
+    res.status(200).json(audits);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
 //get audits by email
 const getAuditorsByEmail = async (req, res) => {
   const { email } = req.body;
@@ -118,5 +149,6 @@ export{
   createAssignedAuditor,
   deleteAssignedAuditor,
   updateAssignedAuditor,
-  getAuditorsByEmail
+  getAuditorsByEmail,
+  getAssignedAuditorsByWeek
 }
