@@ -11,7 +11,8 @@ import {
   getCompletedReports,
   updateStatusVerification,
   getCompletedReportsByEmail,
-  getReportsWithImagepath
+  getReportsWithImagepath,
+  getFixerStats
 } from '../controllers/ReportController.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 import { upload } from '../middleware/uploads.js';  // Import the multer middleware
@@ -39,6 +40,9 @@ router.get('/fixers', getFixersTasks);
 
 //get reports by fixer email
 router.post('/fixerRole',getReportsByFixer);
+
+//get fixerstats
+router.get('/fixerstats',getFixerStats);
 
 // Post a new audit report with image upload
 router.post('/', upload.single('image'), createReport);  // Using multer for single image upload

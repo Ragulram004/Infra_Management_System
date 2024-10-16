@@ -148,6 +148,50 @@ const getFixersTasks = async(req,res)=>{
   }
 }
 
+//get fixerstats count
+const getFixerStats = async(req,res)=>{
+  try{
+    const fixerStats = await Report.aggregate([
+      {
+        $lookup:{
+          from:'personnels',
+          localField:'fixerId',
+          foreignField:'_id',
+          as:'fixerDetails',
+        },
+      },
+      {
+        $unwind:'$fixerDetails'
+      },{
+        $group:{
+          _id:{
+            fixerId:'$fixerId',
+            name:'$fixerDetails.name',
+            phone:'$fixerDetails.phone',
+            gender:'$fixerDetails.gender',
+            dept:'$fixerDetails.dept',
+          },
+          assignedCount:{$sum:1},
+          completedCount:{
+            $sum:{
+              $cond:[{$eq:['$status','completed']},1,0],
+            },
+          },
+          pendingCount:{
+            $sum:{
+              $cond:[{$eq:['$status','pending']},1,0],
+            }
+          }
+        }
+      },{
+        $sort:{assignedCount:-1},
+      },
+    ])
+    res.status(200).json(fixerStats)
+  }catch(error){
+    res.status(500).json({error:error.message})
+  }
+}
 
 //delete a report
 const deleteReport = async(req,res) =>{
@@ -260,7 +304,7 @@ const updateStatusVerification = async (req, res) => {
 };
 
 
-
+// delete a fixer
 const clearFixerId = async(req,res)=>{
   const {id} = req.params;
   if(!mongoose.Types.ObjectId.isValid(id)){
@@ -292,5 +336,6 @@ export {
   getCompletedReports,
   updateStatusVerification,
   getCompletedReportsByEmail,
-  getReportsWithImagepath 
+  getReportsWithImagepath,
+  getFixerStats
 };

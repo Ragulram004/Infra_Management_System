@@ -221,3 +221,57 @@ export const auditortasks = [
     Header:'Report'
   }
 ]
+
+export const auditorStats = [
+  {
+    Header: 'Name',
+    accessor: '_id.name',
+  },
+  {
+    Header: 'Phone',
+    accessor: '_id.phone',
+  },
+  {
+    Header: 'Department',
+    accessor: '_id.dept',
+  },
+  {
+    Header: 'Total Audits',
+    accessor: 'assignedCount',
+  },
+  {
+    Header: 'Completed Audits',
+    accessor: 'completedCount',
+  },
+  {
+    Header: 'Pending Audits',
+    accessor: 'pendingCount',
+  }  
+]
+
+export const fixerStats = [
+  {
+    Header: 'Name',
+    accessor: '_id.name',
+  },
+  {
+    Header: 'Phone',
+    accessor: '_id.phone',
+  },
+  {
+    Header: 'Department',
+    accessor: '_id.dept',
+  },
+  {
+    Header: 'Total Fixes',
+    accessor: 'assignedCount',
+  },
+  {
+    Header: 'Completed Fixing',
+    accessor: 'completedCount',
+  },
+  {
+    Header: 'Pending Fixes',
+    accessor: 'pendingCount',
+  }  
+]

@@ -111,6 +111,7 @@ const getAuditorCompletionStats = async (req, res) => {
             name: '$auditorDetails.name',
             phone: '$auditorDetails.phone',
             gender: '$auditorDetails.gender',
+            dept:'$auditorDetails.dept'
           },
           assignedCount: { $sum: 1 }, // Total number of audits assigned
           completedCount: {
