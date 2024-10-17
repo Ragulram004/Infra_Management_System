@@ -7,7 +7,8 @@ import {
   updateAssignedAuditor,
   getAuditorsByEmail,
   getAssignedAuditorsByWeek,
-  getAuditorCompletionStats
+  getAuditorCompletionStats,
+  getPendingAuditsForCurrentWeek
 } from '../controllers/AuditTaskController.js'
 import {requireAuth} from '../middleware/requireAuth.js'
 
@@ -26,6 +27,9 @@ router.get('/auditorstats',getAuditorCompletionStats)
 
 //get by email
 router.post('/role',getAuditorsByEmail)
+
+//get deadline of current week
+router.get('/pendingAudits',getPendingAuditsForCurrentWeek)
 
 // Get a specific personnel member
 router.get('/:id', getAssignedAuditor)

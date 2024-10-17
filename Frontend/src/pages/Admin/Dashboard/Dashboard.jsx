@@ -26,8 +26,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className='md:flex gap-4 mt-4'>
-        <div className='w-full md:w-[50%] bg-white rounded-lg p-2 mb-4 md:mb-0'>
+      <div className='md:flex gap-[1.3%] mt-4'>
+        <div className='w-full md:w-[49.3%] bg-white rounded-lg p-2 mb-4 md:mb-0'>
           <div className='ml-2 mt-1 border-b'>
             <p className='text-sm font-bold text-primary px-1'>Auditor's Stats:</p>
           </div>
@@ -35,7 +35,7 @@ const Dashboard = () => {
             <AuditorStats />
           </div>
         </div>
-        <div className='w-full md:w-[50%] bg-white rounded-lg p-2'>
+        <div className='w-full md:w-[49.4%] bg-white rounded-lg p-2'>
           <div className='ml-2 mt-1 border-b'>
             <p className='text-sm font-bold text-primary px-1'>Fixer's Stats:</p>
           </div>

@@ -11,6 +11,34 @@ body{
   background-color: #EEF2F6;
 }
 
+/* Vertical scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: #313E50; 
+  border-radius: 2px;
+}
+/* Horizontal scrollbar */
+::-webkit-scrollbar:horizontal {
+  height: 4px; /* For horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track:horizontal {
+  background: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: #b0b0b0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #313E50;
+}
+
+
 @layer utilities {
   .sidebar-button{
     @apply p-3 hover:bg-primary hover:text-white  font-bold text-primary rounded-lg focus:bg-primary focus:text-white flex items-center gap-3 mt-1;

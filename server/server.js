@@ -8,7 +8,6 @@ import cors from 'cors'
 import {} from 'dotenv/config';
 import personnelRoutes from './routes/Personnel.js'
 import auditTaskRoutes from './routes/AuditTask.js'
-import fixerTaskRoutes from './routes/FixerTask.js'
 import reportRoutes from './routes/Report.js'
 import userRoutes from './routes/User.js'
 import http from 'http'
@@ -40,7 +39,6 @@ app.use(express.json());
 
 app.use('/api/personnel',personnelRoutes)
 app.use('/api/auditTask',auditTaskRoutes)
-app.use('/api/fixerTask',fixerTaskRoutes)
 app.use('/api/report',reportRoutes)
 app.use('/api/user',userRoutes)
 

@@ -54,7 +54,7 @@ const AuditorStats = () => {
   return (
     <div className="bg-white relative pt-10 rounded-xl mt-2 w-full">
       <StatsFilter globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
-      <div className="">
+      <div className="overflow-x-auto">
         <table {...getTableProps()} className="min-w-full bg-white rounded-lg text-left">
           <thead className="bg-gray-100">
             {headerGroups.map(headerGroup => (

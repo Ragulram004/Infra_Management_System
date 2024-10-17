@@ -2,6 +2,7 @@ import AuditTask from "../models/auditTaskModel.js";
 import mongoose from "mongoose";
 import Personnel from "../models/personnelModel.js";
 import {io} from '../server.js'
+import moment from 'moment';
 
 //get all audits
 const getAssignedAuditors = async (req, res) => {
@@ -138,6 +139,36 @@ const getAuditorCompletionStats = async (req, res) => {
   }
 };
 
+//get deadline by week
+const getPendingAuditsForCurrentWeek = async (req, res) => {
+  try {
+    // Get the current date
+    const today = moment();
+    
+    // Find the start (Sunday) and end (Saturday) of the current week
+    const weekStart = today.clone().startOf('week').toDate(); // Sunday
+    const weekEnd = today.clone().endOf('week').toDate();     // Saturday
+    
+    // Fetch the pending audits with deadlines within the current week
+    const audits = await AuditTask.find({
+      status: 'pending', // Only pending audits
+    }).populate('userId', 'name phone email gender') // Assuming user details are stored in userId
+      .sort({ createdAt: -1 });
+
+    // Filter audits by deadline that fall within the current week (Sunday to Saturday)
+    const pendingAuditsForCurrentWeek = audits.filter(audit => {
+      const deadlineDate = moment(audit.deadline, 'DD/MM/YYYY').toDate(); // Convert the deadline string to a Date object
+      return deadlineDate >= weekStart && deadlineDate <= weekEnd;
+    });
+
+    // Send the filtered pending audits as response
+    res.status(200).json(pendingAuditsForCurrentWeek);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
 
 //create new audit
@@ -206,5 +237,6 @@ export{
   updateAssignedAuditor,
   getAuditorsByEmail,
   getAssignedAuditorsByWeek,
-  getAuditorCompletionStats
+  getAuditorCompletionStats,
+  getPendingAuditsForCurrentWeek  
 }

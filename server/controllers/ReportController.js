@@ -2,6 +2,7 @@ import Report from '../models/ReportModel.js';
 import mongoose from 'mongoose';
 import {io} from '../server.js';
 import Personnel from '../models/personnelModel.js';
+import moment from 'moment';
 
 // Get all reports
 const getReports = async (req, res) => {
@@ -193,6 +194,38 @@ const getFixerStats = async(req,res)=>{
   }
 }
 
+//get weekly pending reports
+const getPendingFixerTasksForCurrentWeek = async (req, res) => {
+  try {
+    // Get the current date
+    const today = moment();
+    
+    // Find the start (Sunday) and end (Saturday) of the current week
+    const weekStart = today.clone().startOf('week').toDate(); // Sunday
+    const weekEnd = today.clone().endOf('week').toDate();     // Saturday
+    
+    // Fetch the pending fixer tasks with deadlines within the current week
+    const tasks = await Report.find({
+      status: 'pending', // Only pending tasks
+    }).populate('fixerId', 'name phone email gender') // Assuming fixer details are stored in fixerId
+      .populate('reportedAreaId', 'area') // Assuming area details
+      .sort({ createdAt: -1 });
+
+    // Filter tasks by fixerDeadline that fall within the current week (Sunday to Saturday)
+    const pendingFixerTasksForCurrentWeek = tasks.filter(task => {
+      const fixerDeadlineDate = moment(task.fixerDeadline, 'DD/MM/YYYY').toDate(); // Convert the fixerDeadline string to a Date object
+      return fixerDeadlineDate >= weekStart && fixerDeadlineDate <= weekEnd;
+    });
+
+    // Send the filtered pending fixer tasks as response
+    res.status(200).json(pendingFixerTasksForCurrentWeek);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 //delete a report
 const deleteReport = async(req,res) =>{
   const {id} = req.params;
@@ -337,5 +370,6 @@ export {
   updateStatusVerification,
   getCompletedReportsByEmail,
   getReportsWithImagepath,
-  getFixerStats
+  getFixerStats,
+  getPendingFixerTasksForCurrentWeek
 };

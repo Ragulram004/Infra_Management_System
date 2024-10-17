@@ -236,15 +236,15 @@ export const auditorStats = [
     accessor: '_id.dept',
   },
   {
-    Header: 'Total Audits',
+    Header: 'Total',
     accessor: 'assignedCount',
   },
   {
-    Header: 'Completed Audits',
+    Header: 'Completed',
     accessor: 'completedCount',
   },
   {
-    Header: 'Pending Audits',
+    Header: 'Pending',
     accessor: 'pendingCount',
   }  
 ]
@@ -263,15 +263,15 @@ export const fixerStats = [
     accessor: '_id.dept',
   },
   {
-    Header: 'Total Fixes',
+    Header: 'Total',
     accessor: 'assignedCount',
   },
   {
-    Header: 'Completed Fixing',
+    Header: 'Completed',
     accessor: 'completedCount',
   },
   {
-    Header: 'Pending Fixes',
+    Header: 'Pending',
     accessor: 'pendingCount',
   }  
 ]
