@@ -207,7 +207,7 @@ const getPendingFixerTasksForCurrentWeek = async (req, res) => {
     // Fetch the pending fixer tasks with deadlines within the current week
     const tasks = await Report.find({
       status: 'pending', // Only pending tasks
-    }).populate('fixerId', 'name phone email gender') // Assuming fixer details are stored in fixerId
+    }).populate('fixerId', 'name phone email gender dept') // Assuming fixer details are stored in fixerId
       .populate('reportedAreaId', 'area') // Assuming area details
       .sort({ createdAt: -1 });
 

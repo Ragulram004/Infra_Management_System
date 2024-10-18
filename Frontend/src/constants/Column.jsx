@@ -275,3 +275,50 @@ export const fixerStats = [
     accessor: 'pendingCount',
   }  
 ]
+
+
+export const WeekDeadlineAudit = [
+  {
+    Header: 'Name',
+    accessor: 'userId.name',
+  },
+  {
+    Header: 'Phone',
+    accessor:'userId.phone',
+  },
+  {
+    Header: 'Department',
+    accessor: 'userId.dept',
+  },
+  {
+    Header: 'Area Assigned',
+    accessor: 'area',
+  },
+  {
+    Header: 'Deadline',
+    accessor: 'deadline'
+  }
+]
+
+export const WeekDeadlineFixes = [
+  {
+    Header: 'Name',
+    accessor: 'fixerId.name',
+  },
+  {
+    Header: 'Phone',
+    accessor:'fixerId.phone',
+  },
+  {
+    Header: 'Department',
+    accessor: 'fixerId.dept',
+  },
+  {
+    Header: 'Area Assigned',
+    accessor: 'reportedAreaId.area',
+  },
+  {
+    Header: 'Deadline',
+    accessor: 'fixerDeadline'
+  }
+]

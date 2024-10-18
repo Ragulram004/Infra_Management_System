@@ -4,6 +4,9 @@ import { formatDistance } from 'date-fns';
 import { AiOutlineAudit } from 'react-icons/ai';
 import { TbMessageReport } from "react-icons/tb";
 import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
+import { useLogout } from '../../../hooks/useLogout';
+import { toast } from 'react-toastify';
 
 const AuditorReport = () => {
   const API = import.meta.env.VITE_INFRA_API_COMPLETEDAUDITREPORT;
@@ -13,6 +16,8 @@ const AuditorReport = () => {
   const [selectedImage, setSelectedImage] = useState(null); // For image full-screen pop-up
   const [loading, setLoading] = useState(true); // Loading state
   const [socket, setSocket] = useState(null);
+  const navigate = useNavigate();
+  const { logout } = useLogout();
 
 
 
@@ -32,6 +37,15 @@ const AuditorReport = () => {
         if (response.ok) {
           console.log(json)
           setReports(json);
+        }
+        if(!response.ok) {
+          if(json.error === 'Request is not authorized'){
+            logout()
+            navigate('/login');
+            toast.error('You must be logged in');
+          } else {
+            console.log(json.error);
+          }
         }
       } catch (error) {
         console.log('Fetch Error:', error);

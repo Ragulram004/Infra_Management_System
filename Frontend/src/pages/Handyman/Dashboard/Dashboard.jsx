@@ -4,6 +4,8 @@ import io from 'socket.io-client'
 import { TbMessageReport } from "react-icons/tb";
 import { VscTools } from "react-icons/vsc";
 import { formatDistance } from 'date-fns';
+import { useLogout } from '../../../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const API = import.meta.env.VITE_INFRA_API_COMPLETEDREPORTFILTER
@@ -15,6 +17,9 @@ const Dashboard = () => {
   const [showPop, setShowPop] = useState(false);
   const [rowId , setRowId] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null); 
+
+  const navigate = useNavigate();
+  const { logout } = useLogout();
   
 
   useEffect(() => {
@@ -32,6 +37,15 @@ const Dashboard = () => {
         const json = await response.json()
         if(response.ok){     
           setTasks(json)
+        }
+        if(!response.ok) {
+          if(json.error === 'Request is not authorized'){
+            logout()
+            navigate('/login');
+            toast.error('You must be logged in');
+          } else {
+            console.log(json.error);
+          }
         }
       }catch  (error){
         console.log("Fetch Error:", json.error);

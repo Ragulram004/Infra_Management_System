@@ -152,7 +152,7 @@ const getPendingAuditsForCurrentWeek = async (req, res) => {
     // Fetch the pending audits with deadlines within the current week
     const audits = await AuditTask.find({
       status: 'pending', // Only pending audits
-    }).populate('userId', 'name phone email gender') // Assuming user details are stored in userId
+    }).populate('userId', 'name phone email gender dept') // Assuming user details are stored in userId
       .sort({ createdAt: -1 });
 
     // Filter audits by deadline that fall within the current week (Sunday to Saturday)

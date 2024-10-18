@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { useAuthContext } from '../hooks/useAuthContext';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import {useLogout} from '../hooks/useLogout';
 
 const BarChartComponent = () => {
   const API = import.meta.env.VITE_INFRA_API_ALLREPORT;
   const [reports, setReports] = useState([]);
   const [data, setData] = useState([]);
   const { user } = useAuthContext();
+  const navigate = useNavigate();
+  const {logout} = useLogout();
 
   const areas = [
     "Main Auditorium Stage",
@@ -35,6 +40,15 @@ const BarChartComponent = () => {
         const json = await response.json();
         if (response.ok) {
           setReports(json);
+        }
+        if(!response.ok) {
+          if(json.error === 'Request is not authorized'){
+            logout()
+            navigate('/login');
+            toast.error('You must be logged in');
+          } else {
+            console.log(json.error);
+          }
         }
       } catch (error) {
         console.log('Fetch Error:', error);
