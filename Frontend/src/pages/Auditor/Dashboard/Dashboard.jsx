@@ -39,12 +39,18 @@ const AuditorReport = () => {
           setReports(json);
         }
         if(!response.ok) {
-          if(json.error === 'Request is not authorized'){
-            logout()
+          if (json.error === 'Token has expired') {
+            logout(); // Log out the user if the token has expired
+            navigate('/login'); // Redirect to login page
+            toast.error('Your session has expired, please log in again.');
+            return 
+          } else if (json.error === 'Request is not authorized') {
+            logout(); // Log out the user if authorization fails
             navigate('/login');
-            toast.error('You must be logged in');
+            toast.error('You must be logged in'); // Notify user
+            return
           } else {
-            console.log(json.error);
+            console.log(json.error); // Handle other errors
           }
         }
       } catch (error) {
@@ -93,7 +99,7 @@ const AuditorReport = () => {
   return (
     <div className='relative'>
       <div className='p-3'>
-        <h1 className='text-[20px] md:text-3xl text-primary font-[900]'>Audit Reports</h1>
+        <h1 className='text-[20px] md:text-3xl text-primary font-[900]'>Your Complaint Reports</h1>
       </div>
 
       {/* Display loading message or spinner */}

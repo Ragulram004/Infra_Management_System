@@ -28,21 +28,17 @@ const WeeklyFixerDeadline = () => {
     if (user) fetchAuditorStats();
   }, [user, API]);
 
-  // Memoize columns
   const columns = useMemo(() => WeekDeadlineFixes, []);
+  const data = useMemo(() => stats, [stats]);
 
-  // Ensure that data is always an array
-  const data = useMemo(() => stats || [], [stats]);
-
-  // Create the table instance
   const tableInstance = useTable(
     {
       columns,
-      data,  // Always an array
+      data,
     },
     useGlobalFilter
   );
-  console.log(data)
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -75,13 +71,7 @@ const WeeklyFixerDeadline = () => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {rows.length === 0 ? (
-              <tr>
-                <td colSpan={columns.length} className="text-center py-4 text-sm text-gray-500">
-                  No data found
-                </td>
-              </tr>
-            ) : (
+            {rows.length > 0 ? (
               rows.map((row, index) => {
                 prepareRow(row);
                 return (
@@ -100,6 +90,12 @@ const WeeklyFixerDeadline = () => {
                   </tr>
                 );
               })
+            ) : (
+              <tr>
+                <td colSpan={columns.length} className="text-center py-4 text-gray-500">
+                  No Pending Fixes of this Week
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

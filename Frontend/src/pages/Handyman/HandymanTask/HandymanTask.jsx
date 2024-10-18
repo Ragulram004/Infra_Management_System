@@ -108,6 +108,10 @@ const HandymanTask = () => {
         <div className='flex justify-center items-center h-64'>
           <p className='text-primary font-bold text-xl'>Loading Tasks...</p>
         </div>
+      ):tasks.length === 0 ?(
+        <div className='flex justify-center items-center h-64'>
+          <p className='text-primary font-bold text-xl'>No Tasks Found</p>
+        </div>
       ):(
         <div className='flex flex-wrap gap-5 justify-center'>
           {tasks.map((task) => (

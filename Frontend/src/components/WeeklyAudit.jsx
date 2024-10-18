@@ -41,7 +41,7 @@ const WeeklyAudit = () => {
         <div className='flex space-x-2 items-center text-[#7A7A7A]'>
           <BsCalendar2Week/>
           <p className="text-primary text-sm font-semibold">
-            Weekly Audits Assigned <br /> Count:
+            Current Week Audits Assigned <br /> Count:
           </p>
         </div>
         <div>
@@ -52,7 +52,7 @@ const WeeklyAudit = () => {
         <div className='flex space-x-2 items-center text-[#7A7A7A]'>
           <GrCompliance />
           <p className="text-primary text-sm font-semibold">
-            Weekly Assigned Audits Completed <br /> Count:
+            Current Week Assigned Audits <br /> Completed  Count:
           </p>
         </div>
         <div>
@@ -63,7 +63,7 @@ const WeeklyAudit = () => {
         <div className='flex space-x-2 items-center text-[#7A7A7A]'>
           <GrDocumentMissing/>
           <p className="text-primary text-sm font-semibold">
-            Weekly Assigned Audits Pending <br /> Count:
+            Current Week Assigned Audits<br /> Pending  Count:
           </p>
         </div>
         <div>
@@ -74,7 +74,7 @@ const WeeklyAudit = () => {
         <div className='flex space-x-2 items-center text-[#7A7A7A]'>
          <GrStatusInfo />
           <p className="text-primary text-sm font-semibold">
-            Weekly Assigned Audit Status:
+            Current Week Assigned Audit Status:
           </p>
         </div>
         <div className="flex space-x-2 px-5 py-3">

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 // Create a JWT token
 const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' });
+  return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 };
 
 // Login User (Common for both methods)

@@ -39,12 +39,18 @@ const Dashboard = () => {
           setTasks(json)
         }
         if(!response.ok) {
-          if(json.error === 'Request is not authorized'){
-            logout()
+          if (json.error === 'Token has expired') {
+            logout(); // Log out the user if the token has expired
+            navigate('/login'); // Redirect to login page
+            toast.error('Your session has expired, please log in again.'); // Notify user
+            return
+          } else if (json.error === 'Request is not authorized') {
+            logout(); // Log out the user if authorization fails
             navigate('/login');
-            toast.error('You must be logged in');
+            toast.error('You must be logged in'); // Notify user
+            return
           } else {
-            console.log(json.error);
+            console.log(json.error); // Handle other errors
           }
         }
       }catch  (error){
@@ -108,11 +114,19 @@ const Dashboard = () => {
   return (
     <div className='relative'>
       <div className='p-3'>
-      <h1 className='text-[20px] md:text-3xl text-primary font-[900] '>Your Completed or Initiated Tasks</h1>
+      <h1 className='text-[20px] md:text-3xl text-primary font-[900] '>Your Completed or Initiated Reports</h1>
       </div>
       {loading ? (
         <div className='flex justify-center items-center h-64'>
           <p className='text-primary font-bold text-xl'>Loading Reports...</p>
+        </div>
+      ): tasks.length === 0 ?(
+        <div className='flex justify-center items-center h-64'>
+          <p className='text-primary font-bold text-xl'>No Reports Found</p>
+        </div>
+      ):tasks.length === 0 ?(
+        <div className='flex justify-center items-center h-64'>
+          <p className='text-primary font-bold text-xl'>No Tasks Found</p>
         </div>
       ):(
         <div className='flex flex-wrap gap-5 justify-center'>

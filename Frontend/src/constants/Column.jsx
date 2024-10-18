@@ -291,7 +291,7 @@ export const WeekDeadlineAudit = [
     accessor: 'userId.dept',
   },
   {
-    Header: 'Area Assigned',
+    Header: 'Area',
     accessor: 'area',
   },
   {
@@ -314,7 +314,7 @@ export const WeekDeadlineFixes = [
     accessor: 'fixerId.dept',
   },
   {
-    Header: 'Area Assigned',
+    Header: 'Area',
     accessor: 'reportedAreaId.area',
   },
   {

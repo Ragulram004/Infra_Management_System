@@ -42,12 +42,18 @@ const BarChartComponent = () => {
           setReports(json);
         }
         if(!response.ok) {
-          if(json.error === 'Request is not authorized'){
-            logout()
+          if (json.error === 'Token has expired') {
+            logout(); // Log out the user if the token has expired
+            navigate('/login'); // Redirect to login page
+            toast.error('Your session has expired, please log in again.');
+            return
+          } else if (json.error === 'Request is not authorized') {
+            logout(); // Log out the user if authorization fails
             navigate('/login');
             toast.error('You must be logged in');
+            return
           } else {
-            console.log(json.error);
+            console.log(json.error); // Handle other errors
           }
         }
       } catch (error) {
@@ -56,7 +62,7 @@ const BarChartComponent = () => {
     };
 
     if (user) fetchReports();
-  }, [API, user]);
+  }, [user]);
 
   // Process data to count reports per area
   useEffect(() => {

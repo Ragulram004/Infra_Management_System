@@ -71,24 +71,32 @@ const WeeklyFixerDeadline = () => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {rows.map((row, index) => {
-              prepareRow(row);
-              return (
-                <tr
-                  {...row.getRowProps()}
-                  className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b hover:bg-gray-100`}
-                >
-                  {row.cells.map(cell => (
-                    <td
-                      {...cell.getCellProps()}
-                      className="px-6 py-2 text-sm text-gray-700"
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
+            {rows.length > 0 ? (
+              rows.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    {...row.getRowProps()}
+                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b hover:bg-gray-100`}
+                  >
+                    {row.cells.map(cell => (
+                      <td
+                        {...cell.getCellProps()}
+                        className="px-6 py-2 text-sm text-gray-700"
+                      >
+                        {cell.render('Cell')}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={columns.length} className="text-center py-4 text-gray-500">
+                  No Pending Audits of this Week
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -97,4 +105,3 @@ const WeeklyFixerDeadline = () => {
 };
 
 export default WeeklyFixerDeadline;
-

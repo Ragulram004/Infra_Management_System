@@ -68,46 +68,54 @@ const AuditTaskDetails = ({ tasks }) => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {page.map((row, index) => {
-              prepareRow(row);
-              return (
-                <tr
-                  {...row.getRowProps()}
-                  className={`${
-                    index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                  } border-b border-b-border hover:bg-gray-50 font-[600] `}
-                >
-                  {row.cells.map(cell => (
-                    <td
-                      {...cell.getCellProps()}
-                      className="px-6 py-2 text-sm text-gray-900"
-                    >
-                      {cell.column.id === 'Report' ? (
-                        row.original.status === 'pending' ? (
-                          <button
-                            className="bg-primary text-xs md:text-sm text-white p-2 rounded-lg font-extrabold"
-                            onClick={() => handleReportClick(row)}
-                          >
-                            Report
-                          </button>
-                        ) : row.original.status === 'completed' ? (
-                          <button
-                            className="bg-success bg-opacity-65 text-xs md:text-sm text-white p-2 rounded-lg font-extrabold cursor-not-allowed"
-                            disabled
-                          >
-                            Reported
-                          </button>
-                        ) : null // Handle other statuses if necessary
-                      ) : (
-                        <div className="py-2">
-                          {cell.render('Cell')}
-                        </div>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
+            {page.length > 0 ? (
+              page.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    {...row.getRowProps()}
+                    className={`${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    } border-b border-b-border hover:bg-gray-50 font-[600] `}
+                  >
+                    {row.cells.map(cell => (
+                      <td
+                        {...cell.getCellProps()}
+                        className="px-6 py-2 text-sm text-gray-900"
+                      >
+                        {cell.column.id === 'Report' ? (
+                          row.original.status === 'pending' ? (
+                            <button
+                              className="bg-primary text-xs md:text-sm text-white p-2 rounded-lg font-extrabold"
+                              onClick={() => handleReportClick(row)}
+                            >
+                              Report
+                            </button>
+                          ) : row.original.status === 'completed' ? (
+                            <button
+                              className="bg-success bg-opacity-65 text-xs md:text-sm text-white p-2 rounded-lg font-extrabold cursor-not-allowed"
+                              disabled
+                            >
+                              Reported
+                            </button>
+                          ) : null // Handle other statuses if necessary
+                        ) : (
+                          <div className="py-2">
+                            {cell.render('Cell')}
+                          </div>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })
+            ):(
+              <tr>
+                <td colSpan={columns.length} className="text-center py-4 text-gray-500">
+                  No Task Assigned to you
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
