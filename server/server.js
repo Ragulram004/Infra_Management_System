@@ -12,6 +12,8 @@ import reportRoutes from './routes/Report.js'
 import userRoutes from './routes/User.js'
 import http from 'http'
 import {Server} from 'socket.io'
+import path from 'path';
+
 
 const app = express()
 const server = http.createServer(app)
