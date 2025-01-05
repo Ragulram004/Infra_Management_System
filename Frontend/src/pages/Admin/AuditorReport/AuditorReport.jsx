@@ -46,7 +46,7 @@ const AuditorReport = () => {
 
     if (user) {
       fetchReports();
-      const newSocket = io('http://localhost:4500');
+      const newSocket = io('https://infra-management-system-server.vercel.app/');
       setSocket(newSocket);
 
       // Clean up socket connection when the component unmounts or user changes
@@ -119,10 +119,10 @@ const AuditorReport = () => {
                       </div>
                       <div className=' px-2 '>
                         <img
-                          src={`http://localhost:4500${report.imagepath}`}
+                          src={`https://infra-management-system-server.vercel.app/${report.imagepath}`}
                           alt='Report'
                           className=' w-[270px]  h-[200px] object-cover cursor-pointer rounded-md'
-                          onClick={() => handleImageClick(`http://localhost:4500${report.imagepath}`)}
+                          onClick={() => handleImageClick(`https://infra-management-system-server.vercel.app/${report.imagepath}`)}
                         />
                       </div>
                       <div className='px-5 py-1 text-sm flex  gap-2'>

@@ -89,10 +89,10 @@ const AssignedFixersDetails = ({ fixerTasks, API }) => {
                       {/* Check if the column is the 'Image' column */}
                       {cell.column.id === 'imagepath' && cell.value ? (
                           <img
-                            src={`http://localhost:4500${cell.value}`} // Ensure the full image URL
+                            src={`https://infra-management-system-server.vercel.app/${cell.value}`} // Ensure the full image URL
                             alt="Task Image"
                             className="w-14 h-14 rounded-md object-cover cursor-pointer mx-auto" // Add object-cover for consistent scaling
-                            onClick={() => handleImageClick(`http://localhost:4500${cell.value}`)} // Pass the full URL to handleImageClick
+                            onClick={() => handleImageClick(`https://infra-management-system-server.vercel.app/${cell.value}`)} // Pass the full URL to handleImageClick
                           />
                         ) : cell.column.id === 'Delete' ? (
                         row.original.status === 'completed' ? (

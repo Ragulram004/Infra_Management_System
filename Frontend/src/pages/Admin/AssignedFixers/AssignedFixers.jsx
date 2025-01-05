@@ -28,7 +28,7 @@ const AssignedFixers = () => {
     if(user){
       fetchAssignedFixers();
 
-      const newSocket = io('http://localhost:4500')
+      const newSocket = io('https://infra-management-system-server.vercel.app/')
       setSocket(newSocket);
 
       newSocket.on('createdFix',(newFix)=>{

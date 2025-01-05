@@ -18,7 +18,7 @@ const server = http.createServer(app)
 const io = new Server (server,{
   cors:{
     origin:[
-      'http://localhost:5173',
+      'https://infra-management-system.vercel.app',
     ],
     credentials:true
   }
@@ -29,7 +29,7 @@ const io = new Server (server,{
 app.use('/uploads', express.static('uploads'));
 
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin:"https://infra-management-system.vercel.app",
   methods:"GET,POST,PATCH,DELETE",
   credentials:true
 }));
@@ -41,6 +41,7 @@ app.use('/api/personnel',personnelRoutes)
 app.use('/api/auditTask',auditTaskRoutes)
 app.use('/api/report',reportRoutes)
 app.use('/api/user',userRoutes)
+
 
 
 io.on('connection', (socket) => {

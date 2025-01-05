@@ -62,7 +62,7 @@ const Dashboard = () => {
     if(user){
       fetchHandymanTasks()
 
-      const newSocket = io('http://localhost:4500')
+      const newSocket = io('https://infra-management-system-server.vercel.app/')
       setSocket(newSocket)
 
      return ()=>{
@@ -149,10 +149,10 @@ const Dashboard = () => {
                   </div>
                   <div className='px-2 '>
                     <img
-                      src={`http://localhost:4500${task.CompletedReportImagePath}`}
+                      src={`https://infra-management-system-server.vercel.app/${task.CompletedReportImagePath}`}
                       alt='Task'
                       className='w-[270px] h-[200px] object-cover cursor-pointer rounded-md'
-                      onClick={() => handleImageClick(`http://localhost:4500${task.CompletedReportImagePath}`)}
+                      onClick={() => handleImageClick(`https://infra-management-system-server.vercel.app/${task.CompletedReportImagePath}`)}
                     />
                   </div>
                   <div className='px-5 py-1 text-sm flex gap-2'>
