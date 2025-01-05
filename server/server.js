@@ -41,6 +41,9 @@ app.use('/api/personnel',personnelRoutes)
 app.use('/api/auditTask',auditTaskRoutes)
 app.use('/api/report',reportRoutes)
 app.use('/api/user',userRoutes)
+app.use('/',(req,res)=>{
+  res.send('Hello World')
+})
 
 
 io.on('connection', (socket) => {
