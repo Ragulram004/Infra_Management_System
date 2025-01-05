@@ -1,7 +1,3 @@
-// const express = require('express')
-// const app = express()
-// const mongoose = require('mongoose')
-// require('dotenv').config()
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
@@ -13,6 +9,9 @@ import userRoutes from './routes/User.js'
 import http from 'http'
 import {Server} from 'socket.io'
 import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 const app = express()
