@@ -26,7 +26,7 @@ const io = new Server (server,{
 
 
 // Serve static files from the 'uploads' folder
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(cors({
   origin:"https://infra-management-system.vercel.app",
