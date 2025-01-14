@@ -30,7 +30,7 @@ const AssignedAudits = () => {
     if (user) {
       fetchAssignedAudits();
 
-      const newSocket = io('https://infra-management-system-server.vercel.app/'); // Use environment variable for Socket.IO server URL
+      const newSocket = io('https://infra-management-system-server.vercel.app'); // Use environment variable for Socket.IO server URL
       setSocket(newSocket);
 
       newSocket.on('createdAudit', (newAudit) => {

@@ -33,7 +33,7 @@ const EditPersonnel = () => {
     if (user) fetchPersonnels();
 
     // Initialize socket connection
-    const newSocket = io('https://infra-management-system-server.vercel.app/');
+    const newSocket = io('https://infra-management-system-server.vercel.app');
     setSocket(newSocket);
 
 

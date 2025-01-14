@@ -41,7 +41,7 @@ const HandymanReport = () => {
 
     if (user) {
       fetchReports();
-      const newSocket = io('https://infra-management-system-server.vercel.app/');
+      const newSocket = io('https://infra-management-system-server.vercel.app');
       setSocket(newSocket);
 
       // Clean up socket connection when the component unmounts or user changes

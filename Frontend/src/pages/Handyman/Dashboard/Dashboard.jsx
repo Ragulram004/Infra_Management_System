@@ -62,7 +62,7 @@ const Dashboard = () => {
     if(user){
       fetchHandymanTasks()
 
-      const newSocket = io('https://infra-management-system-server.vercel.app/')
+      const newSocket = io('https://infra-management-system-server.vercel.app')
       setSocket(newSocket)
 
      return ()=>{
